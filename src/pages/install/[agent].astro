@@ -11,6 +11,11 @@ const { agent } = Astro.params;
 const agentVariants = variants.filter((variant) => variant.agentSlug === agent);
 const currentAgent = agentVariants[0];
 const supportedToday = agentVariants.filter((variant) => variant.serviceKey !== 'twitter-cascade');
+const usesCustomSkillInstall = agent === 'openclaw' || agent === 'hermes';
+const installCommand = usesCustomSkillInstall
+  ? 'Install this skill as a custom skill:'
+  : 'npx skills add getAlby/payments-skill';
+const customSkillUrl = 'https://getalby.com/cli/SKILL.md';
 const title = `Install the Alby Payments Skill for ${currentAgent?.agent ?? 'your agent'}`;
 const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?? 'your agent'} and unlock supported services.`;
 ---
@@ -28,6 +33,17 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?
         </p>
       </div>
     </div>
+
+    <section class="panel-inner">
+      <h2>Install command for {currentAgent?.agent ?? 'your agent'}</h2>
+      {usesCustomSkillInstall ? (
+        <p class="command-copy">
+          Install this skill as a custom skill: <a href={customSkillUrl}>{customSkillUrl}</a>
+        </p>
+      ) : (
+        <pre class="command-block"><code>{installCommand}</code></pre>
+      )}
+    </section>
 
     <section class="panel-inner">
       <h2>Available now for {currentAgent?.agent ?? 'your agent'}</h2>
@@ -76,6 +92,28 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?
     border-radius: 18px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .command-copy {
+    color: var(--muted);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .command-copy a {
+    color: var(--accent);
+    word-break: break-all;
+  }
+  .command-block {
+    margin: 0;
+    padding: 1rem 1.1rem;
+    border-radius: 16px;
+    background: rgba(124, 200, 255, 0.08);
+    border: 1px solid rgba(124, 200, 255, 0.14);
+    color: var(--text);
+    overflow-x: auto;
+  }
+  .command-block code {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 0.95rem;
   }
   .cards {
     display: grid;
