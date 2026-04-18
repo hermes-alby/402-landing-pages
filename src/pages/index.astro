@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { serviceSections, variants } from '../data/services';
+import { providerSections, variants } from '../data/build-variants';
 
 const title = 'Pay-per-use Agent Services';
 const description = 'Explore pay-per-use services your agent can use without sign-up friction.';
@@ -18,13 +18,13 @@ const description = 'Explore pay-per-use services your agent can use without sig
     <div class="callout">
       <strong>Useful right away</strong>
       <p>
-        Explore pages with concrete examples, real service names, pricing, and the exact kinds of results your agent can unlock.
+        Explore provider-backed service pages with concrete examples, real pricing, and the exact kinds of results your agent can unlock.
       </p>
     </div>
   </section>
 
-  {serviceSections.map((section) => {
-    const sectionVariants = variants.filter((variant) => variant.serviceKey === section.key);
+  {providerSections.map((section) => {
+    const sectionVariants = variants.filter((variant) => variant.providerKey === section.key);
     return (
       <section class="service-section">
         <div class="section-header">
@@ -32,26 +32,29 @@ const description = 'Explore pay-per-use services your agent can use without sig
             <h2>{section.title}</h2>
             <p>{section.description}</p>
           </div>
+          <span class:list={["support-pill", section.supportStatus === 'supported' ? 'supported' : 'coming-soon']}>
+            {section.supportStatus === 'supported' ? 'Supported now' : 'Coming soon'}
+          </span>
         </div>
         <div class="grid">
           {sectionVariants.map((variant) => (
             <article class="card panel">
               <div class="card-top">
                 <div class="agent-badge">
-                  <img src={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`} alt={`${variant.agent} logo`} />
-                  <span class="pill">{variant.agent}</span>
+                  <img src={variant.agentLogoSrc} alt={`${variant.agentName} logo`} />
+                  <span class="pill">{variant.agentName}</span>
                 </div>
-                <span class="endpoint-tag">{variant.endpointName}</span>
+                <span class="endpoint-tag">{variant.serviceName}</span>
               </div>
-              <h3>{variant.title}</h3>
+              <h3>{variant.providerName}</h3>
               <p class="tagline">{variant.description}</p>
               <ul>
                 {variant.useCases.slice(0, 2).map((item) => (
                   <li>{item}</li>
                 ))}
               </ul>
-              <a class="button" href={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}/${variant.slug}/`}>
-                Explore {variant.agent}
+              <a class="button" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
+                Explore {variant.agentName}
               </a>
             </article>
           ))}
@@ -94,6 +97,13 @@ const description = 'Explore pay-per-use services your agent can use without sig
   .service-section {
     margin-top: 2.5rem;
   }
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: start;
+    margin-bottom: 1rem;
+  }
   .section-header h2 {
     margin-bottom: 0.35rem;
     font-size: 2rem;
@@ -101,6 +111,25 @@ const description = 'Explore pay-per-use services your agent can use without sig
   .section-header p {
     margin-top: 0;
     color: var(--muted);
+  }
+  .support-pill {
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    font-size: 0.9rem;
+    font-weight: 700;
+    border-radius: 999px;
+    padding: 0.35rem 0.7rem;
+  }
+  .support-pill.supported {
+    color: #9af7c8;
+    background: rgba(126, 224, 129, 0.12);
+    border: 1px solid rgba(126, 224, 129, 0.24);
+  }
+  .support-pill.coming-soon {
+    color: #ffd66b;
+    background: rgba(255, 214, 107, 0.12);
+    border: 1px solid rgba(255, 214, 107, 0.24);
   }
   .grid {
     display: grid;
@@ -133,7 +162,7 @@ const description = 'Explore pay-per-use services your agent can use without sig
     font-weight: 600;
   }
   h3 {
-    margin-bottom: 0.6rem;
+    margin-bottom: 0.35rem;
     font-size: 1.35rem;
     line-height: 1.3;
   }
@@ -160,6 +189,9 @@ const description = 'Explore pay-per-use services your agent can use without sig
   @media (max-width: 760px) {
     .hero {
       grid-template-columns: 1fr;
+    }
+    .section-header {
+      flex-direction: column;
     }
   }
 </style>

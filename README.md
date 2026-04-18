@@ -62,15 +62,27 @@ Expected production URL:
 ```text
 .
 ├── .github/workflows/deploy.yml
-├── public/mock-payperq-output.svg
+├── public/
+│   ├── agents/*.svg
+│   └── mock-payperq-output.svg
 ├── src/
-│   ├── components/InstallCta.astro
-│   ├── data/services.ts
+│   ├── components/ActionCta.astro
+│   ├── data/
+│   │   ├── agents.ts
+│   │   ├── build-variants.ts
+│   │   ├── install-flows.ts
+│   │   ├── providers.ts
+│   │   ├── services/
+│   │   │   ├── cascade-tweet-search.ts
+│   │   │   ├── index.ts
+│   │   │   └── payperq-gpt-image-1-5.ts
+│   │   └── types.ts
 │   ├── layouts/BaseLayout.astro
 │   └── pages/
 │       ├── agents/[agent]/[slug].astro
+│       ├── coming-soon/[agent].astro
 │       ├── index.astro
-│       └── install.astro
+│       └── install/[agent].astro
 └── README.md
 ```
 
@@ -78,13 +90,11 @@ Expected production URL:
 
 In my opinion, the next useful steps are:
 
-1. split endpoint facts, agent-specific framing, and FAQ content into cleaner reusable data structures or content files
-2. replace the mock output image and mock payment amount with real captured example outputs once the payment flow is tested
-3. decide the final CTA destination and install UX for Bitcoin-compatible 402 services
-4. define how non-Bitcoin 402 services should swap CTA copy and install targets without changing the rest of the page structure
-5. improve SEO metadata per variant, including canonical strategy, Open Graph images, and structured data
-6. add automation that can generate N agent-specific pages from one approved endpoint record
-7. add checks for thin/duplicate copy as the number of agents and endpoints grows
+1. replace the mock output image and mock payment amount with real captured example outputs once the payment flow is tested
+2. decide the final CTA destination and install UX for Bitcoin-compatible 402 services
+3. improve SEO metadata per variant, including canonical strategy, Open Graph images, and structured data
+4. add automation that can generate N agent-specific pages from one approved provider/service record
+5. add checks for thin or duplicate copy as the number of agents, providers, and services grows
 
 ## Why Astro here
 
