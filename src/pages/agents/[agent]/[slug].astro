@@ -1,11 +1,11 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ActionCta from '../../../components/ActionCta.astro';
-import { variants } from '../../../data/services';
+import { variants } from '../../../data/build-variants';
 
 export function getStaticPaths() {
   return variants.map((variant) => ({
-    params: { agent: variant.agentSlug, slug: variant.slug },
+    params: { agent: variant.agentKey, slug: variant.slug },
     props: { variant },
   }));
 }
@@ -13,8 +13,7 @@ export function getStaticPaths() {
 const { variant } = Astro.props;
 const title = variant.title;
 const description = variant.description;
-const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
-const relatedVariants = variants.filter((item) => item.agentSlug === variant.agentSlug && item.slug !== variant.slug).slice(0, 3);
+const relatedVariants = variants.filter((item) => item.agentKey === variant.agentKey && item.slug !== variant.slug).slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -22,9 +21,9 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
     <section class="hero panel">
       <div class="hero-main">
         <div class="meta-row">
-          <img class="agent-logo" src={agentLogo} alt={`${variant.agent} logo`} />
-          <span class="pill">{variant.agent}</span>
-          <span class="service-pill">{variant.serviceName} · {variant.endpointName}</span>
+          <img class="agent-logo" src={variant.agentLogoSrc} alt={`${variant.agentName} logo`} />
+          <span class="pill">{variant.agentName}</span>
+          <span class="service-pill">{variant.providerName} · {variant.serviceName}</span>
         </div>
         <h1>{variant.title}</h1>
         <p class="tagline">{variant.description}</p>
@@ -56,7 +55,7 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
       <div class="section-head">
         <div>
           <p class="eyebrow">{variant.exampleOutput.title}</p>
-          <h2>See the kind of result {variant.agent} can get from {variant.serviceName}</h2>
+          <h2>See the kind of result {variant.agentName} can get from {variant.providerName}</h2>
         </div>
       </div>
       <div class:list={["example-grid", variant.exampleOutput.kind === 'table' && 'table-layout']}>
@@ -80,9 +79,9 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
                 <tbody>
                   {variant.exampleOutput.rows.map((row) => (
                     <tr>
-                      <td>{row.author}</td>
-                      <td>{row.tweet}</td>
-                      <td>{row.likes}</td>
+                      {row.map((cell) => (
+                        <td>{cell}</td>
+                      ))}
                     </tr>
                   ))}
                 </tbody>
@@ -109,12 +108,12 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
 
     <section class="panel section">
       <p class="eyebrow">Use cases</p>
-      <h2>What {variant.agent} can do with this service</h2>
+      <h2>What {variant.agentName} can do with this service</h2>
       <div class="cards">
         {variant.useCases.map((useCase) => (
           <article class="mini-card">
             <h3>{useCase}</h3>
-            <p>Use {variant.serviceName} on demand inside a broader {variant.agent} workflow.</p>
+            <p>Use {variant.providerName} {variant.serviceName} on demand inside a broader {variant.agentName} workflow.</p>
           </article>
         ))}
       </div>
@@ -145,13 +144,13 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
     </section>
 
     <section class="panel section related">
-      <p class="eyebrow">More for {variant.agent}</p>
+      <p class="eyebrow">More for {variant.agentName}</p>
       <h2>Explore more amazing services</h2>
       <div class="related-links">
         {relatedVariants.map((item) => (
-          <a class="related-link" href={`${import.meta.env.BASE_URL}agents/${item.agentSlug}/${item.slug}/`}>
-            <strong>{item.serviceName}</strong>
-            <span>{item.endpointName}</span>
+          <a class="related-link" href={`${import.meta.env.BASE_URL}agents/${item.agentKey}/${item.slug}/`}>
+            <strong>{item.providerName}</strong>
+            <span>{item.serviceName}</span>
           </a>
         ))}
       </div>
@@ -220,60 +219,70 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
   .hero-aside small {
     display: block;
     color: var(--muted);
-    margin-bottom: 0.3rem;
+    margin-bottom: 0.25rem;
   }
   .hero-aside strong {
-    font-size: 1.06rem;
+    font-size: 1.05rem;
   }
   .section {
-    padding: 1.6rem 1.8rem;
+    padding: 1.7rem;
+  }
+  .section-head {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1rem;
   }
   .eyebrow {
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.8rem;
-    color: var(--accent);
-    margin: 0 0 0.75rem;
-  }
-  .section h2 {
-    margin-top: 0;
-    font-size: 1.8rem;
+    letter-spacing: 0.18em;
+    font-size: 0.78rem;
+    color: var(--warn);
+    margin-bottom: 0.4rem;
   }
   .example-grid {
     display: grid;
-    grid-template-columns: 1.15fr 1fr;
-    gap: 1.35rem;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 1.25rem;
     align-items: start;
   }
   .example-grid.table-layout {
-    grid-template-columns: 1.35fr 0.85fr;
+    grid-template-columns: 1.4fr 0.8fr;
+  }
+  .example-card,
+  .table-card,
+  .mini-card,
+  details,
+  .related-link {
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255,255,255,0.08);
   }
   .example-card {
     margin: 0;
+    overflow: hidden;
   }
   .example-card img {
-    width: 100%;
     display: block;
-    border-radius: 18px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
+    width: 100%;
+    height: auto;
   }
   .example-card figcaption,
-  .output-meta,
-  .mini-card p,
-  .faq p,
-  .bullet-list,
-  .output-meta ul,
   .table-caption,
-  td,
-  th {
+  .output-meta,
+  details p,
+  .related-link span,
+  .mini-card p {
     color: var(--muted);
     line-height: 1.7;
   }
-  .table-card {
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.08);
-    background: rgba(255, 255, 255, 0.03);
-    padding: 1rem;
+  .example-card figcaption,
+  .table-card,
+  .output-meta,
+  .mini-card,
+  details,
+  .related-link {
+    padding: 1rem 1.1rem;
   }
   .table-wrap {
     overflow-x: auto;
@@ -281,54 +290,25 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
   table {
     width: 100%;
     border-collapse: collapse;
-    font-size: 0.95rem;
   }
-  th, td {
+  th,
+  td {
     text-align: left;
-    padding: 0.8rem 0.6rem;
-    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0.7rem 0.75rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
     vertical-align: top;
   }
-  .output-meta h3,
-  .mini-card h3 {
-    margin-top: 0;
-  }
   .prompt-copy {
-    padding: 1rem;
-    border-radius: 16px;
-    background: rgba(124, 200, 255, 0.08);
-    border: 1px solid rgba(124, 200, 255, 0.14);
-  }
-  .prompt-copy.muted {
     color: var(--muted);
+    line-height: 1.7;
   }
-  .cards {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 1rem;
-  }
-  .mini-card {
-    padding: 1.2rem;
-    border-radius: 18px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
+  .output-meta ul,
   .bullet-list {
     padding-left: 1.2rem;
-    margin-bottom: 0;
+    color: var(--muted);
+    line-height: 1.7;
   }
-  .faq details {
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    padding: 1rem 0;
-  }
-  .faq details:first-of-type {
-    border-top: 0;
-    padding-top: 0.2rem;
-  }
-  .faq summary {
-    cursor: pointer;
-    font-weight: 700;
-  }
+  .cards,
   .related-links {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -337,24 +317,16 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
   .related-link {
     display: block;
     text-decoration: none;
-    padding: 1rem 1.1rem;
-    border-radius: 16px;
-    background: rgba(255, 255, 255, 0.03);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-  }
-  .related-link strong {
-    display: block;
     color: var(--text);
-    margin-bottom: 0.2rem;
   }
-  .related-link span {
-    color: var(--muted);
+  summary {
+    cursor: pointer;
+    font-weight: 700;
   }
   @media (max-width: 920px) {
     .hero,
     .example-grid,
-    .example-grid.table-layout,
-    .cards {
+    .example-grid.table-layout {
       grid-template-columns: 1fr;
     }
   }

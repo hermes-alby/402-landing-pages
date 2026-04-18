@@ -1,57 +1,50 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { variants } from '../../data/services';
+import { agentsByKey } from '../../data/agents';
+import { installFlows } from '../../data/install-flows';
+import { variants } from '../../data/build-variants';
 
 export function getStaticPaths() {
-  const agents = [...new Set(variants.map((variant) => variant.agentSlug))];
-  return agents.map((agent) => ({ params: { agent } }));
+  return Object.keys(agentsByKey).map((agent) => ({ params: { agent } }));
 }
 
 const { agent } = Astro.params;
-const agentVariants = variants.filter((variant) => variant.agentSlug === agent);
-const currentAgent = agentVariants[0];
-const supportedToday = agentVariants.filter((variant) => variant.serviceKey !== 'twitter-cascade');
-const usesCustomSkillInstall = agent === 'openclaw' || agent === 'hermes';
-const installCommand = usesCustomSkillInstall
-  ? 'Install this skill as a custom skill:'
-  : 'npx skills add getAlby/payments-skill';
-const customSkillUrl = 'https://getalby.com/cli/SKILL.md';
-const title = `Install the Alby Payments Skill for ${currentAgent?.agent ?? 'your agent'}`;
-const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?? 'your agent'} and unlock supported services.`;
+const currentAgent = agentsByKey[agent ?? ''];
+const installFlow = installFlows[agent ?? ''];
+const agentVariants = variants.filter((variant) => variant.agentKey === agent);
+const supportedToday = agentVariants.filter((variant) => variant.supportStatus === 'supported');
+const title = `Install the Alby Payments Skill for ${currentAgent?.name ?? 'your agent'}`;
+const description = `Install the Alby Payments Skill for ${currentAgent?.name ?? 'your agent'} and unlock supported services.`;
 ---
 
 <BaseLayout title={title} description={description}>
   <section class="panel install-page">
     <div class="hero-row">
-      {currentAgent && (
-        <img class="agent-logo" src={`${import.meta.env.BASE_URL}agents/${currentAgent.agentSlug}.svg`} alt={`${currentAgent.agent} logo`} />
-      )}
+      {currentAgent && <img class="agent-logo" src={currentAgent.logoSrc} alt={`${currentAgent.name} logo`} />}
       <div>
-        <h1>Install the Alby Payments Skill for {currentAgent?.agent ?? 'your agent'}</h1>
+        <h1>Install the Alby Payments Skill for {currentAgent?.name ?? 'your agent'}</h1>
         <p class="lede">
-          Give {currentAgent?.agent ?? 'your agent'} access to useful services without sign-up, email, or subscription friction.
+          Give {currentAgent?.name ?? 'your agent'} access to useful services without sign-up, email, or subscription friction.
         </p>
       </div>
     </div>
 
     <section class="panel-inner">
-      <h2>Install command for {currentAgent?.agent ?? 'your agent'}</h2>
-      {usesCustomSkillInstall ? (
-        <p class="command-copy">
-          Install this skill as a custom skill: <a href={customSkillUrl}>{customSkillUrl}</a>
-        </p>
+      <h2>Install instructions for {currentAgent?.name ?? 'your agent'}</h2>
+      {installFlow?.kind === 'prompt' ? (
+        <pre class="command-block"><code>{installFlow.prompt}</code></pre>
       ) : (
-        <pre class="command-block"><code>{installCommand}</code></pre>
+        <pre class="command-block"><code>{installFlow?.command ?? 'npx skills add getAlby/payments-skill'}</code></pre>
       )}
     </section>
 
     <section class="panel-inner">
-      <h2>Available now for {currentAgent?.agent ?? 'your agent'}</h2>
+      <h2>Available now for {currentAgent?.name ?? 'your agent'}</h2>
       <div class="cards">
         {supportedToday.map((variant) => (
-          <a class="card" href={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}/${variant.slug}/`}>
-            <strong>{variant.serviceName}</strong>
-            <span>{variant.endpointName}</span>
+          <a class="card" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
+            <strong>{variant.providerName}</strong>
+            <span>{variant.serviceName}</span>
             <p>{variant.description}</p>
           </a>
         ))}
@@ -93,15 +86,6 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .command-copy {
-    color: var(--muted);
-    line-height: 1.7;
-    margin: 0;
-  }
-  .command-copy a {
-    color: var(--accent);
-    word-break: break-all;
-  }
   .command-block {
     margin: 0;
     padding: 1rem 1.1rem;
@@ -114,6 +98,8 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?
   .command-block code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 0.95rem;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
   .cards {
     display: grid;

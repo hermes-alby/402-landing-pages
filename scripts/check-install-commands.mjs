@@ -8,14 +8,16 @@ function readBuiltPage(relPath) {
   return fs.readFileSync(path.join(root, relPath), 'utf8');
 }
 
+const customSkillPrompt = 'Install this skill as a custom skill: &lt;https://getalby.com/payments/SKILL.md&gt;';
+
 const expectations = [
   {
     agent: 'openclaw',
-    expected: 'Install this skill as a custom skill:',
+    expected: customSkillPrompt,
   },
   {
     agent: 'hermes',
-    expected: 'Install this skill as a custom skill:',
+    expected: customSkillPrompt,
   },
   {
     agent: 'claude',
@@ -36,8 +38,8 @@ for (const { agent, expected } of expectations) {
 
   if (agent === 'openclaw' || agent === 'hermes') {
     assert.ok(
-      html.includes('https://getalby.com/cli/SKILL.md'),
-      `expected install page for ${agent} to link to the custom skill URL`,
+      html.includes(customSkillPrompt),
+      `expected install page for ${agent} to include the custom skill prompt`,
     );
   }
 }
