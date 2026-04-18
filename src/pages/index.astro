@@ -1,0 +1,161 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { services } from '../data/services';
+
+const title = '402 Landing Pages Demo';
+const description = 'Static Astro prototype with mock 402 service landing pages deployed on GitHub Pages.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="hero panel">
+    <div>
+      <p class="eyebrow">Prototype</p>
+      <h1>Static 402 landing pages from git-tracked mock service data</h1>
+      <p class="lede">
+        This demo explores a simple end state: approved service records live in the repo, Astro renders them at build time,
+        and GitHub Pages serves the result with no database and no runtime backend.
+      </p>
+    </div>
+    <div class="callout">
+      <strong>Current scope</strong>
+      <ul>
+        <li>2 mock service pages</li>
+        <li>index page linking into them</li>
+        <li>fully static Astro output</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="grid">
+    {services.map((service) => (
+      <article class="card panel">
+        <div class="card-top">
+          <span class="pill">{service.protocol}</span>
+          <span class="score">Score {service.score.toFixed(1)}</span>
+        </div>
+        <h2>{service.name}</h2>
+        <p class="tagline">{service.tagline}</p>
+        <dl>
+          <div>
+            <dt>Category</dt>
+            <dd>{service.category}</dd>
+          </div>
+          <div>
+            <dt>Mock price</dt>
+            <dd>{service.price}</dd>
+          </div>
+          <div>
+            <dt>Status</dt>
+            <dd>{service.qualityVerdict}</dd>
+          </div>
+        </dl>
+        <a class="button" href={`${import.meta.env.BASE_URL}services/${service.slug}/`}>Open landing page</a>
+      </article>
+    ))}
+  </section>
+
+  <section class="notes panel">
+    <h2>What this demonstrates</h2>
+    <ul>
+      <li>Programmatic landing pages can be driven from structured files in git.</li>
+      <li>GitHub Pages is enough when the whole site can be generated at build time.</li>
+      <li>A future agentic scoring pipeline can write service records without changing the page templates.</li>
+    </ul>
+  </section>
+</BaseLayout>
+
+<style>
+  .hero {
+    display: grid;
+    grid-template-columns: 1.8fr 1fr;
+    gap: 1.5rem;
+    padding: 2rem;
+    margin-bottom: 2rem;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin: 0 0 0.75rem;
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(2.1rem, 4vw, 3.8rem);
+    line-height: 1.02;
+  }
+  .lede {
+    color: var(--muted);
+    max-width: 65ch;
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+  .callout {
+    padding: 1.25rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .callout ul { margin-bottom: 0; color: var(--muted); }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .card {
+    padding: 1.5rem;
+  }
+  .card-top {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    align-items: center;
+  }
+  .score {
+    color: var(--warn);
+    font-weight: 600;
+  }
+  h2 { margin-bottom: 0.5rem; }
+  .tagline {
+    margin-top: 0;
+    color: var(--muted);
+    min-height: 3rem;
+  }
+  dl {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+    margin: 1.25rem 0;
+  }
+  dt {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.25rem;
+  }
+  dd {
+    margin: 0;
+    font-weight: 600;
+  }
+  .button {
+    display: inline-block;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--accent), #9af7c8);
+    color: #08111f;
+    padding: 0.8rem 1rem;
+    border-radius: 12px;
+    font-weight: 700;
+  }
+  .notes {
+    padding: 1.5rem 1.75rem;
+  }
+  .notes ul {
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  @media (max-width: 760px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
