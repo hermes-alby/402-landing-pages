@@ -12,7 +12,7 @@ export type LandingVariant = {
   title: string;
   description: string;
   heroSummary: string;
-  why402: string[];
+  whyItWorks: string[];
   useCases: string[];
   examplePrompt: string;
 };
@@ -24,55 +24,44 @@ export const endpoint = {
   serviceName: 'PayPerQ',
   endpointName: 'GPT Image 1.5',
   endpointUrl: 'https://api.ppq.ai/v1/images/generations/gpt-image-1.5',
-  protocol: '402 payments',
   category: 'Image generation',
   resultLabel: 'Generate polished images on demand',
-  priceLabel: 'Mock payment: 182 sats',
-  paymentLabel: 'No sign-up. No subscription. Pay per request.',
+  priceLabel: 'Example cost paid: 182 sats',
+  paymentLabel: 'No sign-up. No subscription. No human needed.',
   websiteUrl: 'https://ppq.ai',
   exampleImage: `${import.meta.env.BASE_URL}mock-payperq-output.svg`,
-  exampleImageAlt: 'Mock output image for the PayPerQ GPT Image 1.5 endpoint',
-  examplePromptTitle: 'Interesting prompt',
+  exampleImageAlt: 'Example generated campaign-style image for PayPerQ GPT Image 1.5',
+  examplePromptTitle: 'Example prompt',
   examplePrompt:
-    'Create a cinematic product illustration of a transparent bitcoin hardware wallet floating above a reflective obsidian pedestal, glowing amber rim light, clean studio background, premium launch campaign style.',
+    'Use the PPQ 402 API to generate a GPT 1.5 image of a transparent bitcoin hardware wallet floating above a reflective obsidian pedestal, glowing amber rim light, clean studio background, premium launch campaign style, and pay using the Alby Payments Skill.',
   exampleOutputCaption:
-    'Mock example output for the PayPerQ GPT Image 1.5 endpoint, shown here as a stand-in for a generated image plus payment receipt details.',
+    'Example output section showing the kind of visual result this page is about, together with an example paid request cost.',
   outputDetails: [
-    'Service used: PayPerQ',
+    'Service: PayPerQ',
     'Endpoint: GPT Image 1.5',
     'Cost paid: 182 sats',
-    'Payment mode: 402 pay-per-request',
+    'Flow: paid on demand without sign-up',
   ],
   sharedFaq: [
     {
       question: 'What is the Alby Payments Skill?',
       answer:
-        'It is the install flow this site points to so your agent can use paid services without asking you to sign up for each provider individually.',
+        'It is the install flow this page points to so your agent can unlock useful paid services without asking you to create separate accounts first.',
     },
     {
       question: 'Do I need a PayPerQ account or subscription?',
       answer:
-        'This landing page is designed around a pay-per-request flow. The goal is to use the endpoint when needed instead of creating a separate account and subscription first.',
+        'The intended flow here is pay on demand. The point is to let your agent use the service when needed instead of stopping for account creation first.',
+    },
+    {
+      question: 'Why does “no human needed” matter?',
+      answer:
+        'Agents often get stuck when they need a human to create an account, pass a captcha, or manage another subscription. This flow is meant to remove that bottleneck.',
     },
     {
       question: 'What is 402?',
       answer:
-        '402 is the pattern behind paywalled API access: the service can ask for payment before returning the result, which fits agentic pay-per-use flows well.',
-    },
-    {
-      question: 'What is NWC?',
-      answer:
-        'NWC stands for Nostr Wallet Connect. In Alby products it is one of the ways payment-capable tools can connect to a wallet setup for machine payments.',
-    },
-    {
-      question: 'What is Alby Hub?',
-      answer:
-        'Alby Hub is Alby’s self-custodial wallet and app layer for connecting Bitcoin payment tools. If a user needs setup details, the Alby Payments Skill should guide them.',
-    },
-    {
-      question: 'Will this page always be Bitcoin-specific?',
-      answer:
-        'No. This prototype is focused on 402 services that accept Bitcoin through Alby-compatible flows. Later, non-Bitcoin 402 services can use different CTA destinations and copy.',
+        '402 is the payment pattern behind this kind of API access. You do not need to understand the protocol details to use the page — the important point is that the agent can pay and continue the task.',
     },
   ] satisfies FaqItem[],
 };
@@ -84,13 +73,13 @@ export const variants: LandingVariant[] = [
     slug: endpoint.slug,
     title: 'Generate images with OpenClaw using PayPerQ GPT Image 1.5',
     description:
-      'Enable OpenClaw to generate polished images using PayPerQ. No sign-up, no subscription, just pay per request with the Alby Payments Skill.',
+      'Enable OpenClaw to generate polished images with PayPerQ. No sign-up, no subscription, and no human needed to unblock the workflow.',
     heroSummary:
-      'Use OpenClaw to call PayPerQ\'s GPT Image 1.5 endpoint for campaign visuals, concept art, and on-demand image generation without creating a separate service account first.',
-    why402: [
-      'OpenClaw can reach useful paid tools exactly when a workflow needs them instead of front-loading sign-up friction.',
-      'Pay-per-request pricing is a better fit for experimentation than committing to a subscription before the job proves useful.',
-      '402 access works well for agent loops that discover a tool, pay once, and continue the task.',
+      'Use OpenClaw to create campaign visuals, concept art, and launch graphics with PayPerQ’s GPT Image 1.5 endpoint without stopping to create an account or hand the task back to a human.',
+    whyItWorks: [
+      'OpenClaw can keep moving instead of pausing to ask a human to sign up for yet another tool.',
+      'Pay-on-demand access is a better fit for experimentation than adding a subscription before the workflow proves useful.',
+      'The agent can discover the service, use it, and continue the task in one flow.',
     ],
     useCases: [
       'Generate marketing visuals for a launch brief',
@@ -98,7 +87,7 @@ export const variants: LandingVariant[] = [
       'Produce blog or social images inside a larger OpenClaw workflow',
     ],
     examplePrompt:
-      'Use the PPQ 402 API to generate a GPT 1.5 Image with prompt: create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition, and pay using the Alby Payments Skill.',
+      'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition, and pay using the Alby Payments Skill.',
   },
   {
     agent: 'Claude',
@@ -106,13 +95,13 @@ export const variants: LandingVariant[] = [
     slug: endpoint.slug,
     title: 'Generate images with Claude using PayPerQ GPT Image 1.5',
     description:
-      'Enable Claude to generate images using PayPerQ over 402 payments. No sign-up, no subscription, just use the service on demand with the Alby Payments Skill.',
+      'Enable Claude to generate images with PayPerQ. No sign-up, no subscription, and no human needed to get from prompt to result.',
     heroSummary:
-      'Turn Claude into a practical image generation assistant by giving it access to PayPerQ\'s GPT Image 1.5 endpoint for polished mockups, illustrations, and visual ideation.',
-    why402: [
-      'Claude can stay focused on the task while reaching a paid image endpoint only when the user actually needs visual output.',
-      'No account creation detour means faster iteration from prompt to result.',
-      'Pay-per-use access is easier to justify for occasional image generation than another monthly tool bill.',
+      'Turn Claude into a practical image-generation assistant by giving it access to PayPerQ’s GPT Image 1.5 endpoint for polished mockups, illustrations, and visual ideation without workflow-breaking signup friction.',
+    whyItWorks: [
+      'Claude can stay focused on the task instead of bouncing the user into account creation and setup.',
+      'The agent can request exactly the output it needs when it needs it.',
+      'Pay-on-demand access is easier to justify for occasional visual work than another monthly tool bill.',
     ],
     useCases: [
       'Create website hero art from a product brief',
@@ -120,7 +109,7 @@ export const variants: LandingVariant[] = [
       'Draft social media visuals from a single Claude conversation',
     ],
     examplePrompt:
-      'Use the PPQ 402 API to generate a GPT 1.5 Image with prompt: illustrate a modern coworking team shipping a bitcoin app in a sunlit studio, crisp editorial ad style, and pay using the Alby Payments Skill.',
+      'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: illustrate a modern coworking team shipping a bitcoin app in a sunlit studio, crisp editorial ad style, and pay using the Alby Payments Skill.',
   },
   {
     agent: 'Codex',
@@ -128,13 +117,13 @@ export const variants: LandingVariant[] = [
     slug: endpoint.slug,
     title: 'Generate images with Codex using PayPerQ GPT Image 1.5',
     description:
-      'Enable Codex to generate images using PayPerQ. Give your coding agent access to a real image endpoint without sign-up or subscription overhead.',
+      'Enable Codex to generate images with PayPerQ right inside a working dev flow — no sign-up, no subscription, no human needed.',
     heroSummary:
-      'Let Codex generate production-ready visuals from the same environment where it writes code, docs, and launch assets by calling PayPerQ\'s GPT Image 1.5 endpoint on demand.',
-    why402: [
-      'Codex workflows often need one-off assets, and 402 payments are a natural fit for that just-in-time usage pattern.',
-      'Developers can keep the workflow in one place instead of stopping to create another SaaS account.',
-      'Pay-per-request image generation is useful when the agent is building demos, docs, or review assets programmatically.',
+      'Let Codex generate launch graphics, README visuals, and demo assets from the same environment where it writes code by calling PayPerQ’s GPT Image 1.5 endpoint on demand.',
+    whyItWorks: [
+      'Codex workflows often need one-off assets, and this avoids stopping development for another SaaS signup.',
+      'The agent can produce code, docs, and visuals inside one continuous loop.',
+      'On-demand access makes sense when the image task is occasional but still valuable.',
     ],
     useCases: [
       'Generate screenshots or launch graphics for README pages',
@@ -142,7 +131,7 @@ export const variants: LandingVariant[] = [
       'Produce branded illustrations while Codex is shipping a feature',
     ],
     examplePrompt:
-      'Use the PPQ 402 API to generate a GPT 1.5 Image with prompt: design a sleek dashboard launch graphic for a developer bitcoin payments toolkit, blue and amber palette, high-detail product marketing style, and pay using the Alby Payments Skill.',
+      'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: design a sleek dashboard launch graphic for a developer bitcoin payments toolkit, blue and amber palette, high-detail product marketing style, and pay using the Alby Payments Skill.',
   },
   {
     agent: 'Hermes',
@@ -150,13 +139,13 @@ export const variants: LandingVariant[] = [
     slug: endpoint.slug,
     title: 'Generate images with Hermes using PayPerQ GPT Image 1.5',
     description:
-      'Enable Hermes to generate images using PayPerQ with pay-per-request 402 access. No sign-up, no subscription, just install the Alby Payments Skill.',
+      'Enable Hermes to generate images with PayPerQ for launches, content, and prototypes — no sign-up, no subscription, no human needed.',
     heroSummary:
-      'Give Hermes direct access to PayPerQ\'s GPT Image 1.5 endpoint so it can create visuals for launches, content, and prototypes inside a broader autonomous workflow.',
-    why402: [
-      'Hermes can discover a useful paid tool, call it once, and continue the workflow without account setup churn.',
-      'Pay-per-use access matches the way autonomous agents opportunistically compose services.',
-      'The same agent session can move from research to prompting to paid image generation with minimal friction.',
+      'Give Hermes direct access to PayPerQ’s GPT Image 1.5 endpoint so it can create visuals inside a broader autonomous workflow without handing the task back to a human for account setup.',
+    whyItWorks: [
+      'Hermes can discover a useful tool, use it, and continue the workflow without signup churn.',
+      'The same session can move from research to prompting to image generation with much less friction.',
+      'This is especially useful when an autonomous workflow needs a paid service only occasionally.',
     ],
     useCases: [
       'Generate landing page visuals while building a prototype site',
@@ -164,10 +153,6 @@ export const variants: LandingVariant[] = [
       'Produce assets for demos, docs, and GitHub Pages previews',
     ],
     examplePrompt:
-      'Use the PPQ 402 API to generate a GPT 1.5 Image with prompt: create a futuristic editorial illustration of autonomous agents collaborating in a bitcoin-native workspace, elegant lighting, premium campaign composition, and pay using the Alby Payments Skill.',
+      'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a futuristic editorial illustration of autonomous agents collaborating in a bitcoin-native workspace, elegant lighting, premium campaign composition, and pay using the Alby Payments Skill.',
   },
 ];
-
-export const variantMap = new Map(
-  variants.map((variant) => [`${variant.agentSlug}/${variant.slug}`, variant]),
-);

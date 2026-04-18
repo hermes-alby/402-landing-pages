@@ -2,33 +2,32 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { endpoint, variants } from '../data/services';
 
-const title = 'Agent-specific 402 landing pages';
-const description = 'Static Astro prototype generating one landing page per agent for the PayPerQ GPT Image 1.5 endpoint.';
+const title = 'Agent service pages';
+const description = 'Explore agent-specific pages for using PayPerQ GPT Image 1.5 without sign-up or subscription friction.';
 ---
 
 <BaseLayout title={title} description={description}>
   <section class="hero panel">
     <div>
-      <p class="eyebrow">Prototype</p>
-      <h1>One landing page per agent, all pointing at the same useful 402 endpoint</h1>
+      <h1>Give your agent useful services without sign-up friction</h1>
       <p class="lede">
-        This version focuses on a single real endpoint URL — PayPerQ GPT Image 1.5 — and creates separate landing pages for
-        OpenClaw, Claude, Codex, and Hermes. The copy is result-oriented, with repeated install calls to action and no scoring sections.
+        These pages show how OpenClaw, Claude, Codex, and Hermes can use PayPerQ’s GPT Image 1.5 endpoint to generate great
+        results without stopping for account creation, subscriptions, or other human-only blockers.
       </p>
     </div>
     <div class="callout">
-      <strong>Current endpoint</strong>
+      <strong>Current service</strong>
       <dl>
         <div>
-          <dt>Service</dt>
+          <dt>Provider</dt>
           <dd>{endpoint.serviceName}</dd>
         </div>
         <div>
-          <dt>Endpoint</dt>
+          <dt>Capability</dt>
           <dd>{endpoint.endpointName}</dd>
         </div>
         <div>
-          <dt>Mode</dt>
+          <dt>Why it matters</dt>
           <dd>{endpoint.paymentLabel}</dd>
         </div>
       </dl>
@@ -39,7 +38,10 @@ const description = 'Static Astro prototype generating one landing page per agen
     {variants.map((variant) => (
       <article class="card panel">
         <div class="card-top">
-          <span class="pill">{variant.agent}</span>
+          <div class="agent-badge">
+            <img src={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`} alt={`${variant.agent} logo`} />
+            <span class="pill">{variant.agent}</span>
+          </div>
           <span class="endpoint-tag">{endpoint.endpointName}</span>
         </div>
         <h2>{variant.title}</h2>
@@ -50,7 +52,7 @@ const description = 'Static Astro prototype generating one landing page per agen
           ))}
         </ul>
         <a class="button" href={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}/${variant.slug}/`}>
-          Open {variant.agent} page
+          Explore {variant.agent}
         </a>
       </article>
     ))}
@@ -64,13 +66,6 @@ const description = 'Static Astro prototype generating one landing page per agen
     gap: 1.5rem;
     padding: 2rem;
     margin-bottom: 2rem;
-  }
-  .eyebrow {
-    text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.8rem;
-    color: var(--accent);
-    margin: 0 0 0.75rem;
   }
   h1 {
     margin: 0;
@@ -117,6 +112,17 @@ const description = 'Static Astro prototype generating one landing page per agen
     gap: 1rem;
     align-items: center;
     flex-wrap: wrap;
+  }
+  .agent-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .agent-badge img {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: 1px solid rgba(255,255,255,0.08);
   }
   .endpoint-tag {
     color: var(--warn);

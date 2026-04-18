@@ -13,6 +13,7 @@ export function getStaticPaths() {
 const { variant } = Astro.props;
 const title = variant.title;
 const description = variant.description;
+const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -20,6 +21,7 @@ const description = variant.description;
     <section class="hero panel">
       <div class="hero-main">
         <div class="meta-row">
+          <img class="agent-logo" src={agentLogo} alt={`${variant.agent} logo`} />
           <span class="pill">{variant.agent}</span>
           <span class="service-pill">{endpoint.serviceName} · {endpoint.endpointName}</span>
         </div>
@@ -28,8 +30,8 @@ const description = variant.description;
         <p class="summary">{variant.heroSummary}</p>
         <ul class="hero-points">
           <li>{endpoint.paymentLabel}</li>
-          <li>Real service named: {endpoint.serviceName}</li>
-          <li>Endpoint URL: {endpoint.endpointUrl}</li>
+          <li>Use a real service on demand instead of creating another account.</li>
+          <li>Let the agent keep going instead of handing the task back to you.</li>
         </ul>
         <InstallCta />
       </div>
@@ -43,7 +45,7 @@ const description = variant.description;
           <strong>{endpoint.category}</strong>
         </div>
         <div>
-          <small>Mock payment</small>
+          <small>Example cost</small>
           <strong>{endpoint.priceLabel}</strong>
         </div>
       </aside>
@@ -53,7 +55,7 @@ const description = variant.description;
       <div class="section-head">
         <div>
           <p class="eyebrow">Example output</p>
-          <h2>See the kind of result {variant.agent} can create with PayPerQ</h2>
+          <h2>See the kind of result {variant.agent} can create with {endpoint.serviceName}</h2>
         </div>
       </div>
       <div class="example-grid">
@@ -76,7 +78,7 @@ const description = variant.description;
 
     <section class="panel section">
       <p class="eyebrow">Use cases</p>
-      <h2>What {variant.agent} can do with this image endpoint</h2>
+      <h2>What {variant.agent} can do with this image service</h2>
       <div class="cards">
         {variant.useCases.map((useCase) => (
           <article class="mini-card">
@@ -89,10 +91,10 @@ const description = variant.description;
     </section>
 
     <section class="panel section">
-      <p class="eyebrow">Why this payment model fits</p>
-      <h2>Why 402 payments work well for {variant.agent}</h2>
+      <p class="eyebrow">Why this works</p>
+      <h2>Why this is a great fit for {variant.agent}</h2>
       <ul class="bullet-list">
-        {variant.why402.map((item) => (
+        {variant.whyItWorks.map((item) => (
           <li>{item}</li>
         ))}
       </ul>
@@ -101,14 +103,14 @@ const description = variant.description;
 
     <section class="panel section">
       <p class="eyebrow">Example prompt</p>
-      <h2>Prompt {variant.agent} to use PayPerQ and pay through Alby</h2>
+      <h2>Prompt {variant.agent} to use {endpoint.serviceName} and keep going automatically</h2>
       <pre class="prompt-block"><code>{variant.examplePrompt}</code></pre>
       <InstallCta compact />
     </section>
 
     <section class="panel section faq">
       <p class="eyebrow">FAQ</p>
-      <h2>Useful questions for agentic payments with Alby products</h2>
+      <h2>What people usually need to know before trying this</h2>
       {endpoint.sharedFaq.map((item) => (
         <details>
           <summary>{item.question}</summary>
@@ -119,7 +121,7 @@ const description = variant.description;
     </section>
 
     <p class="back-link">
-      <a href={`${import.meta.env.BASE_URL}`}>← Back to all agent variants</a>
+      <a href={`${import.meta.env.BASE_URL}`}>Explore more amazing services</a>
     </p>
   </article>
 </BaseLayout>
@@ -145,6 +147,13 @@ const description = variant.description;
     gap: 0.75rem;
     align-items: center;
     flex-wrap: wrap;
+  }
+  .agent-logo {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: var(--shadow);
   }
   .service-pill {
     color: var(--warn);
@@ -271,6 +280,11 @@ const description = variant.description;
   }
   .back-link {
     margin: 0;
+    font-size: 1.05rem;
+  }
+  .back-link a {
+    text-decoration: none;
+    font-weight: 700;
   }
   @media (max-width: 920px) {
     .hero,
