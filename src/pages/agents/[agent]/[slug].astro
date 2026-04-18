@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
-import InstallCta from '../../../components/InstallCta.astro';
-import { endpoint, variants } from '../../../data/services';
+import ActionCta from '../../../components/ActionCta.astro';
+import { variants } from '../../../data/services';
 
 export function getStaticPaths() {
   return variants.map((variant) => ({
@@ -14,6 +14,7 @@ const { variant } = Astro.props;
 const title = variant.title;
 const description = variant.description;
 const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
+const relatedVariants = variants.filter((item) => item.agentSlug === variant.agentSlug && item.slug !== variant.slug).slice(0, 3);
 ---
 
 <BaseLayout title={title} description={description}>
@@ -23,30 +24,30 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
         <div class="meta-row">
           <img class="agent-logo" src={agentLogo} alt={`${variant.agent} logo`} />
           <span class="pill">{variant.agent}</span>
-          <span class="service-pill">{endpoint.serviceName} · {endpoint.endpointName}</span>
+          <span class="service-pill">{variant.serviceName} · {variant.endpointName}</span>
         </div>
         <h1>{variant.title}</h1>
         <p class="tagline">{variant.description}</p>
         <p class="summary">{variant.heroSummary}</p>
         <ul class="hero-points">
-          <li>{endpoint.paymentLabel}</li>
-          <li>Use a real service on demand instead of creating another account.</li>
-          <li>Let the agent keep going instead of handing the task back to you.</li>
+          {variant.heroBullets.map((item) => (
+            <li>{item}</li>
+          ))}
         </ul>
-        <InstallCta />
+        <ActionCta {...variant.cta} />
       </div>
       <aside class="hero-aside">
         <div>
           <small>Result</small>
-          <strong>{endpoint.resultLabel}</strong>
+          <strong>{variant.resultLabel}</strong>
         </div>
         <div>
           <small>Category</small>
-          <strong>{endpoint.category}</strong>
+          <strong>{variant.category}</strong>
         </div>
         <div>
           <small>Example cost</small>
-          <strong>{endpoint.priceLabel}</strong>
+          <strong>{variant.priceLabel}</strong>
         </div>
       </aside>
     </section>
@@ -54,75 +55,112 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
     <section class="panel section">
       <div class="section-head">
         <div>
-          <p class="eyebrow">Example output</p>
-          <h2>See the kind of result {variant.agent} can create with {endpoint.serviceName}</h2>
+          <p class="eyebrow">{variant.exampleOutput.title}</p>
+          <h2>See the kind of result {variant.agent} can get from {variant.serviceName}</h2>
         </div>
       </div>
-      <div class="example-grid">
-        <figure class="example-card">
-          <img src={endpoint.exampleImage} alt={endpoint.exampleImageAlt} />
-          <figcaption>{endpoint.exampleOutputCaption}</figcaption>
-        </figure>
+      <div class:list={["example-grid", variant.exampleOutput.kind === 'table' && 'table-layout']}>
+        {variant.exampleOutput.kind === 'image' ? (
+          <figure class="example-card">
+            <img src={variant.exampleOutput.imageSrc} alt={variant.exampleOutput.imageAlt} />
+            <figcaption>{variant.exampleOutput.caption}</figcaption>
+          </figure>
+        ) : (
+          <div class="table-card">
+            <p class="table-caption">{variant.exampleOutput.caption}</p>
+            <div class="table-wrap">
+              <table>
+                <thead>
+                  <tr>
+                    {variant.exampleOutput.columns.map((column) => (
+                      <th>{column}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {variant.exampleOutput.rows.map((row) => (
+                    <tr>
+                      <td>{row.author}</td>
+                      <td>{row.tweet}</td>
+                      <td>{row.likes}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
         <div class="output-meta">
-          <h3>{endpoint.examplePromptTitle}</h3>
-          <p class="prompt-copy">{endpoint.examplePrompt}</p>
+          {variant.examplePrompt ? (
+            <>
+              <h3>{variant.examplePromptHeading ?? 'Example prompt'}</h3>
+              <p class="prompt-copy">{variant.examplePrompt}</p>
+            </>
+          ) : (
+            <>
+              <h3>Example prompt</h3>
+              <p class="prompt-copy muted">{variant.examplePromptNote ?? 'Prompt example unavailable for this service today.'}</p>
+            </>
+          )}
           <ul>
-            {endpoint.outputDetails.map((item) => (
+            {variant.exampleOutput.details.map((item) => (
               <li>{item}</li>
             ))}
           </ul>
         </div>
       </div>
-      <InstallCta compact />
+      <ActionCta {...variant.cta} compact />
     </section>
 
     <section class="panel section">
       <p class="eyebrow">Use cases</p>
-      <h2>What {variant.agent} can do with this image service</h2>
+      <h2>What {variant.agent} can do with this service</h2>
       <div class="cards">
         {variant.useCases.map((useCase) => (
           <article class="mini-card">
             <h3>{useCase}</h3>
-            <p>Use {endpoint.serviceName} on demand inside a broader {variant.agent} workflow.</p>
+            <p>Use {variant.serviceName} on demand inside a broader {variant.agent} workflow.</p>
           </article>
         ))}
       </div>
-      <InstallCta compact />
+      <ActionCta {...variant.cta} compact />
     </section>
 
     <section class="panel section">
       <p class="eyebrow">Why this works</p>
-      <h2>Why this is a great fit for {variant.agent}</h2>
+      <h2>{variant.whyItWorksTitle}</h2>
       <ul class="bullet-list">
         {variant.whyItWorks.map((item) => (
           <li>{item}</li>
         ))}
       </ul>
-      <InstallCta compact />
-    </section>
-
-    <section class="panel section">
-      <p class="eyebrow">Example prompt</p>
-      <h2>Prompt {variant.agent} to use {endpoint.serviceName} and keep going automatically</h2>
-      <pre class="prompt-block"><code>{variant.examplePrompt}</code></pre>
-      <InstallCta compact />
+      <ActionCta {...variant.cta} compact />
     </section>
 
     <section class="panel section faq">
       <p class="eyebrow">FAQ</p>
       <h2>What people usually need to know before trying this</h2>
-      {endpoint.sharedFaq.map((item) => (
+      {variant.faq.map((item) => (
         <details>
           <summary>{item.question}</summary>
           <p>{item.answer}</p>
         </details>
       ))}
-      <InstallCta compact />
+      <ActionCta {...variant.cta} compact />
     </section>
 
-    <p class="back-link">
-      <a href={`${import.meta.env.BASE_URL}`}>Explore more amazing services</a>
-    </p>
+    <section class="panel section related">
+      <p class="eyebrow">More for {variant.agent}</p>
+      <h2>Explore more amazing services</h2>
+      <div class="related-links">
+        {relatedVariants.map((item) => (
+          <a class="related-link" href={`${import.meta.env.BASE_URL}agents/${item.agentSlug}/${item.slug}/`}>
+            <strong>{item.serviceName}</strong>
+            <span>{item.endpointName}</span>
+          </a>
+        ))}
+      </div>
+    </section>
   </article>
 </BaseLayout>
 
@@ -212,6 +250,9 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
     gap: 1.35rem;
     align-items: start;
   }
+  .example-grid.table-layout {
+    grid-template-columns: 1.35fr 0.85fr;
+  }
   .example-card {
     margin: 0;
   }
@@ -226,9 +267,32 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
   .mini-card p,
   .faq p,
   .bullet-list,
-  .output-meta ul {
+  .output-meta ul,
+  .table-caption,
+  td,
+  th {
     color: var(--muted);
     line-height: 1.7;
+  }
+  .table-card {
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+    background: rgba(255, 255, 255, 0.03);
+    padding: 1rem;
+  }
+  .table-wrap {
+    overflow-x: auto;
+  }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.95rem;
+  }
+  th, td {
+    text-align: left;
+    padding: 0.8rem 0.6rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    vertical-align: top;
   }
   .output-meta h3,
   .mini-card h3 {
@@ -239,6 +303,9 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
     border-radius: 16px;
     background: rgba(124, 200, 255, 0.08);
     border: 1px solid rgba(124, 200, 255, 0.14);
+  }
+  .prompt-copy.muted {
+    color: var(--muted);
   }
   .cards {
     display: grid;
@@ -255,17 +322,6 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
     padding-left: 1.2rem;
     margin-bottom: 0;
   }
-  .prompt-block {
-    margin: 0;
-    padding: 1.2rem;
-    border-radius: 20px;
-    overflow-x: auto;
-    white-space: pre-wrap;
-    background: rgba(8, 17, 31, 0.75);
-    border: 1px solid rgba(124, 200, 255, 0.14);
-    color: var(--text);
-    line-height: 1.6;
-  }
   .faq details {
     border-top: 1px solid rgba(255, 255, 255, 0.08);
     padding: 1rem 0;
@@ -278,17 +334,31 @@ const agentLogo = `${import.meta.env.BASE_URL}agents/${variant.agentSlug}.svg`;
     cursor: pointer;
     font-weight: 700;
   }
-  .back-link {
-    margin: 0;
-    font-size: 1.05rem;
+  .related-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1rem;
   }
-  .back-link a {
+  .related-link {
+    display: block;
     text-decoration: none;
-    font-weight: 700;
+    padding: 1rem 1.1rem;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .related-link strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 0.2rem;
+  }
+  .related-link span {
+    color: var(--muted);
   }
   @media (max-width: 920px) {
     .hero,
     .example-grid,
+    .example-grid.table-layout,
     .cards {
       grid-template-columns: 1fr;
     }
