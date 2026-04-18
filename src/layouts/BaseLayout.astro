@@ -5,6 +5,7 @@ export interface Props {
 }
 
 const { title, description } = Astro.props;
+const installHref = `${import.meta.env.BASE_URL}install/`;
 ---
 
 <!doctype html>
@@ -42,7 +43,7 @@ const { title, description } = Astro.props;
 
       a { color: var(--accent-2); }
       .container {
-        width: min(1100px, calc(100% - 2rem));
+        width: min(1120px, calc(100% - 2rem));
         margin: 0 auto;
         padding: 2rem 0 4rem;
       }
@@ -52,6 +53,7 @@ const { title, description } = Astro.props;
         gap: 1rem;
         align-items: center;
         margin-bottom: 2rem;
+        flex-wrap: wrap;
       }
       .brand {
         font-weight: 700;
@@ -60,6 +62,12 @@ const { title, description } = Astro.props;
         color: var(--text);
       }
       .brand span { color: var(--accent); }
+      .nav-links {
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+        flex-wrap: wrap;
+      }
       .panel {
         background: var(--panel);
         border: 1px solid var(--panel-border);
@@ -77,6 +85,13 @@ const { title, description } = Astro.props;
         font-size: 0.9rem;
         border: 1px solid rgba(124, 200, 255, 0.16);
       }
+      .nav-link {
+        text-decoration: none;
+        padding: 0.6rem 0.9rem;
+        border-radius: 999px;
+        border: 1px solid rgba(124, 200, 255, 0.16);
+        background: rgba(124, 200, 255, 0.06);
+      }
       footer {
         margin-top: 3rem;
         color: var(--muted);
@@ -87,12 +102,15 @@ const { title, description } = Astro.props;
   <body>
     <main class="container">
       <nav class="nav">
-        <a href={`${import.meta.env.BASE_URL}`} class="brand">402<span> Landing Pages</span></a>
-        <div class="pill">Mock static GitHub Pages demo</div>
+        <a href={`${import.meta.env.BASE_URL}`} class="brand">402<span> Agent Pages</span></a>
+        <div class="nav-links">
+          <a class="nav-link" href={installHref}>Install</a>
+          <div class="pill">Mock static GitHub Pages demo</div>
+        </div>
       </nav>
       <slot />
       <footer>
-        Built with Astro for a fully static GitHub Pages deployment. All service data in this repo is mock data.
+        Built with Astro for a fully static GitHub Pages deployment. This repo currently uses mock landing-page content around a real PayPerQ endpoint URL.
       </footer>
     </main>
   </body>

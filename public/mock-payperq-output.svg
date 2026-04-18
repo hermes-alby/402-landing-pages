@@ -1,0 +1,41 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="80" y1="80" x2="1120" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101B36"/>
+      <stop offset="1" stop-color="#1A0F2E"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(600 410) rotate(90) scale(360 520)">
+      <stop stop-color="#FFD36B" stop-opacity="0.95"/>
+      <stop offset="1" stop-color="#FFD36B" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wallet" x1="425" y1="280" x2="775" y2="620" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5B84E"/>
+      <stop offset="1" stop-color="#7CC8FF"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="900" rx="40" fill="url(#bg)"/>
+  <circle cx="610" cy="410" r="330" fill="url(#glow)"/>
+  <ellipse cx="600" cy="735" rx="280" ry="60" fill="#0B1020" fill-opacity="0.75"/>
+
+  <rect x="290" y="590" width="620" height="84" rx="30" fill="#0A1224" stroke="#2A3D68"/>
+  <rect x="356" y="244" width="488" height="308" rx="36" fill="#121E3D" stroke="#A4D8FF" stroke-opacity="0.35"/>
+  <rect x="426" y="276" width="348" height="244" rx="28" fill="#0F1832" stroke="url(#wallet)" stroke-width="4"/>
+  <rect x="470" y="326" width="260" height="144" rx="24" fill="#0B1020" stroke="#FFD36B" stroke-opacity="0.8"/>
+  <circle cx="600" cy="398" r="56" fill="none" stroke="#F5B84E" stroke-width="18"/>
+  <path d="M603 346L631 384L678 393L644 425L652 472L603 447L554 472L562 425L528 393L575 384L603 346Z" fill="#F5B84E"/>
+
+  <g opacity="0.85">
+    <rect x="170" y="172" width="168" height="72" rx="20" fill="#0F1832" stroke="#7CC8FF" stroke-opacity="0.3"/>
+    <text x="198" y="218" fill="#EBF1FF" font-size="24" font-family="Arial, sans-serif">PayPerQ</text>
+    <rect x="856" y="172" width="190" height="72" rx="20" fill="#0F1832" stroke="#7EE081" stroke-opacity="0.3"/>
+    <text x="885" y="218" fill="#EBF1FF" font-size="24" font-family="Arial, sans-serif">182 sats paid</text>
+  </g>
+
+  <text x="600" y="120" text-anchor="middle" fill="#EBF1FF" font-size="56" font-family="Arial, sans-serif" font-weight="700">
+    Mock GPT Image 1.5 Output
+  </text>
+  <text x="600" y="805" text-anchor="middle" fill="#9DB0D3" font-size="28" font-family="Arial, sans-serif">
+    Cinematic launch visual for a bitcoin productivity app — mock static preview
+  </text>
+</svg>

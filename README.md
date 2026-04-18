@@ -1,21 +1,38 @@
 # 402 Landing Pages
 
-A small Astro prototype for exploring static, SEO-friendly landing pages for 402-style paid services.
+A small Astro prototype for exploring result-oriented, agent-specific landing pages for useful 402 endpoints.
 
 ## What the app currently does
 
-- renders a static index page with links to mock service pages
-- renders 2 mock landing pages from structured data in `src/data/services.ts`
-- uses Astro static generation so the site can be deployed to GitHub Pages with no database
-- includes a GitHub Actions workflow to build and deploy on pushes to `main`
-- keeps all demo content in git so the site can be reviewed through normal pull requests
+- renders a static index page listing 4 landing page variants for the same endpoint
+- renders one page each for `OpenClaw`, `Claude`, `Codex`, and `Hermes`
+- uses a real example endpoint URL from PayPerQ for the mock content base:
+  - `https://api.ppq.ai/v1/images/generations/gpt-image-1.5`
+- keeps the site fully static so it can deploy to GitHub Pages with no database
+- includes repeated CTA modules pointing to a placeholder install page for the Alby Payments Skill
+- removes the earlier score-based mock sections in favor of result-oriented sections like example output, use cases, example prompt, and FAQ
 
-## Mock pages included
+## Current landing page concept
 
-- `SparkFlow Transcribe` — fictional L402 transcription API
-- `RelayGuard Moderation` — fictional x402 moderation API
+Each page is an **agent × endpoint** variant.
 
-These pages use invented data only. They are here to validate the static site shape, navigation, and deployment path.
+Current variants:
+
+- OpenClaw × PayPerQ GPT Image 1.5
+- Claude × PayPerQ GPT Image 1.5
+- Codex × PayPerQ GPT Image 1.5
+- Hermes × PayPerQ GPT Image 1.5
+
+Each variant currently includes:
+
+- title and description focused on what the agent can achieve
+- explicit no-sign-up / no-subscription messaging
+- example output block with mock cost paid
+- use case cards
+- explanation of why 402 payments fit the agent workflow
+- example prompt block
+- Alby-oriented FAQ
+- CTA linking to `/install/`
 
 ## Local development
 
@@ -23,8 +40,6 @@ These pages use invented data only. They are here to validate the static site sh
 npm install
 npm run dev
 ```
-
-Open `http://localhost:4321/402-landing-pages/` in local dev if you want to mimic the GitHub Pages base path closely, or just use Astro's root dev URL during editing.
 
 ## Build
 
@@ -47,13 +62,15 @@ Expected production URL:
 ```text
 .
 ├── .github/workflows/deploy.yml
-├── astro.config.mjs
+├── public/mock-payperq-output.svg
 ├── src/
+│   ├── components/InstallCta.astro
 │   ├── data/services.ts
 │   ├── layouts/BaseLayout.astro
 │   └── pages/
+│       ├── agents/[agent]/[slug].astro
 │       ├── index.astro
-│       └── services/[slug].astro
+│       └── install.astro
 └── README.md
 ```
 
@@ -61,13 +78,13 @@ Expected production URL:
 
 In my opinion, the next useful steps are:
 
-1. replace mock records with a real input format that is easy for automation to write, likely JSON or Markdown content files rather than a hand-edited TypeScript array
-2. define a deterministic quality gate for which services deserve a page and keep that logic outside the rendering layer
-3. build an ingestion loop that discovers candidates, scores them, and only writes approved records into the site data directory
-4. add richer SEO fields per service, including title tags, meta descriptions, canonical URLs, Open Graph data, and JSON-LD schema
-5. add a clear visual distinction between approved, watchlist, and rejected services if this evolves into a broader directory
-6. add automated checks for duplicate copy, broken links, and static build regressions before deploy
-7. decide whether generated service records should live directly in this repo or be synced in from a separate data repo/pipeline
+1. split endpoint facts, agent-specific framing, and FAQ content into cleaner reusable data structures or content files
+2. replace the mock output image and mock payment amount with real captured example outputs once the payment flow is tested
+3. decide the final CTA destination and install UX for Bitcoin-compatible 402 services
+4. define how non-Bitcoin 402 services should swap CTA copy and install targets without changing the rest of the page structure
+5. improve SEO metadata per variant, including canonical strategy, Open Graph images, and structured data
+6. add automation that can generate N agent-specific pages from one approved endpoint record
+7. add checks for thin/duplicate copy as the number of agents and endpoints grows
 
 ## Why Astro here
 

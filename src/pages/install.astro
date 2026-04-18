@@ -1,0 +1,54 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import InstallCta from '../components/InstallCta.astro';
+
+const title = 'Install the Alby Payments Skill';
+const description = 'Placeholder install page for the Alby Payments Skill CTA used across the prototype landing pages.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="panel install-page">
+    <p class="eyebrow">Install</p>
+    <h1>Install the Alby Payments Skill</h1>
+    <p class="lede">
+      This is a placeholder install destination for the prototype. In the real flow, this page would explain how to install the
+      Alby Payments Skill and guide the user through any setup that should happen after the click.
+    </p>
+
+    <div class="steps">
+      <article>
+        <h2>What this page should eventually do</h2>
+        <ul>
+          <li>Explain the install path in plain language</li>
+          <li>Detect the relevant agent environment where possible</li>
+          <li>Guide users into the correct Alby payment setup flow</li>
+          <li>Handle Bitcoin vs non-Bitcoin 402 variants with different CTAs later</li>
+        </ul>
+      </article>
+    </div>
+
+    <InstallCta compact />
+  </section>
+</BaseLayout>
+
+<style>
+  .install-page {
+    padding: 2rem;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin: 0 0 0.75rem;
+  }
+  h1 {
+    margin-top: 0;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+  }
+  .lede,
+  .steps ul {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+</style>

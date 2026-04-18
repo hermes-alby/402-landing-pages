@@ -1,0 +1,282 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import InstallCta from '../../../components/InstallCta.astro';
+import { endpoint, variants } from '../../../data/services';
+
+export function getStaticPaths() {
+  return variants.map((variant) => ({
+    params: { agent: variant.agentSlug, slug: variant.slug },
+    props: { variant },
+  }));
+}
+
+const { variant } = Astro.props;
+const title = variant.title;
+const description = variant.description;
+---
+
+<BaseLayout title={title} description={description}>
+  <article class="page">
+    <section class="hero panel">
+      <div class="hero-main">
+        <div class="meta-row">
+          <span class="pill">{variant.agent}</span>
+          <span class="service-pill">{endpoint.serviceName} · {endpoint.endpointName}</span>
+        </div>
+        <h1>{variant.title}</h1>
+        <p class="tagline">{variant.description}</p>
+        <p class="summary">{variant.heroSummary}</p>
+        <ul class="hero-points">
+          <li>{endpoint.paymentLabel}</li>
+          <li>Real service named: {endpoint.serviceName}</li>
+          <li>Endpoint URL: {endpoint.endpointUrl}</li>
+        </ul>
+        <InstallCta />
+      </div>
+      <aside class="hero-aside">
+        <div>
+          <small>Result</small>
+          <strong>{endpoint.resultLabel}</strong>
+        </div>
+        <div>
+          <small>Category</small>
+          <strong>{endpoint.category}</strong>
+        </div>
+        <div>
+          <small>Mock payment</small>
+          <strong>{endpoint.priceLabel}</strong>
+        </div>
+      </aside>
+    </section>
+
+    <section class="panel section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Example output</p>
+          <h2>See the kind of result {variant.agent} can create with PayPerQ</h2>
+        </div>
+      </div>
+      <div class="example-grid">
+        <figure class="example-card">
+          <img src={endpoint.exampleImage} alt={endpoint.exampleImageAlt} />
+          <figcaption>{endpoint.exampleOutputCaption}</figcaption>
+        </figure>
+        <div class="output-meta">
+          <h3>{endpoint.examplePromptTitle}</h3>
+          <p class="prompt-copy">{endpoint.examplePrompt}</p>
+          <ul>
+            {endpoint.outputDetails.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
+      </div>
+      <InstallCta compact />
+    </section>
+
+    <section class="panel section">
+      <p class="eyebrow">Use cases</p>
+      <h2>What {variant.agent} can do with this image endpoint</h2>
+      <div class="cards">
+        {variant.useCases.map((useCase) => (
+          <article class="mini-card">
+            <h3>{useCase}</h3>
+            <p>Use {endpoint.serviceName} on demand inside a broader {variant.agent} workflow.</p>
+          </article>
+        ))}
+      </div>
+      <InstallCta compact />
+    </section>
+
+    <section class="panel section">
+      <p class="eyebrow">Why this payment model fits</p>
+      <h2>Why 402 payments work well for {variant.agent}</h2>
+      <ul class="bullet-list">
+        {variant.why402.map((item) => (
+          <li>{item}</li>
+        ))}
+      </ul>
+      <InstallCta compact />
+    </section>
+
+    <section class="panel section">
+      <p class="eyebrow">Example prompt</p>
+      <h2>Prompt {variant.agent} to use PayPerQ and pay through Alby</h2>
+      <pre class="prompt-block"><code>{variant.examplePrompt}</code></pre>
+      <InstallCta compact />
+    </section>
+
+    <section class="panel section faq">
+      <p class="eyebrow">FAQ</p>
+      <h2>Useful questions for agentic payments with Alby products</h2>
+      {endpoint.sharedFaq.map((item) => (
+        <details>
+          <summary>{item.question}</summary>
+          <p>{item.answer}</p>
+        </details>
+      ))}
+      <InstallCta compact />
+    </section>
+
+    <p class="back-link">
+      <a href={`${import.meta.env.BASE_URL}`}>← Back to all agent variants</a>
+    </p>
+  </article>
+</BaseLayout>
+
+<style>
+  .page {
+    display: grid;
+    gap: 1.5rem;
+  }
+  .hero {
+    display: grid;
+    grid-template-columns: 1.7fr 0.9fr;
+    gap: 1.5rem;
+    padding: 2rem;
+  }
+  .hero-main h1 {
+    margin: 0.6rem 0;
+    font-size: clamp(2.1rem, 4vw, 3.4rem);
+    line-height: 1.05;
+  }
+  .meta-row {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .service-pill {
+    color: var(--warn);
+    font-weight: 700;
+  }
+  .tagline {
+    margin: 0;
+    font-size: 1.15rem;
+    line-height: 1.55;
+  }
+  .summary {
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 70ch;
+  }
+  .hero-points {
+    margin: 1.2rem 0 0;
+    padding-left: 1.1rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .hero-aside {
+    display: grid;
+    gap: 1rem;
+    align-content: start;
+    padding: 1.25rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .hero-aside small {
+    display: block;
+    color: var(--muted);
+    margin-bottom: 0.3rem;
+  }
+  .hero-aside strong {
+    font-size: 1.06rem;
+  }
+  .section {
+    padding: 1.6rem 1.8rem;
+  }
+  .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    font-size: 0.8rem;
+    color: var(--accent);
+    margin: 0 0 0.75rem;
+  }
+  .section h2 {
+    margin-top: 0;
+    font-size: 1.8rem;
+  }
+  .example-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 1.35rem;
+    align-items: start;
+  }
+  .example-card {
+    margin: 0;
+  }
+  .example-card img {
+    width: 100%;
+    display: block;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .example-card figcaption,
+  .output-meta,
+  .mini-card p,
+  .faq p,
+  .bullet-list,
+  .output-meta ul {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .output-meta h3,
+  .mini-card h3 {
+    margin-top: 0;
+  }
+  .prompt-copy {
+    padding: 1rem;
+    border-radius: 16px;
+    background: rgba(124, 200, 255, 0.08);
+    border: 1px solid rgba(124, 200, 255, 0.14);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 1rem;
+  }
+  .mini-card {
+    padding: 1.2rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .bullet-list {
+    padding-left: 1.2rem;
+    margin-bottom: 0;
+  }
+  .prompt-block {
+    margin: 0;
+    padding: 1.2rem;
+    border-radius: 20px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    background: rgba(8, 17, 31, 0.75);
+    border: 1px solid rgba(124, 200, 255, 0.14);
+    color: var(--text);
+    line-height: 1.6;
+  }
+  .faq details {
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 1rem 0;
+  }
+  .faq details:first-of-type {
+    border-top: 0;
+    padding-top: 0.2rem;
+  }
+  .faq summary {
+    cursor: pointer;
+    font-weight: 700;
+  }
+  .back-link {
+    margin: 0;
+  }
+  @media (max-width: 920px) {
+    .hero,
+    .example-grid,
+    .cards {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
