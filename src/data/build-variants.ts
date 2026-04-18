@@ -55,7 +55,10 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
       examplePrompt: service.examplePrompt,
       examplePromptHeading: service.examplePromptHeading,
       exampleOutput: service.exampleOutput,
-      faq: service.faq,
+      faq: service.faq({
+        providerName: provider.name,
+        serviceName: service.name,
+      }),
       cta: provider.supportStatus === 'supported' ? supportedCta(agent.key) : comingSoonCta(agent.key),
       supportStatus: provider.supportStatus,
     };

@@ -30,11 +30,9 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.name ??
     </div>
 
     <section class="panel-inner">
-      <h2>Install command for {currentAgent?.name ?? 'your agent'}</h2>
-      {installFlow?.kind === 'url' ? (
-        <p class="command-copy">
-          {installFlow.helperText} <a href={installFlow.url}>{installFlow.url}</a>
-        </p>
+      <h2>Install instructions for {currentAgent?.name ?? 'your agent'}</h2>
+      {installFlow?.kind === 'prompt' ? (
+        <pre class="command-block"><code>{installFlow.prompt}</code></pre>
       ) : (
         <pre class="command-block"><code>{installFlow?.command ?? 'npx skills add getAlby/payments-skill'}</code></pre>
       )}
@@ -88,15 +86,6 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.name ??
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
-  .command-copy {
-    color: var(--muted);
-    line-height: 1.7;
-    margin: 0;
-  }
-  .command-copy a {
-    color: var(--accent);
-    word-break: break-all;
-  }
   .command-block {
     margin: 0;
     padding: 1rem 1.1rem;
@@ -109,6 +98,8 @@ const description = `Install the Alby Payments Skill for ${currentAgent?.name ??
   .command-block code {
     font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     font-size: 0.95rem;
+    white-space: pre-wrap;
+    word-break: break-word;
   }
   .cards {
     display: grid;

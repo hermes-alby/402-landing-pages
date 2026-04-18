@@ -1,29 +1,7 @@
+import { buildGenericLandingFaq } from '../faqs';
 import type { ServiceDefinition } from '../types';
 
-const bitcoinFaq = [
-  {
-    question: 'What is the Alby Payments Skill?',
-    answer:
-      'It is the install flow this page points to so your agent can unlock useful paid services without asking you to create separate accounts first.',
-  },
-  {
-    question: 'Do I need a PayPerQ account or subscription?',
-    answer:
-      'The intended flow here is pay on demand. The point is to let your agent use the service when needed instead of stopping for account creation first.',
-  },
-  {
-    question: 'Why does “no human needed” matter?',
-    answer:
-      'Agents often get stuck when they need a human to create an account, pass a captcha, or manage another subscription. This flow is meant to remove that bottleneck.',
-  },
-  {
-    question: 'What is 402?',
-    answer:
-      '402 is the payment pattern behind this kind of API access. You do not need to understand the protocol details to use the page — the important point is that the agent can pay and continue the task.',
-  },
-] as const;
-
-export const payperqGptImage15: ServiceDefinition = {
+const service = {
   key: 'payperq-gpt-image-1-5',
   providerKey: 'payperq',
   name: 'GPT Image 1.5',
@@ -65,5 +43,11 @@ export const payperqGptImage15: ServiceDefinition = {
     'Create concept art while iterating on product ideas',
     'Produce blog or social images inside a broader agent workflow',
   ],
-  faq: [...bitcoinFaq],
-};
+  faq: ({ providerName, serviceName }) =>
+    buildGenericLandingFaq({
+      providerName,
+      resultDescription: `${providerName} ${serviceName} can return polished generated images that agents can use for launch assets, mockups, and visual ideation workflows.`,
+    }),
+} satisfies ServiceDefinition;
+
+export default service;

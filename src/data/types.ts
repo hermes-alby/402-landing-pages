@@ -44,9 +44,8 @@ export type InstallFlow =
       command: string;
     }
   | {
-      kind: 'url';
-      url: string;
-      helperText: string;
+      kind: 'prompt';
+      prompt: string;
     };
 
 export type Provider = {
@@ -77,7 +76,7 @@ export type ServiceDefinition = {
   whyItWorksTitle: (context: { agentName: string; providerName: string; serviceName: string }) => string;
   whyItWorks: (context: { agentName: string; providerName: string; serviceName: string }) => string[];
   useCases: (context: { agentName: string; providerName: string; serviceName: string }) => string[];
-  faq: FaqItem[];
+  faq: (context: { providerName: string; serviceName: string }) => FaqItem[];
 };
 
 export type LandingVariant = {

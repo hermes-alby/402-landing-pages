@@ -2,9 +2,8 @@ import type { InstallFlow } from './types';
 
 export const installFlows: Record<string, InstallFlow> = {
   openclaw: {
-    kind: 'url',
-    url: 'https://getalby.com/cli/SKILL.md',
-    helperText: 'Install this skill as a custom skill:',
+    kind: 'prompt',
+    prompt: 'Install this skill as a custom skill: <https://getalby.com/payments/SKILL.md>',
   },
   claude: {
     kind: 'command',
@@ -15,8 +14,7 @@ export const installFlows: Record<string, InstallFlow> = {
     command: 'npx skills add getAlby/payments-skill',
   },
   hermes: {
-    kind: 'url',
-    url: 'https://getalby.com/cli/SKILL.md',
-    helperText: 'Install this skill as a custom skill:',
+    kind: 'prompt',
+    prompt: 'Install this skill as a custom skill: <https://getalby.com/payments/SKILL.md>',
   },
 };

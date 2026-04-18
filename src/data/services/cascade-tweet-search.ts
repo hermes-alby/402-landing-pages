@@ -1,19 +1,7 @@
+import { buildGenericLandingFaq } from '../faqs';
 import type { ServiceDefinition } from '../types';
 
-const twitterCascadeFaq = [
-  {
-    question: 'Do I need an account, email, or subscription?',
-    answer:
-      'This page is framed around a pay-per-use service experience, so the appeal is getting useful live results without another signup flow in the middle of the task.',
-  },
-  {
-    question: 'What kind of results can this service return?',
-    answer:
-      'This endpoint can return live tweet search results that agents can use for research, summaries, trend checks, and monitoring workflows.',
-  },
-] as const;
-
-export const cascadeTweetSearch: ServiceDefinition = {
+const service = {
   key: 'cascade-tweet-search',
   providerKey: 'cascade',
   name: 'Tweet search',
@@ -58,5 +46,11 @@ export const cascadeTweetSearch: ServiceDefinition = {
     'Pull top social posts into research summaries',
     'Scan recent sentiment around a company, token, or topic',
   ],
-  faq: [...twitterCascadeFaq],
-};
+  faq: ({ providerName, serviceName }) =>
+    buildGenericLandingFaq({
+      providerName,
+      resultDescription: `${providerName} ${serviceName} can return live social search results that agents can use for research, summaries, trend checks, and monitoring workflows.`,
+    }),
+} satisfies ServiceDefinition;
+
+export default service;
