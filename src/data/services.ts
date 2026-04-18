@@ -59,18 +59,18 @@ export type LandingVariant = {
   cta: Cta;
 };
 
-const installPath = `${import.meta.env.BASE_URL}install/`;
-const albyInstallCta: Cta = {
+const installPath = (agentSlug: string) => `${import.meta.env.BASE_URL}install/${agentSlug}/`;
+const albyInstallCta = (agentSlug: string): Cta => ({
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
-  href: installPath,
+  href: installPath(agentSlug),
   buttonLabel: 'Install now',
-};
+});
 
-const solanaComingSoonCta = (agentSlug: string): Cta => ({
+const comingSoonCta = (agentSlug: string): Cta => ({
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
-  href: `${import.meta.env.BASE_URL}coming-soon/twitter-cascade/${agentSlug}/`,
+  href: `${import.meta.env.BASE_URL}coming-soon/${agentSlug}/`,
   buttonLabel: 'Install now',
 });
 
@@ -130,7 +130,7 @@ const payperqBase = {
   },
   examplePromptHeading: 'Example prompt',
   faq: bitcoinFaq,
-  cta: albyInstallCta,
+  cta: albyInstallCta('openclaw'),
 };
 
 const twitterCascadeBase = {
@@ -183,6 +183,7 @@ export const variants: LandingVariant[] = [
       'The agent can discover the service, use it, and continue the task in one flow.',
     ],
     useCases: ['Generate marketing visuals for a launch brief', 'Create concept art while iterating on product ideas', 'Produce blog or social images inside a larger OpenClaw workflow'],
+    cta: albyInstallCta('openclaw'),
     examplePrompt:
       'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition, and pay using the Alby Payments Skill.',
   },
@@ -208,6 +209,7 @@ export const variants: LandingVariant[] = [
       'Pay-on-demand access is easier to justify for occasional visual work than another monthly tool bill.',
     ],
     useCases: ['Create website hero art from a product brief', 'Generate concept images for product strategy docs', 'Draft social media visuals from a single Claude conversation'],
+    cta: albyInstallCta('claude'),
     examplePrompt:
       'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: illustrate a modern coworking team shipping a bitcoin app in a sunlit studio, crisp editorial ad style, and pay using the Alby Payments Skill.',
   },
@@ -233,6 +235,7 @@ export const variants: LandingVariant[] = [
       'On-demand access makes sense when the image task is occasional but still valuable.',
     ],
     useCases: ['Generate screenshots or launch graphics for README pages', 'Create mock visuals for review apps and demos', 'Produce branded illustrations while Codex is shipping a feature'],
+    cta: albyInstallCta('codex'),
     examplePrompt:
       'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: design a sleek dashboard launch graphic for a developer bitcoin payments toolkit, blue and amber palette, high-detail product marketing style, and pay using the Alby Payments Skill.',
   },
@@ -258,6 +261,7 @@ export const variants: LandingVariant[] = [
       'This is especially useful when an autonomous workflow needs a paid service only occasionally.',
     ],
     useCases: ['Generate landing page visuals while building a prototype site', 'Create images for research reports or ecosystem monitoring posts', 'Produce assets for demos, docs, and GitHub Pages previews'],
+    cta: albyInstallCta('hermes'),
     examplePrompt:
       'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a futuristic editorial illustration of autonomous agents collaborating in a bitcoin-native workspace, elegant lighting, premium campaign composition, and pay using the Alby Payments Skill.',
   },
@@ -283,7 +287,7 @@ export const variants: LandingVariant[] = [
       'It gives the agent live social context instead of forcing it to rely on stale summaries.',
     ],
     useCases: ['Track breaking Bitcoin stories from live tweets', 'Pull top social posts into research summaries', 'Scan recent sentiment around a company, token, or topic'],
-    cta: solanaComingSoonCta('openclaw'),
+    cta: comingSoonCta('openclaw'),
   },
   {
     ...twitterCascadeBase,
@@ -307,7 +311,7 @@ export const variants: LandingVariant[] = [
       'The agent can pull fresh social context exactly when it is needed.',
     ],
     useCases: ['Find top tweets about Bitcoin in the last 24 hours', 'Pull examples for a market commentary draft', 'Track public reactions to an announcement or product launch'],
-    cta: solanaComingSoonCta('claude'),
+    cta: comingSoonCta('claude'),
   },
   {
     ...twitterCascadeBase,
@@ -331,7 +335,7 @@ export const variants: LandingVariant[] = [
       'This makes live social search a strong fit for code, docs, and automation workflows.',
     ],
     useCases: ['Feed live tweet data into a prototype dashboard', 'Pull social examples into generated docs', 'Research current public discussion for an app or narrative'],
-    cta: solanaComingSoonCta('codex'),
+    cta: comingSoonCta('codex'),
   },
   {
     ...twitterCascadeBase,
@@ -355,7 +359,7 @@ export const variants: LandingVariant[] = [
       'It adds fast social context to a broader autonomous research loop.',
     ],
     useCases: ['Monitor top Bitcoin tweets for ecosystem reports', 'Pull fresh social context into research summaries', 'Track sentiment shifts during breaking news events'],
-    cta: solanaComingSoonCta('hermes'),
+    cta: comingSoonCta('hermes'),
   },
 ];
 
@@ -363,11 +367,11 @@ export const serviceSections = [
   {
     key: 'payperq',
     title: 'PayPerQ · GPT Image 1.5',
-    description: 'Bitcoin-compatible flow with install CTA available now.',
+    description: 'Image generation examples your agent can use today.',
   },
   {
     key: 'twitter-cascade',
     title: 'Twitter Cascade · Tweet search',
-    description: 'Solana-based flow. Support in Alby products is coming soon.',
+    description: 'Social search examples for live research and monitoring workflows.',
   },
 ] as const;
