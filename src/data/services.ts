@@ -60,8 +60,6 @@ export type LandingVariant = {
 };
 
 const installPath = `${import.meta.env.BASE_URL}install/`;
-const solanaComingSoonPath = `${import.meta.env.BASE_URL}coming-soon/twitter-cascade/`;
-
 const albyInstallCta: Cta = {
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
@@ -69,12 +67,12 @@ const albyInstallCta: Cta = {
   buttonLabel: 'Install now',
 };
 
-const solanaComingSoonCta: Cta = {
+const solanaComingSoonCta = (agentSlug: string): Cta => ({
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
-  href: solanaComingSoonPath,
+  href: `${import.meta.env.BASE_URL}coming-soon/twitter-cascade/${agentSlug}/`,
   buttonLabel: 'Install now',
-};
+});
 
 const bitcoinFaq: FaqItem[] = [
   {
@@ -104,16 +102,6 @@ const twitterCascadeFaq: FaqItem[] = [
     question: 'Can I use this with Alby products today?',
     answer:
       'Not yet. This endpoint currently uses Solana, so support in the Alby-directed flow shown on these pages is still coming soon.',
-  },
-  {
-    question: 'Why is there no example prompt on this page?',
-    answer:
-      'We can show the kind of output and pricing this service offers, but the example result for this page was fetched through another company product because Alby products do not support this service yet.',
-  },
-  {
-    question: 'Why does this service still matter for agents?',
-    answer:
-      'It shows the kind of high-value, no-sign-up service that agents should be able to use once support lands: search social data, pull live results, and continue the task without a human detour.',
   },
   {
     question: 'What happens next?',
@@ -170,7 +158,6 @@ const twitterCascadeBase = {
     details: ['Service: Twitter Cascade', 'Endpoint: tweet search', 'Query example: bitcoin since:2026-04-16', 'Cost: $0.04'],
   },
   faq: twitterCascadeFaq,
-  cta: solanaComingSoonCta,
 };
 
 export const variants: LandingVariant[] = [
@@ -296,6 +283,7 @@ export const variants: LandingVariant[] = [
       'The main missing piece is payment-path support, not usefulness.',
     ],
     useCases: ['Track breaking Bitcoin stories from live tweets', 'Pull top social posts into research summaries', 'Scan recent sentiment around a company, token, or topic'],
+    cta: solanaComingSoonCta('openclaw'),
   },
   {
     ...twitterCascadeBase,
@@ -319,6 +307,7 @@ export const variants: LandingVariant[] = [
       'The product gap here is support, not demand for the result.',
     ],
     useCases: ['Find top tweets about Bitcoin in the last 24 hours', 'Pull examples for a market commentary draft', 'Track public reactions to an announcement or product launch'],
+    cta: solanaComingSoonCta('claude'),
   },
   {
     ...twitterCascadeBase,
@@ -342,6 +331,7 @@ export const variants: LandingVariant[] = [
       'Once payment support lands, this becomes a strong pay-on-demand data source.',
     ],
     useCases: ['Feed live tweet data into a prototype dashboard', 'Pull social examples into generated docs', 'Research current public discussion for an app or narrative'],
+    cta: solanaComingSoonCta('codex'),
   },
   {
     ...twitterCascadeBase,
@@ -365,6 +355,7 @@ export const variants: LandingVariant[] = [
       'The main blocker right now is payment compatibility, not the value of the endpoint.',
     ],
     useCases: ['Monitor top Bitcoin tweets for ecosystem reports', 'Pull fresh social context into research summaries', 'Track sentiment shifts during breaking news events'],
+    cta: solanaComingSoonCta('hermes'),
   },
 ];
 

@@ -1,0 +1,121 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import { variants } from '../../../data/services';
+
+export function getStaticPaths() {
+  const agents = [...new Set(variants.map((variant) => variant.agentSlug))];
+  return agents.map((agent) => ({ params: { agent } }));
+}
+
+const { agent } = Astro.params;
+const agentVariants = variants.filter((variant) => variant.agentSlug === agent);
+const currentAgent = agentVariants[0];
+const supportedToday = agentVariants.filter((variant) => variant.serviceKey !== 'twitter-cascade');
+const installHref = `${import.meta.env.BASE_URL}install/`;
+const title = `Twitter Cascade support is coming soon for ${currentAgent?.agent ?? 'your agent'}`;
+const description = 'Twitter Cascade is not yet supported by Alby products, but you can explore supported services today.';
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="panel page">
+    <div class="hero-row">
+      {currentAgent && (
+        <img class="agent-logo" src={`${import.meta.env.BASE_URL}agents/${currentAgent.agentSlug}.svg`} alt={`${currentAgent.agent} logo`} />
+      )}
+      <div>
+        <h1>Support for Twitter Cascade is coming soon</h1>
+        <p class="lede">
+          Here are some services Alby supports today for {currentAgent?.agent ?? 'your agent'} while Twitter Cascade support is on the way.
+        </p>
+      </div>
+    </div>
+
+    <section class="supported-now">
+      <h2>Available now</h2>
+      <div class="cards">
+        {supportedToday.map((variant) => (
+          <a class="card" href={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}/${variant.slug}/`}>
+            <strong>{variant.serviceName}</strong>
+            <span>{variant.endpointName}</span>
+            <p>{variant.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="capture panel-inner">
+      <h2>Want to give your agent access to thousands of more useful services?</h2>
+      <a class="button" href={installHref}>Install the Alby Payments Skill</a>
+    </section>
+  </section>
+</BaseLayout>
+
+<style>
+  .page {
+    padding: 2rem;
+    display: grid;
+    gap: 1.8rem;
+  }
+  .hero-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .agent-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+  }
+  .lede, .card p, .card span {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .supported-now h2,
+  .capture h2 {
+    margin-bottom: 0.9rem;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    padding: 1rem 1.1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .card strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  .panel-inner {
+    padding: 1.4rem 1.5rem;
+    border-radius: 18px;
+    background: rgba(126, 224, 129, 0.08);
+    border: 1px solid rgba(126, 224, 129, 0.18);
+  }
+  .button {
+    display: inline-block;
+    text-decoration: none;
+    background: linear-gradient(90deg, var(--accent), #9af7c8);
+    color: #08111f;
+    padding: 0.85rem 1.1rem;
+    border-radius: 12px;
+    font-weight: 800;
+  }
+  @media (max-width: 760px) {
+    .hero-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>
