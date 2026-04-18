@@ -15,8 +15,8 @@ const service = {
     title: 'Example output',
     caption:
       'Example output based on the same image-generation workflow described in the llm402.ai blog post, using the FLUX.1-schnell tier for low-latency image creation.',
-    imageSrc: `${import.meta.env.BASE_URL}mock-payperq-output.svg`,
-    imageAlt: 'Example generated image for llm402.ai FLUX.1-schnell image generation',
+    imageSrc: `${import.meta.env.BASE_URL}services/llm402-flux-1-schnell-image-generation/blog.jpg`,
+    imageAlt: 'Blog image for llm402.ai FLUX.1-schnell image generation showing a neon vending machine with lightning-bolt coins',
     details: ['Provider: llm402.ai', 'Service: FLUX.1-schnell image generation', 'Endpoint: /v1/images/generations', 'Cost: 21 sats (~$0.01)'],
   },
   examplePromptHeading: 'Example prompt',

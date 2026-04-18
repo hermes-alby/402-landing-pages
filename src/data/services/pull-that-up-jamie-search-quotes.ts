@@ -15,6 +15,8 @@ const service = {
     title: 'Example output',
     caption:
       'Example quote-search result based on the blog post test query for “LNCURL”, showing the kind of timestamped hit your agent can pull from inside a podcast transcript.',
+    illustrationSrc: `${import.meta.env.BASE_URL}services/pull-that-up-jamie-search-quotes/blog.jpg`,
+    illustrationAlt: 'Blog image for Pull That Up Jamie showing a futuristic network of microphones and audio waveforms',
     columns: ['Episode', 'Creator', 'Moment'],
     rows: [
       ['Roundtable_018 - Everything is Fake and Gay', 'Bitcoin Audible', 'Host spells out “l n c u r l dot l o l” in the clip result'],

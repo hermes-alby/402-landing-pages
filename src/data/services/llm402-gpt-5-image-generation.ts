@@ -15,8 +15,8 @@ const service = {
     title: 'Example output',
     caption:
       'Example output based on the same llm402.ai workflow, this time representing the higher-detail GPT-5-image tier described in the blog post comparison.',
-    imageSrc: `${import.meta.env.BASE_URL}mock-payperq-output.svg`,
-    imageAlt: 'Example generated image for llm402.ai GPT-5-image generation',
+    imageSrc: `${import.meta.env.BASE_URL}services/llm402-gpt-5-image-generation/blog.jpg`,
+    imageAlt: 'Blog image for llm402.ai GPT-5-image generation showing a neon vending machine with lightning-bolt coins',
     details: ['Provider: llm402.ai', 'Service: GPT-5-image generation', 'Endpoint: /v1/images/generations', 'Cost: 105 sats (~$0.03)'],
   },
   examplePromptHeading: 'Example prompt',

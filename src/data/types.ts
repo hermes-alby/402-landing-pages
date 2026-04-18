@@ -19,15 +19,21 @@ export type ExampleImageOutput = {
   imageSrc: string;
   imageAlt: string;
   details: string[];
+  briefingTitle?: string;
+  briefingParagraphs?: string[];
 };
 
 export type ExampleTableOutput = {
   kind: 'table';
   title: string;
   caption: string;
+  illustrationSrc?: string;
+  illustrationAlt?: string;
   columns: string[];
   rows: string[][];
   details: string[];
+  briefingTitle?: string;
+  briefingParagraphs?: string[];
 };
 
 export type ExampleOutput = ExampleImageOutput | ExampleTableOutput;

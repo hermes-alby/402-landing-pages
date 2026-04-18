@@ -15,6 +15,8 @@ const service = {
     title: 'Example output',
     caption:
       'Example structured signal output based on the oracle response in the blog post, where one paid request returns both a written briefing and market-level signals.',
+    illustrationSrc: `${import.meta.env.BASE_URL}services/l402-services-predictions-oracle/blog.jpg`,
+    illustrationAlt: 'Blog image for the predictions oracle showing a glowing digital eye with lightning and circuit lines',
     columns: ['Signal', 'Value', 'Why it matters'],
     rows: [
       ['Probability shift', '+21.3pp', 'A large one-day move can signal breaking news before headlines catch up'],
@@ -22,6 +24,11 @@ const service = {
       ['Outcome', 'Israel x Hezbollah ceasefire by June 30', 'The market is aggressively repricing this event in real time'],
     ],
     details: ['Provider: L402 Services', 'Service: predictions oracle', 'Endpoint: /predictions/oracle', 'Cost: 250 sats (~$0.07)'],
+    briefingTitle: 'Example briefing',
+    briefingParagraphs: [
+      'The dominant signal today is the Iran conflict cluster, which is generating extraordinary volume and dramatic probability shifts simultaneously. The “US x Iran ceasefire by April 15” outcome moved +85pp in a single day to 99.65%, with nearly $40M in 24h volume.',
+      'The Israel-Hezbollah ceasefire market is today’s most interesting live signal. The “June 30” outcome jumped +21pp in a single day to 87.6% on $1.8M volume, making it the kind of move an agent can treat as a lead for deeper research.',
+    ],
   },
   examplePromptHeading: 'Example request',
   examplePrompt: 'Fetch the latest predictions oracle briefing and surface the strongest momentum, high-confidence, and volume-spike signals.',
