@@ -350,7 +350,7 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with Hermes using Twitter Cascade',
     description:
-      'Enable Hermes to search Twitter with Twitter Cascade for live research and monitoring. No sign-up, no subscription, and support for Alby users is coming soon.',
+      'Enable Hermes to search Twitter with Twitter Cascade for live research and monitoring. No sign-up, no email, no subscription, and support for Alby users is coming soon.',
     heroSummary:
       'Hermes would be able to use Twitter Cascade for fast social search inside research and monitoring workflows, but this endpoint currently uses a Solana payment flow that Alby products do not support yet.',
     heroBullets: [
