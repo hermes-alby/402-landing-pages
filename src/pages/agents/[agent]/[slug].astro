@@ -91,15 +91,10 @@ const relatedVariants = variants.filter((item) => item.agentSlug === variant.age
           </div>
         )}
         <div class="output-meta">
-          {variant.examplePrompt ? (
+          {variant.examplePrompt && (
             <>
               <h3>{variant.examplePromptHeading ?? 'Example prompt'}</h3>
               <p class="prompt-copy">{variant.examplePrompt}</p>
-            </>
-          ) : (
-            <>
-              <h3>Example prompt</h3>
-              <p class="prompt-copy muted">{variant.examplePromptNote ?? 'Prompt example unavailable for this service today.'}</p>
             </>
           )}
           <ul>

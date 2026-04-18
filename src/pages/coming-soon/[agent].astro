@@ -1,6 +1,6 @@
 ---
-import BaseLayout from '../../../layouts/BaseLayout.astro';
-import { variants } from '../../../data/services';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { variants } from '../../data/services';
 
 export function getStaticPaths() {
   const agents = [...new Set(variants.map((variant) => variant.agentSlug))];
@@ -11,9 +11,9 @@ const { agent } = Astro.params;
 const agentVariants = variants.filter((variant) => variant.agentSlug === agent);
 const currentAgent = agentVariants[0];
 const supportedToday = agentVariants.filter((variant) => variant.serviceKey !== 'twitter-cascade');
-const installHref = `${import.meta.env.BASE_URL}install/`;
-const title = `Twitter Cascade support is coming soon for ${currentAgent?.agent ?? 'your agent'}`;
-const description = 'Twitter Cascade is not yet supported by Alby products, but you can explore supported services today.';
+const installHref = `${import.meta.env.BASE_URL}install/${agent}/`;
+const title = `More services for ${currentAgent?.agent ?? 'your agent'} are coming soon`;
+const description = `Explore services available now for ${currentAgent?.agent ?? 'your agent'} and install the Alby Payments Skill.`;
 ---
 
 <BaseLayout title={title} description={description}>
@@ -23,9 +23,9 @@ const description = 'Twitter Cascade is not yet supported by Alby products, but 
         <img class="agent-logo" src={`${import.meta.env.BASE_URL}agents/${currentAgent.agentSlug}.svg`} alt={`${currentAgent.agent} logo`} />
       )}
       <div>
-        <h1>Support for Twitter Cascade is coming soon</h1>
+        <h1>Support for this service is coming soon</h1>
         <p class="lede">
-          Here are some services Alby supports today for {currentAgent?.agent ?? 'your agent'} while Twitter Cascade support is on the way.
+          Here are some services Alby supports today for {currentAgent?.agent ?? 'your agent'} in the meantime.
         </p>
       </div>
     </div>

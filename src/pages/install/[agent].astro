@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { variants } from '../../data/services';
+
+export function getStaticPaths() {
+  const agents = [...new Set(variants.map((variant) => variant.agentSlug))];
+  return agents.map((agent) => ({ params: { agent } }));
+}
+
+const { agent } = Astro.params;
+const agentVariants = variants.filter((variant) => variant.agentSlug === agent);
+const currentAgent = agentVariants[0];
+const supportedToday = agentVariants.filter((variant) => variant.serviceKey !== 'twitter-cascade');
+const title = `Install the Alby Payments Skill for ${currentAgent?.agent ?? 'your agent'}`;
+const description = `Install the Alby Payments Skill for ${currentAgent?.agent ?? 'your agent'} and unlock supported services.`;
+---
+
+<BaseLayout title={title} description={description}>
+  <section class="panel install-page">
+    <div class="hero-row">
+      {currentAgent && (
+        <img class="agent-logo" src={`${import.meta.env.BASE_URL}agents/${currentAgent.agentSlug}.svg`} alt={`${currentAgent.agent} logo`} />
+      )}
+      <div>
+        <h1>Install the Alby Payments Skill for {currentAgent?.agent ?? 'your agent'}</h1>
+        <p class="lede">
+          Give {currentAgent?.agent ?? 'your agent'} access to useful services without sign-up, email, or subscription friction.
+        </p>
+      </div>
+    </div>
+
+    <section class="panel-inner">
+      <h2>Available now for {currentAgent?.agent ?? 'your agent'}</h2>
+      <div class="cards">
+        {supportedToday.map((variant) => (
+          <a class="card" href={`${import.meta.env.BASE_URL}agents/${variant.agentSlug}/${variant.slug}/`}>
+            <strong>{variant.serviceName}</strong>
+            <span>{variant.endpointName}</span>
+            <p>{variant.description}</p>
+          </a>
+        ))}
+      </div>
+    </section>
+  </section>
+</BaseLayout>
+
+<style>
+  .install-page {
+    padding: 2rem;
+    display: grid;
+    gap: 1.8rem;
+  }
+  .hero-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+  }
+  .agent-logo {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  h1 {
+    margin: 0;
+    font-size: clamp(2rem, 4vw, 3.1rem);
+  }
+  .lede,
+  .card p,
+  .card span {
+    color: var(--muted);
+    line-height: 1.7;
+  }
+  .panel-inner {
+    padding: 1.4rem 1.5rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+  .card {
+    display: block;
+    text-decoration: none;
+    padding: 1rem 1.1rem;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .card strong {
+    display: block;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+  }
+  @media (max-width: 760px) {
+    .hero-row {
+      align-items: flex-start;
+      flex-direction: column;
+    }
+  }
+</style>
