@@ -99,14 +99,14 @@ const bitcoinFaq: FaqItem[] = [
 
 const twitterCascadeFaq: FaqItem[] = [
   {
-    question: 'Can I use this with Alby products today?',
+    question: 'Do I need an account, email, or subscription?',
     answer:
-      'Not yet. This endpoint currently uses Solana, so support in the Alby-directed flow shown on these pages is still coming soon.',
+      'This page is framed around a pay-per-use service experience, so the appeal is getting useful live results without another signup flow in the middle of the task.',
   },
   {
-    question: 'What happens next?',
+    question: 'What kind of results can this service return?',
     answer:
-      'For now, the right user-facing message is that support is coming soon. Once Alby products support this payment path, these pages can switch to a direct install or usage flow.',
+      'Twitter Cascade can return live tweet search results that agents can use for research, summaries, trend checks, and monitoring workflows.',
   },
 ];
 
@@ -141,7 +141,7 @@ const twitterCascadeBase = {
   resultLabel: 'Search and summarize live Twitter results on demand',
   category: 'Social search',
   priceLabel: '$0.04',
-  paymentLabel: 'No sign-up. No email. No subscription. Pay per use. Support for Alby users is coming soon.',
+  paymentLabel: 'No sign-up. No email. No subscription. Pay per use.',
   exampleOutput: {
     kind: 'table' as const,
     title: 'Example output',
@@ -268,19 +268,19 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with OpenClaw using Twitter Cascade',
     description:
-      'Enable OpenClaw to search live Twitter results with Twitter Cascade. No sign-up, no email, no subscription, and support for Alby users is coming soon.',
+      'Enable OpenClaw to search live Twitter results with Twitter Cascade. No sign-up, no email, no subscription, and no human needed to keep the workflow moving.',
     heroSummary:
-      'Twitter Cascade is the kind of social search service an agent should be able to call without account friction. For now, this Solana-based payment flow is not yet supported by Alby products.',
+      'Twitter Cascade gives OpenClaw live social search for research, trend checks, and current-events context without forcing another account-creation detour.',
     heroBullets: [
       twitterCascadeBase.paymentLabel,
       'Useful for live research, trend checks, and pulling recent social context into an agent workflow.',
-      'No example prompt yet because Alby products do not support this payment path today.',
+      'Get fresh Twitter results on demand instead of relying on stale summaries.',
     ],
     whyItWorksTitle: 'Why this would be powerful for OpenClaw',
     whyItWorks: [
       'OpenClaw could pull live social context without asking a human to create another account first.',
       'Tweet search is a natural tool inside research and monitoring workflows.',
-      'The main missing piece is payment-path support, not usefulness.',
+      'It gives the agent live social context instead of forcing it to rely on stale summaries.',
     ],
     useCases: ['Track breaking Bitcoin stories from live tweets', 'Pull top social posts into research summaries', 'Scan recent sentiment around a company, token, or topic'],
     cta: solanaComingSoonCta('openclaw'),
@@ -292,19 +292,19 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with Claude using Twitter Cascade',
     description:
-      'Enable Claude to search Twitter with Twitter Cascade. No sign-up, no email, no subscription, and Alby support for this service is coming soon.',
+      'Enable Claude to search Twitter with Twitter Cascade. No sign-up, no email, no subscription, and no human needed to keep the research flow moving.',
     heroSummary:
-      'This is a strong example of a service Claude should be able to use directly for live social research, but the current payment path is Solana-only so the Alby-directed flow is not live yet.',
+      'Twitter Cascade gives Claude live social search for research, market commentary, and current-events context without another signup step getting in the way.',
     heroBullets: [
       twitterCascadeBase.paymentLabel,
       'Useful for live research, trend checks, and pulling recent social context into an agent workflow.',
-      'No example prompt yet because Alby products do not support this payment path today.',
+      'Get fresh Twitter results on demand instead of relying on stale summaries.',
     ],
     whyItWorksTitle: 'Why this would be powerful for Claude',
     whyItWorks: [
       'Claude becomes much more useful when it can access fresh social context instead of relying only on static web pages.',
       'This avoids the classic workflow break where the user has to create an account or manually fetch data.',
-      'The product gap here is support, not demand for the result.',
+      'The agent can pull fresh social context exactly when it is needed.',
     ],
     useCases: ['Find top tweets about Bitcoin in the last 24 hours', 'Pull examples for a market commentary draft', 'Track public reactions to an announcement or product launch'],
     cta: solanaComingSoonCta('claude'),
@@ -316,19 +316,19 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with Codex using Twitter Cascade',
     description:
-      'Enable Codex to search Twitter with Twitter Cascade for live research tasks. No sign-up, no email, no subscription, and Alby support is coming soon.',
+      'Enable Codex to search Twitter with Twitter Cascade for live research tasks. No sign-up, no email, no subscription, and no human needed to keep the workflow moving.',
     heroSummary:
-      'Codex workflows often need fresh live data for demos, dashboards, or research tooling. Twitter Cascade is a useful fit, but the current Solana payment path is not yet supported in Alby products.',
+      'Twitter Cascade gives Codex live tweet search it can use for dashboards, docs, and research tooling without another account-setup interruption.',
     heroBullets: [
       twitterCascadeBase.paymentLabel,
       'Useful for live research, trend checks, and pulling recent social context into an agent workflow.',
-      'No example prompt yet because Alby products do not support this payment path today.',
+      'Get fresh Twitter results on demand instead of relying on stale summaries.',
     ],
     whyItWorksTitle: 'Why this would be powerful for Codex',
     whyItWorks: [
       'Codex could pipe live tweet search directly into code, docs, dashboards, or automation.',
       'Developers should not need to stop and wire up another account just to fetch a research result.',
-      'Once payment support lands, this becomes a strong pay-on-demand data source.',
+      'This makes live social search a strong fit for code, docs, and automation workflows.',
     ],
     useCases: ['Feed live tweet data into a prototype dashboard', 'Pull social examples into generated docs', 'Research current public discussion for an app or narrative'],
     cta: solanaComingSoonCta('codex'),
@@ -340,19 +340,19 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with Hermes using Twitter Cascade',
     description:
-      'Enable Hermes to search Twitter with Twitter Cascade for live research and monitoring. No sign-up, no email, no subscription, and support for Alby users is coming soon.',
+      'Enable Hermes to search Twitter with Twitter Cascade for live research and monitoring. No sign-up, no email, no subscription, and no human needed to keep the workflow moving.',
     heroSummary:
-      'Hermes would be able to use Twitter Cascade for fast social search inside research and monitoring workflows, but this endpoint currently uses a Solana payment flow that Alby products do not support yet.',
+      'Twitter Cascade gives Hermes fast social search for research and monitoring workflows without another account-creation detour.',
     heroBullets: [
       twitterCascadeBase.paymentLabel,
       'Useful for live research, trend checks, and pulling recent social context into an agent workflow.',
-      'No example prompt yet because Alby products do not support this payment path today.',
+      'Get fresh Twitter results on demand instead of relying on stale summaries.',
     ],
     whyItWorksTitle: 'Why this would be powerful for Hermes',
     whyItWorks: [
       'Hermes workflows often benefit from fresh social data alongside web and repo research.',
       'This kind of tool fits autonomous monitoring, summarization, and alerting tasks well.',
-      'The main blocker right now is payment compatibility, not the value of the endpoint.',
+      'It adds fast social context to a broader autonomous research loop.',
     ],
     useCases: ['Monitor top Bitcoin tweets for ecosystem reports', 'Pull fresh social context into research summaries', 'Track sentiment shifts during breaking news events'],
     cta: solanaComingSoonCta('hermes'),
