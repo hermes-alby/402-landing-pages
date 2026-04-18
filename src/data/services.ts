@@ -64,16 +64,16 @@ const solanaComingSoonPath = `${import.meta.env.BASE_URL}coming-soon/twitter-cas
 
 const albyInstallCta: Cta = {
   title: 'Install the Alby Payments Skill',
-  helper: 'Gives your agent access to useful services without sign-up.',
+  helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
   href: installPath,
   buttonLabel: 'Install now',
 };
 
 const solanaComingSoonCta: Cta = {
-  title: 'Support for this service is coming soon',
-  helper: 'This endpoint currently uses Solana, so Alby products do not support it yet.',
+  title: 'Install the Alby Payments Skill',
+  helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
   href: solanaComingSoonPath,
-  buttonLabel: 'Coming soon',
+  buttonLabel: 'Install now',
 };
 
 const bitcoinFaq: FaqItem[] = [
@@ -129,8 +129,8 @@ const payperqBase = {
   endpointUrl: 'https://api.ppq.ai/v1/images/generations/gpt-image-1.5',
   resultLabel: 'Generate polished images on demand',
   category: 'Image generation',
-  priceLabel: 'Example cost paid: 182 sats',
-  paymentLabel: 'No sign-up. No subscription. No human needed.',
+  priceLabel: '$0.08',
+  paymentLabel: 'No sign-up. No email. No subscription. Pay per use. No human needed.',
   exampleOutput: {
     kind: 'image' as const,
     title: 'Example output',
@@ -138,7 +138,7 @@ const payperqBase = {
       'Example output section showing the kind of visual result this page is about, together with an example paid request cost.',
     imageSrc: `${import.meta.env.BASE_URL}mock-payperq-output.svg`,
     imageAlt: 'Example generated campaign-style image for PayPerQ GPT Image 1.5',
-    details: ['Service: PayPerQ', 'Endpoint: GPT Image 1.5', 'Cost paid: 182 sats', 'Flow: paid on demand without sign-up'],
+    details: ['Service: PayPerQ', 'Endpoint: GPT Image 1.5', 'Cost: $0.08', 'Flow: pay per use with no sign-up or email'],
   },
   examplePromptHeading: 'Example prompt',
   faq: bitcoinFaq,
@@ -152,8 +152,8 @@ const twitterCascadeBase = {
   endpointUrl: 'https://twitter.surf.cascade.fyi/tweets/search',
   resultLabel: 'Search and summarize live Twitter results on demand',
   category: 'Social search',
-  priceLabel: 'Example cost paid: 0.00025 SOL',
-  paymentLabel: 'No sign-up. No subscription. Support for Alby users is coming soon.',
+  priceLabel: '$0.04',
+  paymentLabel: 'No sign-up. No email. No subscription. Pay per use. Support for Alby users is coming soon.',
   exampleOutput: {
     kind: 'table' as const,
     title: 'Example output',
@@ -167,7 +167,7 @@ const twitterCascadeBase = {
       { author: '@pete_rizzo_', tweet: 'Charles Schwab actively buying/selling Bitcoin, crypto trading live within weeks', likes: '307' },
       { author: '@TrendingBitcoin', tweet: 'Research: BTC could hit $1M by 2027, $5M by 2031', likes: '168' },
     ],
-    details: ['Service: Twitter Cascade', 'Endpoint: tweet search', 'Query example: bitcoin since:2026-04-16', 'Example cost paid: 0.00025 SOL'],
+    details: ['Service: Twitter Cascade', 'Endpoint: tweet search', 'Query example: bitcoin since:2026-04-16', 'Cost: $0.04'],
   },
   faq: twitterCascadeFaq,
   cta: solanaComingSoonCta,
@@ -181,7 +181,7 @@ export const variants: LandingVariant[] = [
     slug: 'payperq-gpt-image-1-5',
     title: 'Generate images with OpenClaw using PayPerQ GPT Image 1.5',
     description:
-      'Enable OpenClaw to generate polished images with PayPerQ. No sign-up, no subscription, and no human needed to unblock the workflow.',
+      'Enable OpenClaw to generate polished images with PayPerQ. No sign-up, no email, no subscription, and no human needed to unblock the workflow.',
     heroSummary:
       'Use OpenClaw to create campaign visuals, concept art, and launch graphics with PayPerQ’s GPT Image 1.5 endpoint without stopping to create an account or hand the task back to a human.',
     heroBullets: [
@@ -206,7 +206,7 @@ export const variants: LandingVariant[] = [
     slug: 'payperq-gpt-image-1-5',
     title: 'Generate images with Claude using PayPerQ GPT Image 1.5',
     description:
-      'Enable Claude to generate images with PayPerQ. No sign-up, no subscription, and no human needed to get from prompt to result.',
+      'Enable Claude to generate images with PayPerQ. No sign-up, no email, no subscription, and no human needed to get from prompt to result.',
     heroSummary:
       'Turn Claude into a practical image-generation assistant by giving it access to PayPerQ’s GPT Image 1.5 endpoint for polished mockups, illustrations, and visual ideation without workflow-breaking signup friction.',
     heroBullets: [
@@ -231,7 +231,7 @@ export const variants: LandingVariant[] = [
     slug: 'payperq-gpt-image-1-5',
     title: 'Generate images with Codex using PayPerQ GPT Image 1.5',
     description:
-      'Enable Codex to generate images with PayPerQ right inside a working dev flow — no sign-up, no subscription, no human needed.',
+      'Enable Codex to generate images with PayPerQ right inside a working dev flow — no sign-up, no email, no subscription, no human needed.',
     heroSummary:
       'Let Codex generate launch graphics, README visuals, and demo assets from the same environment where it writes code by calling PayPerQ’s GPT Image 1.5 endpoint on demand.',
     heroBullets: [
@@ -256,7 +256,7 @@ export const variants: LandingVariant[] = [
     slug: 'payperq-gpt-image-1-5',
     title: 'Generate images with Hermes using PayPerQ GPT Image 1.5',
     description:
-      'Enable Hermes to generate images with PayPerQ for launches, content, and prototypes — no sign-up, no subscription, no human needed.',
+      'Enable Hermes to generate images with PayPerQ for launches, content, and prototypes — no sign-up, no email, no subscription, no human needed.',
     heroSummary:
       'Give Hermes direct access to PayPerQ’s GPT Image 1.5 endpoint so it can create visuals inside a broader autonomous workflow without handing the task back to a human for account setup.',
     heroBullets: [
@@ -281,7 +281,7 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with OpenClaw using Twitter Cascade',
     description:
-      'Enable OpenClaw to search live Twitter results with Twitter Cascade. No sign-up, no subscription, and support for Alby users is coming soon.',
+      'Enable OpenClaw to search live Twitter results with Twitter Cascade. No sign-up, no email, no subscription, and support for Alby users is coming soon.',
     heroSummary:
       'Twitter Cascade is the kind of social search service an agent should be able to call without account friction. For now, this Solana-based payment flow is not yet supported by Alby products.',
     heroBullets: [
@@ -304,7 +304,7 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with Claude using Twitter Cascade',
     description:
-      'Enable Claude to search Twitter with Twitter Cascade. No sign-up, no subscription, and Alby support for this service is coming soon.',
+      'Enable Claude to search Twitter with Twitter Cascade. No sign-up, no email, no subscription, and Alby support for this service is coming soon.',
     heroSummary:
       'This is a strong example of a service Claude should be able to use directly for live social research, but the current payment path is Solana-only so the Alby-directed flow is not live yet.',
     heroBullets: [
@@ -327,7 +327,7 @@ export const variants: LandingVariant[] = [
     slug: 'twitter-cascade-search',
     title: 'Search Twitter with Codex using Twitter Cascade',
     description:
-      'Enable Codex to search Twitter with Twitter Cascade for live research tasks. No sign-up, no subscription, and Alby support is coming soon.',
+      'Enable Codex to search Twitter with Twitter Cascade for live research tasks. No sign-up, no email, no subscription, and Alby support is coming soon.',
     heroSummary:
       'Codex workflows often need fresh live data for demos, dashboards, or research tooling. Twitter Cascade is a useful fit, but the current Solana payment path is not yet supported in Alby products.',
     heroBullets: [
