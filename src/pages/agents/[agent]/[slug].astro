@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import ActionCta from '../../../components/ActionCta.astro';
+import IdentityLine from '../../../components/IdentityLine.astro';
 import { variants } from '../../../data/build-variants';
 
 export function getStaticPaths() {
@@ -20,13 +21,14 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
   <article class="page">
     <section class="hero panel">
       <div class="hero-main">
-        <div class="meta-row">
-          <img class="agent-logo" src={variant.agentLogoSrc} alt={`${variant.agentName} logo`} />
-          <span class="pill">{variant.agentName}</span>
-          <span class="service-pill">{variant.providerName} · {variant.serviceName}</span>
-        </div>
+        <IdentityLine
+          agentLogoSrc={variant.agentLogoSrc}
+          agentName={variant.agentName}
+          providerLogoSrc={variant.providerLogoSrc}
+          providerName={variant.providerName}
+          description={variant.description}
+        />
         <h1>{variant.title}</h1>
-        <p class="tagline">{variant.description}</p>
         <p class="summary">{variant.heroSummary}</p>
         <ul class="hero-points">
           {variant.heroBullets.map((item) => (
@@ -181,28 +183,6 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
     margin: 0.6rem 0;
     font-size: clamp(2.1rem, 4vw, 3.4rem);
     line-height: 1.05;
-  }
-  .meta-row {
-    display: flex;
-    gap: 0.75rem;
-    align-items: center;
-    flex-wrap: wrap;
-  }
-  .agent-logo {
-    width: 52px;
-    height: 52px;
-    border-radius: 16px;
-    border: 1px solid rgba(255,255,255,0.08);
-    box-shadow: var(--shadow);
-  }
-  .service-pill {
-    color: var(--warn);
-    font-weight: 700;
-  }
-  .tagline {
-    margin: 0;
-    font-size: 1.15rem;
-    line-height: 1.55;
   }
   .summary {
     color: var(--muted);

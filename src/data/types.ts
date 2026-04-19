@@ -57,6 +57,7 @@ export type InstallFlow =
 export type Provider = {
   key: string;
   name: string;
+  logoSrc: string;
   websiteUrl: string;
   supportStatus: SupportStatus;
   lastCheckedAt: string;
@@ -92,6 +93,7 @@ export type LandingVariant = {
   agentLogoSrc: string;
   providerKey: string;
   providerName: string;
+  providerLogoSrc: string;
   providerLastCheckedAt: string;
   serviceKey: string;
   serviceName: string;

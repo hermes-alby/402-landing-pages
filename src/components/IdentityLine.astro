@@ -1,0 +1,94 @@
+---
+type Props = {
+  agentLogoSrc: string;
+  agentName: string;
+  providerLogoSrc: string;
+  providerName: string;
+  description: string;
+  compact?: boolean;
+};
+
+const {
+  agentLogoSrc,
+  agentName,
+  providerLogoSrc,
+  providerName,
+  description,
+  compact = false,
+} = Astro.props as Props;
+---
+
+<div class:list={['identity-line', compact && 'compact']}>
+  <span class="identity-group">
+    <img class="identity-logo" src={agentLogoSrc} alt={`${agentName} logo`} />
+    <span class="identity-name">{agentName}</span>
+  </span>
+  <span class="identity-separator" aria-hidden="true">+</span>
+  <span class="identity-group">
+    <img class="identity-logo" src={providerLogoSrc} alt={`${providerName} logo`} />
+    <span class="identity-name">{providerName}</span>
+  </span>
+  <span class="identity-dot" aria-hidden="true">·</span>
+  <span class="identity-description">{description}</span>
+</div>
+
+<style>
+  .identity-line {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    color: var(--muted);
+    line-height: 1.5;
+    font-size: 1rem;
+  }
+
+  .identity-group {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    min-width: 0;
+  }
+
+  .identity-logo {
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.03);
+    object-fit: contain;
+    box-shadow: var(--shadow);
+  }
+
+  .identity-name {
+    color: var(--text);
+    font-weight: 700;
+  }
+
+  .identity-separator,
+  .identity-dot {
+    color: var(--warn);
+    font-weight: 700;
+  }
+
+  .identity-description {
+    min-width: 16rem;
+    flex: 1 1 20rem;
+  }
+
+  .compact {
+    font-size: 0.92rem;
+    gap: 0.45rem;
+  }
+
+  .compact .identity-logo {
+    width: 24px;
+    height: 24px;
+    border-radius: 8px;
+  }
+
+  .compact .identity-description {
+    min-width: 12rem;
+    flex-basis: 100%;
+  }
+</style>

@@ -85,6 +85,7 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
       agentLogoSrc: agent.logoSrc,
       providerKey: provider.key,
       providerName: provider.name,
+      providerLogoSrc: provider.logoSrc,
       providerLastCheckedAt: provider.lastCheckedAt,
       serviceKey: service.key,
       serviceName: serviceDisplayName,
