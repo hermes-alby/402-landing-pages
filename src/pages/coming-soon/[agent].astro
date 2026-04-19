@@ -29,11 +29,17 @@ const description = `Explore services available now for ${currentAgent?.name ?? 
     </div>
 
     <section class="supported-now">
-      <h2>Available now</h2>
+      <div class="section-title-with-icon">
+        {currentAgent && <img class="section-agent-logo" src={currentAgent.logoSrc} alt={`${currentAgent.name} logo`} />}
+        <h2>Available now for {currentAgent?.name ?? 'your agent'}</h2>
+      </div>
       <div class="cards">
         {supportedToday.map((variant) => (
           <a class="card" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
-            <strong>{variant.providerName}</strong>
+            <span class="card-provider-row">
+              <img class="card-provider-logo" src={variant.providerLogoSrc} alt={`${variant.providerName} logo`} />
+              <strong>{variant.providerName}</strong>
+            </span>
             <span>{variant.serviceName}</span>
             <p>{variant.description}</p>
           </a>
@@ -77,6 +83,23 @@ const description = `Explore services available now for ${currentAgent?.name ?? 
   .capture h2 {
     margin-bottom: 0.9rem;
   }
+  .section-title-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.9rem;
+  }
+  .section-agent-logo {
+    width: 30px;
+    height: 30px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.08);
+    object-fit: contain;
+    background: rgba(255,255,255,0.03);
+  }
+  .section-title-with-icon h2 {
+    margin: 0;
+  }
   .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -91,9 +114,21 @@ const description = `Explore services available now for ${currentAgent?.name ?? 
     border: 1px solid rgba(255, 255, 255, 0.08);
   }
   .card strong {
-    display: block;
     color: var(--text);
+  }
+  .card-provider-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
     margin-bottom: 0.25rem;
+  }
+  .card-provider-logo {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,0.08);
+    object-fit: contain;
+    background: rgba(255,255,255,0.03);
   }
   .panel-inner {
     padding: 1.4rem 1.5rem;
