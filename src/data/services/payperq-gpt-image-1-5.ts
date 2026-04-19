@@ -25,7 +25,7 @@ const service = createServiceDefinition({
     details: ['Provider: PayPerQ', 'Service: GPT Image 1.5', buildCostDetail(pricing), 'Flow: pay per use with no sign-up or email'],
   },
   examplePrompt:
-    'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition, and pay using the Alby Payments Skill.',
+    'Create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition using PayPerQ with the Alby payments skill.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Generate images with ${agentName} using ${providerName} ${serviceName}`,
   variantDescription: ({ agentName, providerName, serviceName }) =>
     `Enable ${agentName} to generate polished images with ${providerName} ${serviceName}. No sign-up, no email, no subscription, and no human needed to unblock the workflow.`,

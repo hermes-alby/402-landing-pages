@@ -46,7 +46,7 @@ const service = createServiceDefinition({
   },
   examplePromptHeading: 'Example prompt',
   examplePrompt:
-    'Generate a concise release note summary for a Bitcoin wallet update using a friendly, technical tone and include 3 bullet points.',
+    'Generate a concise release note summary from wallet-release-2026-04-20.md using Sats4AI with the Alby payments skill. Use a friendly, technical tone and include 3 bullet points.',
   variantTitle: ({ agentName, providerName }) => `Generate text with ${agentName} using ${providerName}`,
   variantDescription: ({ agentName, providerName, priceLabel }) =>
     `Enable ${agentName} to generate drafts, summaries, and chat-style text with ${providerName} using ${priceLabel} instead of prepaid API plans.`,

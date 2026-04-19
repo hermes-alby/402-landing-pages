@@ -43,7 +43,7 @@ const service = createServiceDefinition({
   },
   examplePromptHeading: 'Example prompt',
   examplePrompt:
-    'Translate the following text to Spanish using Sats4AI: "Hello world from Bitcoin. This is a manual provider activation test for the 402 landing pages project."',
+    'Translate hello-world-activation-note-2026-04-20.txt to Spanish using Sats4AI with the Alby payments skill.',
   variantTitle: ({ agentName, providerName }) => `Translate text with ${agentName} using ${providerName}`,
   variantDescription: ({ agentName, providerName, priceLabel }) =>
     `Enable ${agentName} to translate text across 119 languages with ${providerName} for ${priceLabel}, with no account, no API key, and no human needed after setup.`,

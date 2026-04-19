@@ -39,14 +39,8 @@ const service = createServiceDefinition({
     ],
   },
   examplePromptHeading: 'Example prompt',
-  examplePrompt: `Convert this Markdown meeting brief into a shareable PDF: "# Sprint update
-
-## Shipped
-- Added NWC support
-- Fixed webhook retries
-
-## Next
-- Ship provider registry"`,
+  examplePrompt:
+    'Convert board-meeting-2026-04-20.md into a shareable PDF using Sats4AI with the Alby payments skill.',
   variantTitle: ({ agentName, providerName }) => `Convert HTML or Markdown to PDF with ${agentName} using ${providerName}`,
   variantDescription: ({ agentName, providerName, priceLabel }) =>
     `Enable ${agentName} to turn HTML or Markdown into shareable PDFs with ${providerName} for ${priceLabel} instead of hand-building export workflows or paid SaaS seats.`,

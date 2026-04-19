@@ -25,7 +25,7 @@ const service = createServiceDefinition({
     details: ['Provider: llm402.ai', 'Service: FLUX.1-schnell image generation', 'Endpoint: /v1/images/generations', buildCostDetail(pricing)],
   },
   examplePrompt:
-    'Use llm402.ai to generate an image with model black-forest-labs/FLUX.1-schnell and prompt: A vending machine dispensing AI-generated artwork for lightning bolt coins, each slot showing a different image style, pixel art.',
+    'Generate a pixel-art vending machine dispensing AI-generated artwork for lightning bolt coins, with each slot showing a different image style, using llm402.ai with the Alby payments skill.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Generate images with ${agentName} using ${providerName} ${serviceName}`,
   variantDescription: ({ agentName, providerName, serviceName, priceLabel }) =>
     `Enable ${agentName} to generate images through ${providerName} ${serviceName} for ${priceLabel}, with no account, no API key, no prepaid balance, and no human needed.`,

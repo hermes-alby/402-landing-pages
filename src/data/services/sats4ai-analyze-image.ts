@@ -40,7 +40,7 @@ const service = createServiceDefinition({
   },
   examplePromptHeading: 'Example prompt',
   examplePrompt:
-    'Analyze this screenshot and tell me what the page is for, what the main CTA is, and whether any error state is visible.',
+    'Analyze dashboard-checkout-2026-04-20.png using Sats4AI with the Alby payments skill, then tell me what the page is for, what the main CTA is, and whether any error state is visible.',
   variantTitle: ({ agentName, providerName }) => `Analyze images with ${agentName} using ${providerName}`,
   variantDescription: ({ agentName, providerName, priceLabel }) =>
     `Enable ${agentName} to inspect screenshots, diagrams, and photos with ${providerName} for ${priceLabel} instead of waiting for manual visual review each time.`,

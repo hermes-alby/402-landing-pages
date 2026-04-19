@@ -29,7 +29,7 @@ const service = createServiceDefinition({
     details: ['Provider: Pull That Up Jamie', 'Service: Search Quotes', 'Endpoint: /api/search-quotes', buildCostDetail(pricing)],
   },
   examplePrompt:
-    'Search podcast transcripts for quotes about Lightning changing internet payments, then return the exact quote text, episode title, clip link, and timestamp.',
+    'Search podcast transcripts for quotes about Lightning changing internet payments, then return the exact quote text, episode title, clip link, and timestamp using Pull That Up Jamie with the Alby payments skill.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Search podcasts with ${agentName} using ${providerName} ${serviceName}`,
   variantDescription: ({ agentName, providerName, serviceName, priceLabel }) =>
     `Enable ${agentName} to search inside podcast audio with ${providerName}. Pull exact spoken quotes, timestamps, clip links, and episode context for ${priceLabel}.`,

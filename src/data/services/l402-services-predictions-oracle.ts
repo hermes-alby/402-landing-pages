@@ -33,7 +33,8 @@ const service = createServiceDefinition({
       'The Israel-Hezbollah ceasefire market is today’s most interesting live signal. The “June 30” outcome jumped +21pp in a single day to 87.6% on $1.8M volume, making it the kind of move an agent can treat as a lead for deeper research.',
     ],
   },
-  examplePrompt: 'Fetch the latest predictions oracle briefing and surface the strongest momentum, high-confidence, and volume-spike signals.',
+  examplePrompt:
+    'Fetch the latest predictions oracle briefing and surface the strongest momentum, high-confidence, and volume-spike signals using L402 Services with the Alby payments skill.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Get prediction-market briefings with ${agentName} using ${providerName} ${serviceName}`,
   variantDescription: ({ agentName, providerName, serviceName, priceLabel }) =>
     `Enable ${agentName} to buy a structured intelligence briefing from ${providerName} ${serviceName} for ${priceLabel}, with no account, no API key, and no human needed.`,
