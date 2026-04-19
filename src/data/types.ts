@@ -57,8 +57,6 @@ export type Provider = {
   name: string;
   websiteUrl: string;
   supportStatus: SupportStatus;
-  sectionTitle: string;
-  sectionDescription: string;
 };
 
 export type ServiceDefinition = {

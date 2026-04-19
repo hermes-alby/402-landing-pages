@@ -1,7 +1,8 @@
-import { buildGenericLandingFaq } from '../faqs';
+import { createServiceDefinition } from '../service-factory';
 import type { ServiceDefinition } from '../types';
 
-const service = {
+const service = createServiceDefinition({
+  copyFamily: 'image-generation',
   key: 'payperq-gpt-image-1-5',
   providerKey: 'payperq',
   name: 'GPT Image 1.5',
@@ -9,7 +10,6 @@ const service = {
   resultLabel: 'Generate polished images on demand',
   category: 'Image generation',
   priceLabel: '$0.08',
-  paymentLabel: 'No sign-up. No email. No subscription. Pay per use. No human needed.',
   exampleOutput: {
     kind: 'image',
     title: 'Example output',
@@ -19,7 +19,6 @@ const service = {
     imageAlt: 'Example generated campaign-style image for PayPerQ GPT Image 1.5',
     details: ['Provider: PayPerQ', 'Service: GPT Image 1.5', 'Cost: $0.08', 'Flow: pay per use with no sign-up or email'],
   },
-  examplePromptHeading: 'Example prompt',
   examplePrompt:
     'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition, and pay using the Alby Payments Skill.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Generate images with ${agentName} using ${providerName} ${serviceName}`,
@@ -27,12 +26,10 @@ const service = {
     `Enable ${agentName} to generate polished images with ${providerName} ${serviceName}. No sign-up, no email, no subscription, and no human needed to unblock the workflow.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} direct access to ${providerName}'s ${serviceName} endpoint so it can create campaign visuals, concept art, and launch graphics without stopping to create an account or hand the task back to a human.`,
-  heroBullets: ({ paymentLabel }) => [
-    paymentLabel,
+  heroBulletHighlights: () => [
     'Use a real service on demand instead of creating another account.',
     'Let the agent keep going instead of handing the task back to you.',
   ],
-  whyItWorksTitle: ({ agentName }) => `Why this works for ${agentName}`,
   whyItWorks: ({ agentName, providerName, serviceName }) => [
     `${agentName} can keep moving instead of pausing to ask a human to sign up for yet another tool.`,
     `Pay-on-demand access to ${providerName} ${serviceName} is a better fit for experimentation than adding a subscription before the workflow proves useful.`,
@@ -43,11 +40,8 @@ const service = {
     'Create concept art while iterating on product ideas',
     'Produce blog or social images inside a broader agent workflow',
   ],
-  faq: ({ providerName, serviceName }) =>
-    buildGenericLandingFaq({
-      providerName,
-      resultDescription: `${providerName} ${serviceName} can return polished generated images that agents can use for launch assets, mockups, and visual ideation workflows.`,
-    }),
-} satisfies ServiceDefinition;
+  faqResultDescription: ({ providerName, serviceName }) =>
+    `${providerName} ${serviceName} can return polished generated images that agents can use for launch assets, mockups, and visual ideation workflows.`,
+}) satisfies ServiceDefinition;
 
 export default service;
