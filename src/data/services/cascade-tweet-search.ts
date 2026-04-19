@@ -9,6 +9,8 @@ const service = createServiceDefinition({
   endpointUrl: 'https://twitter.surf.cascade.fyi/tweets/search',
   resultLabel: 'Search and summarize live Twitter results on demand',
   category: 'Social search',
+  supportStatus: 'coming-soon',
+  lastCheckedAt: '2026-04-19',
   priceLabel: '$0.04',
   exampleOutput: {
     kind: 'table',

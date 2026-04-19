@@ -4,6 +4,7 @@ const provider = {
   key: 'llm402',
   name: 'llm402.ai',
   websiteUrl: 'https://llm402.ai',
+  lastCheckedAt: '2026-04-19',
   supportStatus: 'supported',
 } satisfies Provider;
 

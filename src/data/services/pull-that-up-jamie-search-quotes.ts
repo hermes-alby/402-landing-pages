@@ -9,6 +9,8 @@ const service = createServiceDefinition({
   endpointUrl: 'https://www.pullthatupjamie.ai/api/search-quotes',
   resultLabel: 'Find exact spoken podcast moments with timestamps and clip links',
   category: 'Podcast search',
+  supportStatus: 'supported',
+  lastCheckedAt: '2026-04-19',
   priceLabel: '6 sats',
   exampleOutput: {
     kind: 'table',

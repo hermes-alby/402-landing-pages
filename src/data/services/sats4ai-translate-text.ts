@@ -8,6 +8,8 @@ const service = createServiceDefinition({
   endpointUrl: 'https://sats4ai.com/api/l402/translate-text',
   resultLabel: 'Translate text across 119 languages with a real paid API call',
   category: 'Translation',
+  supportStatus: 'supported',
+  lastCheckedAt: '2026-04-19',
   priceLabel: '1 sat per 1,000 characters (+ routing fees)',
   exampleOutput: {
     kind: 'table',

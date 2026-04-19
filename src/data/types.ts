@@ -57,6 +57,7 @@ export type Provider = {
   name: string;
   websiteUrl: string;
   supportStatus: SupportStatus;
+  lastCheckedAt: string;
 };
 
 export type ServiceDefinition = {
@@ -66,6 +67,8 @@ export type ServiceDefinition = {
   endpointUrl: string;
   resultLabel: string;
   category: string;
+  supportStatus: SupportStatus;
+  lastCheckedAt: string;
   priceLabel: string;
   paymentLabel: string;
   exampleOutput: ExampleOutput;
@@ -87,8 +90,10 @@ export type LandingVariant = {
   agentLogoSrc: string;
   providerKey: string;
   providerName: string;
+  providerLastCheckedAt: string;
   serviceKey: string;
   serviceName: string;
+  serviceLastCheckedAt: string;
   slug: string;
   endpointUrl: string;
   resultLabel: string;
