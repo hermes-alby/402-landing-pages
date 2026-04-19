@@ -36,6 +36,8 @@ export type ExampleTableOutput = {
 
 export type ExampleOutput = ExampleImageOutput | ExampleTableOutput;
 
+export type { ServicePrice } from './pricing';
+
 export type Agent = {
   key: string;
   name: string;
@@ -69,18 +71,18 @@ export type ServiceDefinition = {
   category: string;
   supportStatus: SupportStatus;
   lastCheckedAt: string;
-  priceLabel: string;
+  pricing: import('./pricing').ServicePrice;
   paymentLabel: string;
   exampleOutput: ExampleOutput;
   examplePrompt?: string;
   examplePromptHeading?: string;
-  variantTitle: (context: { agentName: string; providerName: string; serviceName: string }) => string;
-  variantDescription: (context: { agentName: string; providerName: string; serviceName: string }) => string;
-  heroSummary: (context: { agentName: string; providerName: string; serviceName: string }) => string;
-  heroBullets: (context: { agentName: string; providerName: string; serviceName: string; paymentLabel: string }) => string[];
-  whyItWorksTitle: (context: { agentName: string; providerName: string; serviceName: string }) => string;
-  whyItWorks: (context: { agentName: string; providerName: string; serviceName: string }) => string[];
-  useCases: (context: { agentName: string; providerName: string; serviceName: string }) => string[];
+  variantTitle: (context: { agentName: string; providerName: string; serviceName: string; priceLabel: string }) => string;
+  variantDescription: (context: { agentName: string; providerName: string; serviceName: string; priceLabel: string }) => string;
+  heroSummary: (context: { agentName: string; providerName: string; serviceName: string; priceLabel: string }) => string;
+  heroBullets: (context: { agentName: string; providerName: string; serviceName: string; paymentLabel: string; priceLabel: string }) => string[];
+  whyItWorksTitle: (context: { agentName: string; providerName: string; serviceName: string; priceLabel: string }) => string;
+  whyItWorks: (context: { agentName: string; providerName: string; serviceName: string; priceLabel: string }) => string[];
+  useCases: (context: { agentName: string; providerName: string; serviceName: string; priceLabel: string }) => string[];
   faq: (context: { providerName: string; serviceName: string }) => FaqItem[];
 };
 

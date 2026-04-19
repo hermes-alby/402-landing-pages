@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createSatsFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createSatsFixedPrice(50, 'per PDF conversion');
 
 const service = createServiceDefinition({
   key: 'sats4ai-convert-html-to-pdf',
@@ -10,7 +13,7 @@ const service = createServiceDefinition({
   category: 'Document conversion',
   supportStatus: 'coming-soon',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '50 sats per PDF conversion',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'What this endpoint is built for',
@@ -24,8 +27,9 @@ const service = createServiceDefinition({
     ],
     details: [
       'Provider: Sats4AI',
-      'Service: convert-html-to-pdf',
+      'Service: Convert HTML to PDF',
       'Endpoint: /api/l402/convert-html-to-pdf',
+      buildCostDetail(pricing),
       'Checked: live schema confirmed on 2026-04-19',
     ],
     briefingTitle: 'Why this matters for agents',
@@ -34,7 +38,7 @@ const service = createServiceDefinition({
       'This landing page stays on the coming-soon path until we capture one real paid conversion run.',
     ],
   },
-  examplePromptHeading: 'Example request',
+  examplePromptHeading: 'Example prompt',
   examplePrompt: `Convert this Markdown meeting brief into a shareable PDF: "# Sprint update
 
 ## Shipped
@@ -44,8 +48,8 @@ const service = createServiceDefinition({
 ## Next
 - Ship provider registry"`,
   variantTitle: ({ agentName, providerName }) => `Convert HTML or Markdown to PDF with ${agentName} using ${providerName}`,
-  variantDescription: ({ agentName, providerName }) =>
-    `Enable ${agentName} to turn HTML or Markdown into shareable PDFs with ${providerName} instead of hand-building export workflows or paid SaaS seats.`,
+  variantDescription: ({ agentName, providerName, priceLabel }) =>
+    `Enable ${agentName} to turn HTML or Markdown into shareable PDFs with ${providerName} for ${priceLabel} instead of hand-building export workflows or paid SaaS seats.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can produce PDFs directly from structured content without bouncing through a browser export flow.`,
   heroBulletHighlights: () => [
@@ -63,7 +67,7 @@ const service = createServiceDefinition({
     'Archive agent-generated content in a PDF-friendly format',
   ],
   faqResultDescription: () =>
-    'Sats4AI convert-html-to-pdf is designed to return a generated PDF from HTML or Markdown input so agent workflows can end with a document, not just source markup.',
+    'Sats4AI Convert HTML to PDF is designed to return a generated PDF from HTML or Markdown input so agent workflows can end with a document, not just source markup.',
 }) satisfies ServiceDefinition;
 
 export default service;

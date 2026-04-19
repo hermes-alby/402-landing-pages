@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createSatsFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createSatsFixedPrice(6, 'per quote search');
 
 const service = createServiceDefinition({
   copyFamily: 'podcast-search',
@@ -11,39 +14,40 @@ const service = createServiceDefinition({
   category: 'Podcast search',
   supportStatus: 'supported',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '6 sats',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'Example output',
     caption:
-      'Example quote-search result based on the blog post test query for “LNCURL”, showing the kind of timestamped hit your agent can pull from inside a podcast transcript.',
-    columns: ['Episode', 'Creator', 'Moment'],
+      'Example quote-level output showing the kind of response an agent can get from one paid search across podcast transcripts.',
+    columns: ['Episode', 'Quote', 'Timestamp'],
     rows: [
-      ['Roundtable_018 - Everything is Fake and Gay', 'Bitcoin Audible', 'Host spells out “l n c u r l dot l o l” in the clip result'],
-      ['shareUrl', 'Pull That Up Jamie', 'Opens a clip player at the exact spoken moment'],
-      ['listenLink', 'Original episode', 'Links straight to the full episode page and transcript'],
+      ['The Tim Ferriss Show', 'Bitcoin will reshape global payments faster than most banks expect.', '00:14:22'],
+      ['Bankless', 'Lightning changes the economics of internet-native money.', '00:48:05'],
+      ['What Bitcoin Did', 'The real breakthrough is making money programmable and useful in apps.', '01:02:11'],
     ],
-    details: ['Provider: Pull That Up Jamie', 'Service: search-quotes', 'Endpoint: /api/search-quotes', 'Cost: 6 sats'],
+    details: ['Provider: Pull That Up Jamie', 'Service: Search Quotes', 'Endpoint: /api/search-quotes', buildCostDetail(pricing)],
   },
-  examplePrompt: 'Search podcast quotes for: LNCURL',
-  variantTitle: ({ agentName, providerName }) => `Search podcasts with ${agentName} using ${providerName}`,
-  variantDescription: ({ agentName, providerName }) =>
-    `Enable ${agentName} to search inside podcast audio with ${providerName}. Pull exact spoken quotes, timestamps, clip links, and episode context for just 6 sats.`,
+  examplePrompt:
+    'Search podcast transcripts for quotes about Lightning changing internet payments, then return the exact quote text, episode title, clip link, and timestamp.',
+  variantTitle: ({ agentName, providerName, serviceName }) => `Search podcasts with ${agentName} using ${providerName} ${serviceName}`,
+  variantDescription: ({ agentName, providerName, serviceName, priceLabel }) =>
+    `Enable ${agentName} to search inside podcast audio with ${providerName}. Pull exact spoken quotes, timestamps, clip links, and episode context for ${priceLabel}.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can find the exact moment a person, product, or topic was mentioned in a podcast and hand back the clip, episode, and surrounding context.`,
   heroBulletHighlights: () => [
-    'Returns timestamped spoken moments, not just show-level metadata.',
-    'Useful when ordinary web search cannot reach what was said inside audio.',
+    'Useful for research, fact-checking, sourcing, and editorial workflows.',
+    'Returns quote-level results with timestamps and clip links instead of vague summaries.',
   ],
   whyItWorks: ({ agentName, providerName }) => [
-    `${agentName} can search across spoken podcast content without making a human scrub through podcast apps manually.`,
-    `${providerName} returns structured results with clip URLs, episode links, and enough metadata to keep researching automatically.`,
-    'A single low-cost paid query can unlock the quote, the clip, the episode, and the transcript chain in one flow.',
+    `${agentName} can move from a vague topic to exact source material without asking a human to listen through long episodes manually.`,
+    `${providerName} turns audio search into a precise paid request instead of a subscription-heavy workflow.`,
+    'This is especially useful when an agent needs citations, clip links, or direct quotes before continuing the task.',
   ],
   useCases: () => [
-    'Find exact podcast mentions of a person, company, or product',
-    'Pull timestamped quotes into research summaries or reports',
-    'Track when a topic starts showing up in long-form audio before it spreads elsewhere',
+    'Find exact podcast quotes to support a research memo or article',
+    'Pull timestamped source material before drafting a summary',
+    'Search long-form audio for a product, topic, or person on demand',
   ],
   faqResultDescription: ({ providerName, serviceName }) =>
     `${providerName} ${serviceName} returns exact spoken podcast moments with timestamps, quote text, clip URLs, and links back to the original episode so agents can go deeper without manual audio review.`,

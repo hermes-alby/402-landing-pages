@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createSatsFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createSatsFixedPrice(21, 'per image analysis');
 
 const service = createServiceDefinition({
   key: 'sats4ai-analyze-image',
@@ -10,7 +13,7 @@ const service = createServiceDefinition({
   category: 'Vision analysis',
   supportStatus: 'coming-soon',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '21 sats per image analysis',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'What this endpoint is built for',
@@ -24,8 +27,9 @@ const service = createServiceDefinition({
     ],
     details: [
       'Provider: Sats4AI',
-      'Service: analyze-image',
+      'Service: Analyze Image',
       'Endpoint: /api/l402/analyze-image',
+      buildCostDetail(pricing),
       'Checked: live schema confirmed on 2026-04-19',
     ],
     briefingTitle: 'Why this is useful',
@@ -34,12 +38,12 @@ const service = createServiceDefinition({
       'This landing page stays on the coming-soon path until we run a real paid image-analysis request and capture the result.',
     ],
   },
-  examplePromptHeading: 'Example request',
+  examplePromptHeading: 'Example prompt',
   examplePrompt:
     'Analyze this screenshot and tell me what the page is for, what the main CTA is, and whether any error state is visible.',
   variantTitle: ({ agentName, providerName }) => `Analyze images with ${agentName} using ${providerName}`,
-  variantDescription: ({ agentName, providerName }) =>
-    `Enable ${agentName} to inspect screenshots, diagrams, and photos with ${providerName} instead of waiting for manual visual review each time.`,
+  variantDescription: ({ agentName, providerName, priceLabel }) =>
+    `Enable ${agentName} to inspect screenshots, diagrams, and photos with ${providerName} for ${priceLabel} instead of waiting for manual visual review each time.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can answer visual questions from screenshots and uploaded images without switching into a separate hosted workspace.`,
   heroBulletHighlights: () => [
@@ -57,7 +61,7 @@ const service = createServiceDefinition({
     'Summarize visual context before handing work to a human reviewer',
   ],
   faqResultDescription: () =>
-    'Sats4AI analyze-image is designed to return vision analysis from an image plus prompt, so agents can answer visual questions with a direct paid API call.',
+    'Sats4AI Analyze Image is designed to return vision analysis from an image plus prompt, so agents can answer visual questions with a direct paid API call.',
 }) satisfies ServiceDefinition;
 
 export default service;

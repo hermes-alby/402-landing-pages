@@ -1,6 +1,7 @@
 import { agents } from './agents';
 import { installFlows } from './install-flows';
 import { providers, providersByKey } from './providers';
+import { formatPriceLabel } from './pricing';
 import { serviceDefinitions } from './services/index';
 import type { Cta, LandingVariant } from './types';
 
@@ -17,6 +18,46 @@ const shuffleScore = (value: string) => {
   return hash;
 };
 
+
+const displayTokenMap: Record<string, string> = {
+  ai: 'AI',
+  api: 'API',
+  claude: 'Claude',
+  codex: 'Codex',
+  gpt: 'GPT',
+  html: 'HTML',
+  image: 'Image',
+  pdf: 'PDF',
+  flux: 'FLUX',
+  schnell: 'Schnell',
+  text: 'Text',
+  translate: 'Translate',
+  generate: 'Generate',
+  analyze: 'Analyze',
+  convert: 'Convert',
+  search: 'Search',
+  quotes: 'Quotes',
+  tweet: 'Tweet',
+  predictions: 'Predictions',
+  oracle: 'Oracle',
+};
+
+const formatServiceDisplayName = (name: string) =>
+  name
+    .split(/\s+/)
+    .flatMap((part) => part.split('-'))
+    .map((token) => {
+      const lower = token.toLowerCase();
+      if (displayTokenMap[lower]) {
+        return displayTokenMap[lower];
+      }
+      if (token !== token.toLowerCase()) {
+        return token;
+      }
+      return token.charAt(0).toUpperCase() + token.slice(1);
+    })
+    .join(' ');
+
 const buildCta = (agentKey: string, supportStatus: 'supported' | 'coming-soon'): Cta => ({
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
@@ -28,11 +69,14 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
   serviceDefinitions.map((service) => {
     const provider = providersByKey[service.providerKey];
     const supportStatus = service.supportStatus;
+    const priceLabel = formatPriceLabel(service.pricing);
+    const serviceDisplayName = formatServiceDisplayName(service.name);
     const context = {
       agentName: agent.name,
       providerName: provider.name,
-      serviceName: service.name,
+      serviceName: serviceDisplayName,
       paymentLabel: service.paymentLabel,
+      priceLabel,
     };
 
     return {
@@ -43,13 +87,13 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
       providerName: provider.name,
       providerLastCheckedAt: provider.lastCheckedAt,
       serviceKey: service.key,
-      serviceName: service.name,
+      serviceName: serviceDisplayName,
       serviceLastCheckedAt: service.lastCheckedAt,
       slug: service.key,
       endpointUrl: service.endpointUrl,
       resultLabel: service.resultLabel,
       category: service.category,
-      priceLabel: service.priceLabel,
+      priceLabel,
       paymentLabel: service.paymentLabel,
       title: service.variantTitle(context),
       description: service.variantDescription(context),
@@ -63,7 +107,7 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
       exampleOutput: service.exampleOutput,
       faq: service.faq({
         providerName: provider.name,
-        serviceName: service.name,
+        serviceName: serviceDisplayName,
       }),
       cta: buildCta(agent.key, supportStatus),
       supportStatus,
