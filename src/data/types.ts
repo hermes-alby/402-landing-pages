@@ -19,6 +19,8 @@ export type ExampleImageOutput = {
   imageSrc: string;
   imageAlt: string;
   details: string[];
+  briefingTitle?: string;
+  briefingParagraphs?: string[];
 };
 
 export type ExampleTableOutput = {
@@ -28,6 +30,8 @@ export type ExampleTableOutput = {
   columns: string[];
   rows: string[][];
   details: string[];
+  briefingTitle?: string;
+  briefingParagraphs?: string[];
 };
 
 export type ExampleOutput = ExampleImageOutput | ExampleTableOutput;

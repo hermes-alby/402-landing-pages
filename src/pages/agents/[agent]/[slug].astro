@@ -96,6 +96,14 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
               <p class="prompt-copy">{variant.examplePrompt}</p>
             </>
           )}
+          {variant.exampleOutput.briefingParagraphs?.length ? (
+            <div class="briefing-card">
+              <h3>{variant.exampleOutput.briefingTitle ?? 'Example briefing'}</h3>
+              {variant.exampleOutput.briefingParagraphs.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          ) : null}
           <ul>
             {variant.exampleOutput.details.map((item) => (
               <li>{item}</li>
@@ -270,6 +278,7 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
   .example-card figcaption,
   .table-caption,
   .output-meta,
+  .briefing-card p,
   details p,
   .related-link span,
   .mini-card p {
@@ -301,6 +310,17 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
   .prompt-copy {
     color: var(--muted);
     line-height: 1.7;
+  }
+  .briefing-card {
+    margin: 1.2rem 0;
+    padding: 1rem 1.1rem;
+    border-radius: 16px;
+    background: rgba(124, 200, 255, 0.08);
+    border: 1px solid rgba(124, 200, 255, 0.14);
+  }
+  .briefing-card h3 {
+    margin-top: 0;
+    margin-bottom: 0.75rem;
   }
   .output-meta ul,
   .bullet-list {
