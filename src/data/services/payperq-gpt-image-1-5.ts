@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createUsdFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createUsdFixedPrice(0.08, 'per image');
 
 const service = createServiceDefinition({
   copyFamily: 'image-generation',
@@ -11,7 +14,7 @@ const service = createServiceDefinition({
   category: 'Image generation',
   supportStatus: 'supported',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '$0.08',
+  pricing,
   exampleOutput: {
     kind: 'image',
     title: 'Example output',
@@ -19,7 +22,7 @@ const service = createServiceDefinition({
       'Example output section showing the kind of visual result this page is about, together with an example paid request cost.',
     imageSrc: `${import.meta.env.BASE_URL}mock-payperq-output.svg`,
     imageAlt: 'Example generated campaign-style image for PayPerQ GPT Image 1.5',
-    details: ['Provider: PayPerQ', 'Service: GPT Image 1.5', 'Cost: $0.08', 'Flow: pay per use with no sign-up or email'],
+    details: ['Provider: PayPerQ', 'Service: GPT Image 1.5', buildCostDetail(pricing), 'Flow: pay per use with no sign-up or email'],
   },
   examplePrompt:
     'Use the PPQ 402 API to generate a GPT 1.5 image with prompt: create a cinematic launch visual for a bitcoin productivity app with glowing amber accents and premium editorial composition, and pay using the Alby Payments Skill.',

@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createSatsRatePrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createSatsRatePrice({ sats: 1, unitAmount: 1000, unitLabel: 'characters', note: '+ routing fees' });
 
 const service = createServiceDefinition({
   key: 'sats4ai-translate-text',
@@ -10,7 +13,7 @@ const service = createServiceDefinition({
   category: 'Translation',
   supportStatus: 'supported',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '1 sat per 1,000 characters (+ routing fees)',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'Example output',
@@ -26,9 +29,10 @@ const service = createServiceDefinition({
     ],
     details: [
       'Provider: Sats4AI',
-      'Service: translate-text',
+      'Service: Translate Text',
       'Endpoint: /api/l402/translate-text',
-      'Observed cost: 1 sat translation + 1 sat routing fee',
+      buildCostDetail(pricing),
+      'Observed paid test: 1 sat translation + 1 sat routing fee',
       'Coverage: 119 languages',
     ],
     briefingTitle: 'What the paid test showed',
@@ -37,17 +41,17 @@ const service = createServiceDefinition({
       'This is a strong first activation endpoint because it is cheap, synchronous, and easy for a user to understand at a glance.',
     ],
   },
-  examplePromptHeading: 'Example request',
+  examplePromptHeading: 'Example prompt',
   examplePrompt:
     'Translate the following text to Spanish using Sats4AI: "Hello world from Bitcoin. This is a manual provider activation test for the 402 landing pages project."',
   variantTitle: ({ agentName, providerName }) => `Translate text with ${agentName} using ${providerName}`,
-  variantDescription: ({ agentName, providerName }) =>
-    `Enable ${agentName} to translate text across 119 languages with ${providerName} for about 1 sat per 1,000 characters, with no account, no API key, and no human needed after setup.`,
+  variantDescription: ({ agentName, providerName, priceLabel }) =>
+    `Enable ${agentName} to translate text across 119 languages with ${providerName} for ${priceLabel}, with no account, no API key, and no human needed after setup.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can turn source text into translated output on demand without stopping for signup, billing setup, or manual copy-paste work.`,
   heroBulletHighlights: () => [
     'Supports 119 languages with auto-detected source language.',
-    'Pricing is about 1,000 characters per sat, which keeps routine translation cheap inside larger autonomous workflows.',
+    'Low per-character pricing keeps routine translation cheap inside larger autonomous workflows.',
   ],
   whyItWorks: ({ agentName, providerName }) => [
     `${agentName} can translate short text immediately instead of stalling on account creation or switching to a separate SaaS dashboard.`,
@@ -60,7 +64,7 @@ const service = createServiceDefinition({
     'Add multilingual translation as a cheap helper step inside a broader agent workflow',
   ],
   faqResultDescription: () =>
-    'Sats4AI translate-text returns structured translation results with the translated text, detected source language, and requested target language, making it easy to slot into multilingual agent workflows.',
+    'Sats4AI Translate Text returns structured translation results with the translated text, detected source language, and requested target language, making it easy to slot into multilingual agent workflows.',
 }) satisfies ServiceDefinition;
 
 export default service;

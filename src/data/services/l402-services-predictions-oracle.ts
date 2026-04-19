@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createSatsFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createSatsFixedPrice(250, 'per briefing');
 
 const service = createServiceDefinition({
   copyFamily: 'research-intelligence',
@@ -11,7 +14,7 @@ const service = createServiceDefinition({
   category: 'Research intelligence',
   supportStatus: 'supported',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '250 sats (~$0.07)',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'Example output',
@@ -23,7 +26,7 @@ const service = createServiceDefinition({
       ['24h volume', '$1.8M', 'High volume makes the signal more credible than a thinly traded blip'],
       ['Outcome', 'Israel x Hezbollah ceasefire by June 30', 'The market is aggressively repricing this event in real time'],
     ],
-    details: ['Provider: L402 Services', 'Service: predictions oracle', 'Endpoint: /predictions/oracle', 'Cost: 250 sats (~$0.07)'],
+    details: ['Provider: L402 Services', 'Service: predictions oracle', 'Endpoint: /predictions/oracle', buildCostDetail(pricing)],
     briefingTitle: 'Example briefing',
     briefingParagraphs: [
       'The dominant signal today is the Iran conflict cluster, which is generating extraordinary volume and dramatic probability shifts simultaneously. The “US x Iran ceasefire by April 15” outcome moved +85pp in a single day to 99.65%, with nearly $40M in 24h volume.',
@@ -32,8 +35,8 @@ const service = createServiceDefinition({
   },
   examplePrompt: 'Fetch the latest predictions oracle briefing and surface the strongest momentum, high-confidence, and volume-spike signals.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Get prediction-market briefings with ${agentName} using ${providerName} ${serviceName}`,
-  variantDescription: ({ agentName, providerName, serviceName }) =>
-    `Enable ${agentName} to buy a structured intelligence briefing from ${providerName} ${serviceName} for 250 sats, with no account, no API key, and no human needed.`,
+  variantDescription: ({ agentName, providerName, serviceName, priceLabel }) =>
+    `Enable ${agentName} to buy a structured intelligence briefing from ${providerName} ${serviceName} for ${priceLabel}, with no account, no API key, and no human needed.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can turn live prediction-market activity into a readable briefing with momentum, confidence, volume, and shift signals in a single paid request.`,
   heroBulletHighlights: () => [

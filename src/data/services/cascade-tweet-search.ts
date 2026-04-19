@@ -1,5 +1,8 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createUsdFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createUsdFixedPrice(0.04, 'per search');
 
 const service = createServiceDefinition({
   copyFamily: 'live-search',
@@ -11,7 +14,7 @@ const service = createServiceDefinition({
   category: 'Social search',
   supportStatus: 'coming-soon',
   lastCheckedAt: '2026-04-19',
-  priceLabel: '$0.04',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'Example output',
@@ -25,7 +28,7 @@ const service = createServiceDefinition({
       ['@pete_rizzo_', 'Charles Schwab actively buying/selling Bitcoin, crypto trading live within weeks', '307'],
       ['@TrendingBitcoin', 'Research: BTC could hit $1M by 2027, $5M by 2031', '168'],
     ],
-    details: ['Provider: Cascade', 'Service: Tweet search', 'Query example: bitcoin since:2026-04-16', 'Cost: $0.04'],
+    details: ['Provider: Cascade', 'Service: Tweet search', 'Query example: bitcoin since:2026-04-16', buildCostDetail(pricing)],
   },
   variantTitle: ({ agentName, providerName, serviceName }) => `Search Twitter with ${agentName} using ${providerName} ${serviceName}`,
   variantDescription: ({ agentName, providerName, serviceName }) =>

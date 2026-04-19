@@ -15,7 +15,7 @@ assert.ok(serviceSource.includes("key: 'sats4ai-translate-text'"), 'expected Sat
 assert.ok(serviceSource.includes("supportStatus: 'supported'"), 'expected Sats4AI translation to stay supported after the paid test');
 assert.ok(serviceSource.includes("lastCheckedAt: '2026-04-19'"), 'expected Sats4AI translation service to record a last-checked date');
 assert.ok(serviceSource.includes('119 languages'), 'expected service copy to mention 119 languages');
-assert.ok(serviceSource.includes('1 sat per 1000 characters') || serviceSource.includes('1,000 characters per sat'), 'expected service copy to mention translation pricing');
+assert.ok(serviceSource.includes('createSatsRatePrice') && serviceSource.includes('unitAmount: 1000'), 'expected translation pricing to be stored as sat-based rate data');
 assert.ok(providerSource.includes("key: 'sats4ai'"), 'expected Sats4AI provider file to exist');
 assert.ok(providerSource.includes("lastCheckedAt: '2026-04-19'"), 'expected Sats4AI provider to record a last-checked date');
 assert.ok(builtHomepage.includes('Sats4AI'), 'expected homepage to include Sats4AI');

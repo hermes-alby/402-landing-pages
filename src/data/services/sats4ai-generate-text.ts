@@ -1,5 +1,14 @@
 import { createServiceDefinition } from '../service-factory';
+import { buildCostDetail, createSatsRateRangePrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
+
+const pricing = createSatsRateRangePrice({
+  satsMin: 1,
+  satsMax: 10,
+  unitAmount: 1000,
+  unitLabel: 'characters',
+  note: 'depending on model and route',
+});
 
 const service = createServiceDefinition({
   key: 'sats4ai-generate-text',
@@ -10,7 +19,7 @@ const service = createServiceDefinition({
   category: 'Text generation',
   supportStatus: 'coming-soon',
   lastCheckedAt: '2026-04-19',
-  priceLabel: 'About 100 to 1,000 characters per sat depending on model and route',
+  pricing,
   exampleOutput: {
     kind: 'table',
     title: 'What this endpoint is built for',
@@ -24,8 +33,9 @@ const service = createServiceDefinition({
     ],
     details: [
       'Provider: Sats4AI',
-      'Service: generate-text',
+      'Service: Generate Text',
       'Endpoint: /api/l402/generate-text',
+      buildCostDetail(pricing),
       'Checked: live schema confirmed on 2026-04-19',
     ],
     briefingTitle: 'Why this page is live before paid activation',
@@ -34,12 +44,12 @@ const service = createServiceDefinition({
       'Until a real paid run is captured, this service stays on the coming-soon path instead of the install path.',
     ],
   },
-  examplePromptHeading: 'Example request',
+  examplePromptHeading: 'Example prompt',
   examplePrompt:
     'Generate a concise release note summary for a Bitcoin wallet update using a friendly, technical tone and include 3 bullet points.',
   variantTitle: ({ agentName, providerName }) => `Generate text with ${agentName} using ${providerName}`,
-  variantDescription: ({ agentName, providerName }) =>
-    `Enable ${agentName} to generate drafts, summaries, and chat-style text with ${providerName} using Lightning-priced requests instead of prepaid API plans.`,
+  variantDescription: ({ agentName, providerName, priceLabel }) =>
+    `Enable ${agentName} to generate drafts, summaries, and chat-style text with ${providerName} using ${priceLabel} instead of prepaid API plans.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can produce paid text output on demand without waiting for account creation, seat management, or monthly billing setup.`,
   heroBulletHighlights: () => [
@@ -57,7 +67,7 @@ const service = createServiceDefinition({
     'Generate first-pass research takeaways before a human review',
   ],
   faqResultDescription: () =>
-    'Sats4AI generate-text is designed to return generated text from chat-style requests, with pricing that scales to the amount of text and model path used.',
+    'Sats4AI Generate Text is designed to return generated text from chat-style requests, with pricing that scales to the amount of text and model path used.',
 }) satisfies ServiceDefinition;
 
 export default service;
