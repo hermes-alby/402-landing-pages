@@ -66,13 +66,7 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
           </figure>
         ) : (
           <div class="table-card">
-            {variant.exampleOutput.illustrationSrc && (
-              <figure class="example-card table-illustration">
-                <img src={variant.exampleOutput.illustrationSrc} alt={variant.exampleOutput.illustrationAlt ?? `${variant.providerName} example illustration`} />
-                <figcaption>{variant.exampleOutput.caption}</figcaption>
-              </figure>
-            )}
-            {!variant.exampleOutput.illustrationSrc && <p class="table-caption">{variant.exampleOutput.caption}</p>}
+            <p class="table-caption">{variant.exampleOutput.caption}</p>
             <div class="table-wrap">
               <table>
                 <thead>
@@ -298,9 +292,6 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
   details,
   .related-link {
     padding: 1rem 1.1rem;
-  }
-  .table-illustration {
-    margin-bottom: 1rem;
   }
   .table-wrap {
     overflow-x: auto;

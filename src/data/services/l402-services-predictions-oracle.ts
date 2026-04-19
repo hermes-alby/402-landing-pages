@@ -15,8 +15,6 @@ const service = {
     title: 'Example output',
     caption:
       'Example structured signal output based on the oracle response in the blog post, where one paid request returns both a written briefing and market-level signals.',
-    illustrationSrc: `${import.meta.env.BASE_URL}services/l402-services-predictions-oracle/blog.jpg`,
-    illustrationAlt: 'Blog image for the predictions oracle showing a glowing digital eye with lightning and circuit lines',
     columns: ['Signal', 'Value', 'Why it matters'],
     rows: [
       ['Probability shift', '+21.3pp', 'A large one-day move can signal breaking news before headlines catch up'],

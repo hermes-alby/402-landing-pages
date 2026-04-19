@@ -27,8 +27,6 @@ export type ExampleTableOutput = {
   kind: 'table';
   title: string;
   caption: string;
-  illustrationSrc?: string;
-  illustrationAlt?: string;
   columns: string[];
   rows: string[][];
   details: string[];
