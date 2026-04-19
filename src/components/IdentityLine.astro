@@ -4,7 +4,7 @@ type Props = {
   agentName: string;
   providerLogoSrc: string;
   providerName: string;
-  description: string;
+  title: string;
   compact?: boolean;
 };
 
@@ -13,7 +13,7 @@ const {
   agentName,
   providerLogoSrc,
   providerName,
-  description,
+  title,
   compact = false,
 } = Astro.props as Props;
 ---
@@ -29,7 +29,7 @@ const {
     <span class="identity-name">{providerName}</span>
   </span>
   <span class="identity-dot" aria-hidden="true">·</span>
-  <span class="identity-description">{description}</span>
+  <span class="identity-description">{title}</span>
 </div>
 
 <style>

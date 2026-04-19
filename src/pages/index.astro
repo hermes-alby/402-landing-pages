@@ -44,9 +44,9 @@ const description = 'Explore pay-per-use services your agent can use without sig
             agentName={variant.agentName}
             providerLogoSrc={variant.providerLogoSrc}
             providerName={variant.providerName}
-            description={variant.description}
+            title={variant.serviceName}
           />
-          <h3>{variant.serviceName}</h3>
+          <h3>{variant.description}</h3>
           <ul>
             {variant.useCases.slice(0, 2).map((item) => (
               <li>{item}</li>

@@ -26,9 +26,9 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
           agentName={variant.agentName}
           providerLogoSrc={variant.providerLogoSrc}
           providerName={variant.providerName}
-          description={variant.description}
+          title={variant.title}
         />
-        <h1>{variant.title}</h1>
+        <h1>{variant.description}</h1>
         <p class="summary">{variant.heroSummary}</p>
         <ul class="hero-points">
           {variant.heroBullets.map((item) => (
