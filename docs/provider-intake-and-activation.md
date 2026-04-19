@@ -286,6 +286,8 @@ Status:
 
 - **paid test completed successfully**
 - **landing page service added locally as `sats4ai-translate-text`**
+- **service registry now records endpoint-level status separately from provider status, so additional Sats4AI pages can stay coming-soon until each endpoint is paid-tested**
+- **provider and service registry entries now include `lastCheckedAt` so review freshness is visible in git**
 - detailed test record: `docs/provider-tests/sats4ai-translate-text-2026-04-19.md`
 
 Why:

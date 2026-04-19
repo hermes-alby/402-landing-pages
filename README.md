@@ -93,7 +93,7 @@ Expected production URL:
 
 ## Workflow notes and planning
 
-- `docs/provider-intake-and-activation.md` — manual provider-intake workflow, registry direction, Sats4AI evaluation notes, wallet setup notes, live paid-test summary, and registry implementation notes
+- `docs/provider-intake-and-activation.md` — manual provider-intake workflow, provider and service registry direction, Sats4AI evaluation notes, wallet setup notes, live paid-test summary, and registry implementation notes
 - `docs/provider-tests/sats4ai-translate-text-2026-04-19.md` — first successful end-to-end paid endpoint test record for Sats4AI translation
 
 ## What still needs to be done
@@ -103,8 +103,9 @@ In my opinion, the next useful steps are:
 1. replace the mock output image and mock payment amount with real captured example outputs once the payment flow is tested
 2. decide the final CTA destination and install UX for Bitcoin-compatible 402 services
 3. improve SEO metadata per variant, including canonical strategy, Open Graph images, and structured data
-4. add automation that can generate N agent-specific pages from one approved provider/service record
-5. add checks for thin or duplicate copy as the number of agents, providers, and services grows
+4. keep provider and service registry entries fresh with real last-checked dates as more endpoints are reviewed
+5. add automation that can generate N agent-specific pages from one approved provider/service record
+6. add checks for thin or duplicate copy as the number of agents, providers, and services grows
 
 ## Why Astro here
 

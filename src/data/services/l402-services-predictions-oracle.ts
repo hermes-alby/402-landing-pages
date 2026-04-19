@@ -9,6 +9,8 @@ const service = createServiceDefinition({
   endpointUrl: 'https://l402.services/predictions/oracle',
   resultLabel: 'Turn live prediction-market data into a written intelligence briefing',
   category: 'Research intelligence',
+  supportStatus: 'supported',
+  lastCheckedAt: '2026-04-19',
   priceLabel: '250 sats (~$0.07)',
   exampleOutput: {
     kind: 'table',

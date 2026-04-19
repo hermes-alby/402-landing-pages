@@ -27,6 +27,7 @@ const buildCta = (agentKey: string, supportStatus: 'supported' | 'coming-soon'):
 export const variants: LandingVariant[] = agents.flatMap((agent) =>
   serviceDefinitions.map((service) => {
     const provider = providersByKey[service.providerKey];
+    const supportStatus = service.supportStatus;
     const context = {
       agentName: agent.name,
       providerName: provider.name,
@@ -40,8 +41,10 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
       agentLogoSrc: agent.logoSrc,
       providerKey: provider.key,
       providerName: provider.name,
+      providerLastCheckedAt: provider.lastCheckedAt,
       serviceKey: service.key,
       serviceName: service.name,
+      serviceLastCheckedAt: service.lastCheckedAt,
       slug: service.key,
       endpointUrl: service.endpointUrl,
       resultLabel: service.resultLabel,
@@ -62,8 +65,8 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
         providerName: provider.name,
         serviceName: service.name,
       }),
-      cta: buildCta(agent.key, provider.supportStatus),
-      supportStatus: provider.supportStatus,
+      cta: buildCta(agent.key, supportStatus),
+      supportStatus,
     };
   }),
 );

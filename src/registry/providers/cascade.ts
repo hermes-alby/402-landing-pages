@@ -9,6 +9,7 @@ const provider = {
   reviewStatus: 'approved',
   reviewSource: 'legacy-manual',
   activationStatus: 'live',
+  lastCheckedAt: '2026-04-19',
   backfilled: true,
   summary: 'Legacy provider already represented in landing pages and backfilled into the provider registry.',
   notes: ['Backfilled as an existing coming-soon provider.'],

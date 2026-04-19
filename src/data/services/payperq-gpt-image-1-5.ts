@@ -9,6 +9,8 @@ const service = createServiceDefinition({
   endpointUrl: 'https://api.ppq.ai/v1/images/generations/gpt-image-1.5',
   resultLabel: 'Generate polished images on demand',
   category: 'Image generation',
+  supportStatus: 'supported',
+  lastCheckedAt: '2026-04-19',
   priceLabel: '$0.08',
   exampleOutput: {
     kind: 'image',

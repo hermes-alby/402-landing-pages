@@ -9,6 +9,8 @@ const service = createServiceDefinition({
   endpointUrl: 'https://llm402.ai/v1/images/generations',
   resultLabel: 'Generate detailed, user-facing images on demand',
   category: 'Image generation',
+  supportStatus: 'supported',
+  lastCheckedAt: '2026-04-19',
   priceLabel: '105 sats (~$0.03)',
   exampleOutput: {
     kind: 'image',
