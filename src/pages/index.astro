@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { providerSections, variants } from '../data/build-variants';
+import { homepageVariants } from '../data/build-variants';
 
 const title = 'Pay-per-use Agent Services';
 const description = 'Explore pay-per-use services your agent can use without sign-up friction.';
@@ -16,52 +16,48 @@ const description = 'Explore pay-per-use services your agent can use without sig
       </p>
     </div>
     <div class="callout">
-      <strong>Useful right away</strong>
+      <strong>Browse service pages</strong>
       <p>
-        Explore provider-backed service pages with concrete examples, real pricing, and the exact kinds of results your agent can unlock.
+        Jump into a mixed list of real agent × service pages with examples, pricing, and the exact flow your agent can use.
       </p>
     </div>
   </section>
 
-  {providerSections.map((section) => {
-    const sectionVariants = variants.filter((variant) => variant.providerKey === section.key);
-    return (
-      <section class="service-section">
-        <div class="section-header">
-          <div>
-            <h2>{section.title}</h2>
-            <p>{section.description}</p>
+  <section class="service-list">
+    <div class="section-header">
+      <div>
+        <h2>Explore agent-ready service pages</h2>
+        <p>
+          A shuffled mix of pages so you can scan different services and agents without seeing the homepage grouped into the
+          same repeated blocks.
+        </p>
+      </div>
+    </div>
+
+    <div class="grid">
+      {homepageVariants.map((variant) => (
+        <article class="card panel">
+          <div class="card-top">
+            <div class="agent-badge">
+              <img src={variant.agentLogoSrc} alt={`${variant.agentName} logo`} />
+              <span class="pill">{variant.agentName}</span>
+            </div>
+            <span class="endpoint-tag">{variant.providerName}</span>
           </div>
-          <span class:list={["support-pill", section.supportStatus === 'supported' ? 'supported' : 'coming-soon']}>
-            {section.supportStatus === 'supported' ? 'Supported now' : 'Coming soon'}
-          </span>
-        </div>
-        <div class="grid">
-          {sectionVariants.map((variant) => (
-            <article class="card panel">
-              <div class="card-top">
-                <div class="agent-badge">
-                  <img src={variant.agentLogoSrc} alt={`${variant.agentName} logo`} />
-                  <span class="pill">{variant.agentName}</span>
-                </div>
-                <span class="endpoint-tag">{variant.serviceName}</span>
-              </div>
-              <h3>{variant.providerName}</h3>
-              <p class="tagline">{variant.description}</p>
-              <ul>
-                {variant.useCases.slice(0, 2).map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-              <a class="button" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
-                Explore {variant.agentName}
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-    );
-  })}
+          <h3>{variant.serviceName}</h3>
+          <p class="tagline">{variant.description}</p>
+          <ul>
+            {variant.useCases.slice(0, 2).map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+          <a class="button" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
+            Learn more
+          </a>
+        </article>
+      ))}
+    </div>
+  </section>
 </BaseLayout>
 
 <style>
@@ -94,7 +90,7 @@ const description = 'Explore pay-per-use services your agent can use without sig
     line-height: 1.7;
     margin: 0.75rem 0 0;
   }
-  .service-section {
+  .service-list {
     margin-top: 2.5rem;
   }
   .section-header {
@@ -111,25 +107,7 @@ const description = 'Explore pay-per-use services your agent can use without sig
   .section-header p {
     margin-top: 0;
     color: var(--muted);
-  }
-  .support-pill {
-    display: inline-flex;
-    align-items: center;
-    white-space: nowrap;
-    font-size: 0.9rem;
-    font-weight: 700;
-    border-radius: 999px;
-    padding: 0.35rem 0.7rem;
-  }
-  .support-pill.supported {
-    color: #9af7c8;
-    background: rgba(126, 224, 129, 0.12);
-    border: 1px solid rgba(126, 224, 129, 0.24);
-  }
-  .support-pill.coming-soon {
-    color: #ffd66b;
-    background: rgba(255, 214, 107, 0.12);
-    border: 1px solid rgba(255, 214, 107, 0.24);
+    max-width: 70ch;
   }
   .grid {
     display: grid;

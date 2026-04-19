@@ -7,6 +7,16 @@ import type { Cta, LandingVariant } from './types';
 const installPath = (agentKey: string) => `${import.meta.env.BASE_URL}install/${agentKey}/`;
 const comingSoonPath = (agentKey: string) => `${import.meta.env.BASE_URL}coming-soon/${agentKey}/`;
 
+const shuffleScore = (value: string) => {
+  let hash = 0;
+
+  for (const char of value) {
+    hash = (hash * 31 + char.charCodeAt(0)) >>> 0;
+  }
+
+  return hash;
+};
+
 const supportedCta = (agentKey: string): Cta => ({
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
@@ -65,11 +75,15 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
   }),
 );
 
-export const providerSections = providers.map((provider) => ({
-  key: provider.key,
-  title: provider.sectionTitle,
-  description: provider.sectionDescription,
-  supportStatus: provider.supportStatus,
-}));
+export const homepageVariants: LandingVariant[] = [...variants].sort((a, b) => {
+  const scoreA = shuffleScore(`${a.agentKey}:${a.slug}`);
+  const scoreB = shuffleScore(`${b.agentKey}:${b.slug}`);
+
+  if (scoreA !== scoreB) {
+    return scoreA - scoreB;
+  }
+
+  return `${a.agentKey}:${a.slug}`.localeCompare(`${b.agentKey}:${b.slug}`);
+});
 
 export { agents, installFlows, providers, serviceDefinitions };
