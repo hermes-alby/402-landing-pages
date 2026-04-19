@@ -277,6 +277,11 @@ Recommended first activation endpoint:
 - `translate-text`
 - `https://sats4ai.com/api/l402/translate-text`
 
+Status:
+
+- **paid test completed successfully**
+- detailed test record: `docs/provider-tests/sats4ai-translate-text-2026-04-19.md`
+
 Why:
 
 - cheap
@@ -289,6 +294,23 @@ Fallback candidates:
 
 - `generate-text`
 - `convert-html-to-pdf`
+
+### Live paid test result
+The first end-to-end paid test for Sats4AI has now been completed successfully.
+
+Summary:
+
+- tool used: `@getalby/cli fetch`
+- endpoint tested: `translate-text`
+- request succeeded end-to-end with real payment and retry
+- returned translated Spanish text successfully
+- service cost observed: `1 sat`
+- routing / payment fees observed: `1 sat`
+- total wallet delta observed: `2 sats`
+
+See full artifact record:
+
+- `docs/provider-tests/sats4ai-translate-text-2026-04-19.md`
 
 ### Why `translate-text` is preferred over `generate-text`
 `generate-text` works, but translation is more differentiated and makes a better first landing-page story for a pay-per-use service.
