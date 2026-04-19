@@ -154,12 +154,18 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
     </section>
 
     <section class="panel section related">
-      <p class="eyebrow">More for {variant.agentName}</p>
+      <div class="eyebrow-with-icon">
+        <img src={variant.agentLogoSrc} alt={`${variant.agentName} logo`} />
+        <p class="eyebrow">More for {variant.agentName}</p>
+      </div>
       <h2>Explore more amazing services</h2>
       <div class="related-links">
         {relatedVariants.map((item) => (
           <a class="related-link" href={`${import.meta.env.BASE_URL}agents/${item.agentKey}/${item.slug}/`}>
-            <strong>{item.providerName}</strong>
+            <span class="related-provider">
+              <img src={item.providerLogoSrc} alt={`${item.providerName} logo`} />
+              <strong>{item.providerName}</strong>
+            </span>
             <span>{item.serviceName}</span>
           </a>
         ))}
@@ -230,6 +236,22 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
     font-size: 0.78rem;
     color: var(--warn);
     margin-bottom: 0.4rem;
+  }
+  .eyebrow-with-icon {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+  .eyebrow-with-icon img {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,0.08);
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.03);
+  }
+  .eyebrow-with-icon .eyebrow {
+    margin: 0;
   }
   .example-grid {
     display: grid;
@@ -321,6 +343,20 @@ const relatedVariants = variants.filter((item) => item.agentKey === variant.agen
     display: block;
     text-decoration: none;
     color: var(--text);
+  }
+  .related-provider {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-bottom: 0.35rem;
+  }
+  .related-provider img {
+    width: 28px;
+    height: 28px;
+    border-radius: 9px;
+    border: 1px solid rgba(255,255,255,0.08);
+    object-fit: contain;
+    background: rgba(255, 255, 255, 0.03);
   }
   summary {
     cursor: pointer;
