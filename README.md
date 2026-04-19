@@ -91,6 +91,10 @@ Expected production URL:
 └── README.md
 ```
 
+## Workflow notes and planning
+
+- `docs/provider-intake-and-activation.md` — manual provider-intake workflow, registry direction, Sats4AI evaluation notes, and wallet setup notes for the first live test
+
 ## What still needs to be done
 
 In my opinion, the next useful steps are:
