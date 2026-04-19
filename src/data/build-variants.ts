@@ -17,17 +17,10 @@ const shuffleScore = (value: string) => {
   return hash;
 };
 
-const supportedCta = (agentKey: string): Cta => ({
+const buildCta = (agentKey: string, supportStatus: 'supported' | 'coming-soon'): Cta => ({
   title: 'Install the Alby Payments Skill',
   helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
-  href: installPath(agentKey),
-  buttonLabel: 'Install now',
-});
-
-const comingSoonCta = (agentKey: string): Cta => ({
-  title: 'Install the Alby Payments Skill',
-  helper: 'Gives your agent access to useful services without sign-up, email, or subscription.',
-  href: comingSoonPath(agentKey),
+  href: supportStatus === 'supported' ? installPath(agentKey) : comingSoonPath(agentKey),
   buttonLabel: 'Install now',
 });
 
@@ -69,7 +62,7 @@ export const variants: LandingVariant[] = agents.flatMap((agent) =>
         providerName: provider.name,
         serviceName: service.name,
       }),
-      cta: provider.supportStatus === 'supported' ? supportedCta(agent.key) : comingSoonCta(agent.key),
+      cta: buildCta(agent.key, provider.supportStatus),
       supportStatus: provider.supportStatus,
     };
   }),

@@ -1,7 +1,8 @@
-import { buildGenericLandingFaq } from '../faqs';
+import { createServiceDefinition } from '../service-factory';
 import type { ServiceDefinition } from '../types';
 
-const service = {
+const service = createServiceDefinition({
+  copyFamily: 'live-search',
   key: 'cascade-tweet-search',
   providerKey: 'cascade',
   name: 'Tweet search',
@@ -9,7 +10,6 @@ const service = {
   resultLabel: 'Search and summarize live Twitter results on demand',
   category: 'Social search',
   priceLabel: '$0.04',
-  paymentLabel: 'No sign-up. No email. No subscription. Pay per use.',
   exampleOutput: {
     kind: 'table',
     title: 'Example output',
@@ -30,12 +30,10 @@ const service = {
     `Enable ${agentName} to search live Twitter results with ${providerName} ${serviceName}. No sign-up, no email, no subscription, and no human needed to keep the workflow moving.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `${providerName} ${serviceName} gives ${agentName} live social search for research, trend checks, and current-events context without forcing another account-creation detour.`,
-  heroBullets: ({ paymentLabel }) => [
-    paymentLabel,
+  heroBulletHighlights: () => [
     'Useful for live research, trend checks, and pulling recent social context into an agent workflow.',
     'Get fresh Twitter results on demand instead of relying on stale summaries.',
   ],
-  whyItWorksTitle: ({ agentName }) => `Why this works for ${agentName}`,
   whyItWorks: ({ agentName }) => [
     `${agentName} becomes more useful when it can access fresh social context instead of relying only on static pages.`,
     'Tweet search fits research, monitoring, and summarization workflows naturally.',
@@ -46,11 +44,8 @@ const service = {
     'Pull top social posts into research summaries',
     'Scan recent sentiment around a company, token, or topic',
   ],
-  faq: ({ providerName, serviceName }) =>
-    buildGenericLandingFaq({
-      providerName,
-      resultDescription: `${providerName} ${serviceName} can return live social search results that agents can use for research, summaries, trend checks, and monitoring workflows.`,
-    }),
-} satisfies ServiceDefinition;
+  faqResultDescription: ({ providerName, serviceName }) =>
+    `${providerName} ${serviceName} can return live social search results that agents can use for research, summaries, trend checks, and monitoring workflows.`,
+}) satisfies ServiceDefinition;
 
 export default service;
