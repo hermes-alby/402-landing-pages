@@ -69,7 +69,12 @@ We want two distinct workflows:
 
 ## Proposed future repository structure
 
-Not implemented yet, but this is the current direction.
+The first implementation step of this structure is now in place:
+
+- `src/registry/types.ts`
+- `src/registry/providers/*.ts`
+
+The registry is currently used as the durable provider decision layer and includes lightweight backfilled entries for legacy providers plus a new entry for Sats4AI.
 
 ```text
 registry/
@@ -280,6 +285,7 @@ Recommended first activation endpoint:
 Status:
 
 - **paid test completed successfully**
+- **landing page service added locally as `sats4ai-translate-text`**
 - detailed test record: `docs/provider-tests/sats4ai-translate-text-2026-04-19.md`
 
 Why:

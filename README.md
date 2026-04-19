@@ -93,7 +93,7 @@ Expected production URL:
 
 ## Workflow notes and planning
 
-- `docs/provider-intake-and-activation.md` — manual provider-intake workflow, registry direction, Sats4AI evaluation notes, wallet setup notes, and live paid-test summary
+- `docs/provider-intake-and-activation.md` — manual provider-intake workflow, registry direction, Sats4AI evaluation notes, wallet setup notes, live paid-test summary, and registry implementation notes
 - `docs/provider-tests/sats4ai-translate-text-2026-04-19.md` — first successful end-to-end paid endpoint test record for Sats4AI translation
 
 ## What still needs to be done
