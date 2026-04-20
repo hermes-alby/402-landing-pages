@@ -1,22 +1,34 @@
 # 402 Landing Pages
 
-A small Astro prototype for exploring result-oriented, agent-specific landing pages for useful 402 endpoints.
+A static Astro site for publishing user-facing landing pages for agent-usable 402 services.
 
-## What the app currently does
+## Site purpose
 
-- renders a static index page listing 4 landing page variants for the same endpoint
-- renders one page each for `OpenClaw`, `Claude`, `Codex`, and `Hermes`
-- uses a real example endpoint URL from PayPerQ for the mock content base:
-  - `https://api.ppq.ai/v1/images/generations/gpt-image-1.5`
+The site presents production-style landing pages for services that agents can use with pay-per-use 402 payments.
+Each landing page is an **agent × service** variant that explains:
+
+- what the service does
+- which provider powers it
+- how pricing works
+- when the service is useful
+- where a user should go next to install or express interest
+
+The homepage is intended to help end users discover useful services, compare options, and understand which workflows are already supported.
+
+## Current implementation
+
+- renders a static homepage with featured services and a broader directory of service pages
+- renders dedicated pages for `OpenClaw`, `Claude`, `Codex`, and `Hermes`
+- uses real provider/service records as the content base
 - keeps the site fully static so it can deploy to GitHub Pages with no database
-- includes repeated CTA modules pointing to a placeholder install page for the Alby Payments Skill
-- removes the earlier score-based mock sections in favor of result-oriented sections like example output, use cases, example prompt, and FAQ
+- includes install and coming-soon flows for different support states
+- uses public-facing sections such as example output, use cases, pricing, example prompts, and FAQ
 
-## Current landing page concept
+## Current service/page model
 
-Each page is an **agent × endpoint** variant.
+Each page is an **agent × service** variant.
 
-Current variants:
+Current examples include:
 
 - OpenClaw × PayPerQ GPT Image 1.5
 - Claude × PayPerQ GPT Image 1.5
@@ -25,14 +37,14 @@ Current variants:
 
 Each variant currently includes:
 
-- title and description focused on what the agent can achieve
-- explicit no-sign-up / no-subscription messaging
-- example output block with mock cost paid
+- a title and description focused on the user outcome
+- explicit no-sign-up / no-subscription messaging where accurate
+- example output blocks
 - use case cards
-- explanation of why 402 payments fit the agent workflow
-- example prompt block
-- Alby-oriented FAQ
-- CTA linking to `/install/`
+- explanation of why 402 payments fit the workflow
+- example prompt blocks where appropriate
+- FAQ content
+- CTA routing to `/install/` or `/coming-soon/` based on support state
 
 ## Local development
 
@@ -91,22 +103,20 @@ Expected production URL:
 └── README.md
 ```
 
-## Workflow notes and planning
+## Internal workflow notes
 
-- `docs/provider-intake-and-activation.md` — manual provider-intake workflow, provider and service registry direction, Sats4AI evaluation notes, wallet setup notes, live paid-test summary, and registry implementation notes
+- `docs/provider-intake-and-activation.md` — provider-intake workflow, provider and service registry direction, Sats4AI evaluation notes, wallet setup notes, live paid-test summary, and registry implementation notes
 - `docs/provider-tests/sats4ai-translate-text-2026-04-19.md` — first successful end-to-end paid endpoint test record for Sats4AI translation
 
 ## What still needs to be done
 
-In my opinion, the next useful steps are:
-
-1. replace the mock output image and mock payment amount with real captured example outputs once the payment flow is tested
-2. decide the final CTA destination and install UX for Bitcoin-compatible 402 services
+1. replace remaining mock output images and placeholder payment amounts with real captured example outputs where available
+2. finalize the CTA destination and install UX for supported services
 3. improve SEO metadata per variant, including canonical strategy, Open Graph images, and structured data
 4. keep provider and service registry entries fresh with real last-checked dates as more endpoints are reviewed
-5. add automation that can generate N agent-specific pages from one approved provider/service record
+5. add automation that can generate more agent-specific pages from approved provider/service records
 6. add checks for thin or duplicate copy as the number of agents, providers, and services grows
 
 ## Why Astro here
 
-Astro is a good fit for this experiment because the site is fully static, content-oriented, and simple to deploy to GitHub Pages.
+Astro is a good fit because the site is fully static, content-oriented, and simple to deploy to GitHub Pages.
