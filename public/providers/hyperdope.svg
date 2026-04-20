@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-labelledby="title desc">
+  <title>Hyperdope</title>
+  <desc>Fallback brand mark for Hyperdope using the l402.services identity: dark background with electric green and blue accents.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#07131a" />
+      <stop offset="100%" stop-color="#102835" />
+    </linearGradient>
+    <linearGradient id="bolt" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6ef7c2" />
+      <stop offset="100%" stop-color="#62a8ff" />
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="52" fill="url(#bg)" />
+  <rect x="18" y="18" width="220" height="220" rx="38" fill="none" stroke="rgba(255,255,255,0.10)" stroke-width="2" />
+  <path d="M132 36L82 132h36l-10 88 66-106h-42l18-78z" fill="url(#bolt)" />
+</svg>
