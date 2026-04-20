@@ -64,11 +64,16 @@ We want two distinct workflows:
    - evaluate credibility
    - record decision in git
 
-2. **Provider activation**
+2. **Provider landing-page activation**
    - choose 1–3 cheap / interesting endpoints
-   - run a real paid test
+   - review the real site / docs / branding
+   - add provider + service records to the live data layer
+   - create landing-page data and ship initial coming-soon or trial pages
+
+3. **Provider paid testing / validation**
+   - run a real paid test later as a separate follow-up task
    - capture outputs / artifacts
-   - generate landing-page data
+   - decide whether to keep, expand, or remove the provider after real usage evidence
 
 ---
 
@@ -173,7 +178,7 @@ For an approved or deferred provider:
 ### Step 6 — Choose only a few endpoints initially
 Selection criteria:
 
-- cheap to test
+- cheap to test later
 - clear user value
 - simple request / response shape
 - strong landing-page story
@@ -181,22 +186,35 @@ Selection criteria:
 
 Avoid initial activation of expensive, obscure, or highly async endpoints unless necessary.
 
-### Step 7 — Run a real paid test
-For an approved provider:
+### Step 7 — Build the landing-page candidate before paid testing
+For an approved provider / representative endpoint:
+
+- review the real docs and endpoint shape directly
+- confirm the provider is worth showing publicly even before paid validation
+- add provider data to `src/data/providers/*`
+- add service data to `src/data/services/*`
+- download and store a local provider logo under `public/providers/`
+- publish the first landing page as `coming-soon` or other clearly non-supported state if the endpoint is still untested
+
+### Step 8 — Run a real paid test later
+Treat paid testing as a follow-up step, ideally in a separate task or PR:
 
 - trigger the 402 / L402 challenge
 - pay it
 - retry successfully
 - save request / response / output artifacts
 - record quirks and pricing
+- decide whether to:
+  - keep and expand the provider
+  - try a different endpoint from the same provider
+  - or remove the provider if the real flow disappoints
 
-### Step 8 — Only then generate landing page data
-Once the test is real and documented:
+### Step 9 — Only then promote to supported / expand coverage
+Once the paid test is real and documented:
 
-- add provider data if needed
-- add service data
-- add any captured output asset
-- create landing page PR
+- update the relevant service registry entry to reflect the real result
+- flip the landing page from `coming-soon` to `supported` only when justified
+- add more endpoints from the same provider only if the first paid test went well
 
 ---
 
