@@ -30,7 +30,12 @@ export type SatsRateRangePrice = {
   note?: string;
 };
 
-export type ServicePrice = UsdFixedPrice | SatsFixedPrice | SatsRatePrice | SatsRateRangePrice;
+export type UnknownPrice = {
+  kind: 'unknown';
+  label: string;
+};
+
+export type ServicePrice = UsdFixedPrice | SatsFixedPrice | SatsRatePrice | SatsRateRangePrice | UnknownPrice;
 
 export const pricingMetadata = {
   btcUsdFetchedAt,
@@ -85,10 +90,19 @@ export const createSatsRateRangePrice = ({ satsMin, satsMax, unitAmount, unitLab
   note,
 });
 
+export const createUnknownPrice = (label: string): UnknownPrice => ({
+  kind: 'unknown',
+  label,
+});
+
 const appendUnit = (label: string, unitLabel?: string) => (unitLabel ? `${label} ${unitLabel}` : label);
 const appendNote = (label: string, note?: string) => (note ? `${label} ${note}` : label);
 
 export const formatPriceLabel = (price: ServicePrice) => {
+  if (price.kind === 'unknown') {
+    return price.label;
+  }
+
   if (price.kind === 'usd-fixed') {
     return appendUnit(formatUsd(price.usd), price.unitLabel);
   }
