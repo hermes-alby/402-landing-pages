@@ -75,7 +75,6 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
           />
           <p class="card-kicker">{variant.category}</p>
           <h3 class="card-title">{variant.description}</h3>
-          <p class="card-meta">{variant.priceLabel} · {variant.paymentLabel}</p>
           <a class="button tertiary" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
             View service details
           </a>
@@ -109,7 +108,6 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
           />
           <p class="card-kicker">{variant.category}</p>
           <h3 class="card-title">{variant.description}</h3>
-          <p class="card-meta">{variant.priceLabel} · {variant.paymentLabel}</p>
           <a class="button secondary card-link" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
             Learn more
           </a>
@@ -265,16 +263,11 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
     text-transform: uppercase;
   }
   .card-title {
-    margin: 0 0 0.65rem;
+    margin: 0 0 1rem;
     color: var(--text);
     font-size: 1.1rem;
     font-weight: 650;
     line-height: 1.45;
-  }
-  .card-meta {
-    margin: 0 0 1.1rem;
-    color: var(--muted);
-    font-size: 0.95rem;
   }
   .button {
     display: inline-block;
