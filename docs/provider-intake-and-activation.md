@@ -75,6 +75,29 @@ We want two distinct workflows:
    - capture outputs / artifacts
    - decide whether to keep, expand, or remove the provider after real usage evidence
 
+### Current working policy
+For the next expansion round we are intentionally separating landing-page publication from paid validation:
+
+- **Phase C** can add provider data, service data, local branding assets, and new landing pages first
+- those first pages should stay in a clearly non-supported state such as `coming-soon`
+- **Phase D** happens later as a separate task / PR for real paid testing
+- after the paid test, decide whether to:
+  - expand the provider with more endpoints
+  - try a different endpoint from the same provider
+  - or remove the provider if the real flow is disappointing
+
+### Current first Phase C batch
+The current recommended first implementation batch is:
+
+- Lightning Enable → Agent Commerce Store
+- Satring → Directory API
+- Ganamos → Create Job
+
+The next candidates after that are:
+
+- Prime Technology → U.S. Grid — Cheapest Electricity Zones
+- Mycelia Signal → DLC Threshold Oracle
+
 ---
 
 ## Proposed future repository structure
