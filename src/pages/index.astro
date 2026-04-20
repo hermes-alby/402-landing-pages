@@ -4,14 +4,14 @@ import IdentityLine from '../components/IdentityLine.astro';
 import { agents, homepageVariants, providers, serviceDefinitions } from '../data/build-variants';
 
 const title = 'Pay-per-use Agent Services';
-const description = 'Explore pay-per-use services your agent can use without sign-up friction.';
+const description = 'Find pay-per-use services for research, content, images, and documents that work with your agent.';
 
 const featuredVariants = homepageVariants.filter((variant) => variant.supportStatus === 'supported').slice(0, 3);
 const homepageStats = [
-  { value: String(agents.length), label: 'agent install flows' },
+  { value: String(agents.length), label: 'compatible agents' },
   { value: String(providers.length), label: 'providers' },
-  { value: String(serviceDefinitions.length), label: 'service templates' },
-  { value: String(homepageVariants.length), label: 'published pages' },
+  { value: String(serviceDefinitions.length), label: 'services' },
+  { value: String(homepageVariants.length), label: 'available options' },
 ];
 const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant.category))].slice(0, 5);
 ---
@@ -19,15 +19,15 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
 <BaseLayout title={title} description={description}>
   <section class="hero panel">
     <div>
-      <span class="eyebrow">Pay only when your agent actually uses a service</span>
-      <h1>Give your agent useful services without sign-up friction</h1>
+      <span class="eyebrow">Pay only for the services you use</span>
+      <h1>Find pay-per-use services that work with your agent</h1>
       <p class="lede">
-        These pages show how OpenClaw, Claude, Codex, and Hermes can use useful paid services without stopping for account
-        creation, subscriptions, or other human-only blockers.
+        Explore research, content, image, and document services without adding another account, subscription, or setup-heavy
+        workflow.
       </p>
       <div class="hero-actions">
-        <a class="button primary" href="#featured-pages">Start with featured pages</a>
-        <a class="button secondary" href="#all-service-pages">Browse the full catalog</a>
+        <a class="button primary" href="#featured-pages">Explore featured services</a>
+        <a class="button secondary" href="#all-service-pages">Browse all services</a>
       </div>
       <dl class="stats" aria-label="Catalog stats">
         {homepageStats.map((stat) => (
@@ -39,10 +39,10 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
       </dl>
     </div>
     <div class="callout">
-      <strong>How to use this catalog</strong>
+      <strong>Find the right service for your workflow</strong>
       <p>
-        Start with a featured page if you want the fastest tour, or scan the full catalog when you want to compare multiple
-        agent × service combinations.
+        Start with featured services to see proven options first, or browse all services to compare providers, pricing, and
+        the results each service can deliver.
       </p>
       <div class="category-list" aria-label="Example service categories">
         {categoryHighlights.map((category) => (
@@ -55,9 +55,9 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
   <section id="featured-pages" class="service-list featured-list">
     <div class="section-header">
       <div>
-        <span class="eyebrow">Suggested starting points</span>
-        <h2>Featured pages for a quick first pass</h2>
-        <p>These are good demo pages to open first if you want to understand the catalog without reading every card.</p>
+        <span class="eyebrow">Popular services</span>
+        <h2>Featured services</h2>
+        <p>Start with a few strong options that show the range of services your agent can use right now.</p>
       </div>
     </div>
 
@@ -82,7 +82,7 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
             ))}
           </ul>
           <a class="button tertiary" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
-            Open featured page
+            View service details
           </a>
         </article>
       ))}
@@ -93,10 +93,10 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
     <div class="section-header">
       <div>
         <span class="eyebrow">Full directory</span>
-        <h2>Explore agent-ready service pages</h2>
+        <h2>Explore agent-ready services</h2>
         <p>
-          A shuffled mix of pages so you can scan different services and agents without seeing the homepage grouped into the
-          same repeated blocks.
+          Browse a mixed selection of services so you can compare providers, pricing, and supported agent workflows in one
+          place.
         </p>
       </div>
     </div>
