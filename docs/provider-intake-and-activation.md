@@ -1,134 +1,207 @@
 # Provider Intake and Activation Workflow
 
-> Working notes for the 402 landing pages project. This document records the current manual test flow so we can formalize it into a repeatable provider registry + activation workflow later.
+This document is the durable, provider-agnostic workflow for adding new providers and services to the site.
 
-**Last updated:** 2026-04-19T08:16:35Z  
-**Discovery scope for v1:** `402index.io` only
-
----
-
-## Why this document exists
-
-We need a scalable way to grow the landing pages catalog when 402index contains thousands of endpoints and many providers have very large service catalogs.
-
-The key decision is:
-
-- evaluate **providers first**
-- only activate **a few endpoints per approved provider** at first
-- test the real payment flow before generating landing pages
-- record decisions in git so we do not re-evaluate the same provider repeatedly
-
-This file captures the agreed manual workflow and the first live test case.
+It is intentionally written as a **repeatable operating guide**, not a log of any specific provider review. Provider-specific notes, screenshots, paid test artifacts, and one-off decisions should live in separate docs under `docs/provider-tests/` or future evaluation notes — not here.
 
 ---
 
-## Current design decisions
+## Purpose
 
-### Discovery source
-For now we only use:
+Use this workflow when you want to:
 
-- `402index.io`
+- discover new providers from a directory source
+- decide whether a provider is worth tracking
+- add provider and service records to the repo
+- create landing pages before or after paid validation
+- run a real paid activation test later
+- automate the process without losing the human review checkpoints
 
-We are **not** scanning Satring, Sponge, x402 Bazaar directly, or other registries yet.
-
-### Health interpretation
-402index health is useful telemetry, but it is **not** the approval gate for provider intake.
-
-Use it to notice possible risk or staleness, but do not reject an otherwise credible provider only because 402index currently reports degraded or down health.
-
-### Control plane
-We want a provider registry in the repo that records whether a provider is:
-
-- approved
-- rejected
-- deferred
-- duplicate
-- already activated/live
-
-### Existing providers
-Providers already live in landing pages should be backfilled into the future registry as lightweight legacy entries, not re-reviewed from scratch.
-
-Suggested legacy metadata shape:
-
-- `reviewStatus: approved`
-- `reviewSource: legacy-manual`
-- `activationStatus: live`
-- `backfilled: true`
-
-### Workflow split
-We want two distinct workflows:
-
-1. **Provider intake / evaluation**
-   - discover provider
-   - dedupe against repo + open PRs
-   - evaluate credibility
-   - record decision in git
-
-2. **Provider landing-page activation**
-   - choose 1–3 cheap / interesting endpoints
-   - review the real site / docs / branding
-   - add provider + service records to the live data layer
-   - create landing-page data and ship initial coming-soon or trial pages
-
-3. **Provider paid testing / validation**
-   - run a real paid test later as a separate follow-up task
-   - capture outputs / artifacts
-   - decide whether to keep, expand, or remove the provider after real usage evidence
-
-### Current working policy
-For the next expansion round we are intentionally separating landing-page publication from paid validation:
-
-- **Phase C** can add provider data, service data, local branding assets, and new landing pages first
-- those first pages should stay in a clearly non-supported state such as `coming-soon`
-- **Phase D** happens later as a separate task / PR for real paid testing
-- after the paid test, decide whether to:
-  - expand the provider with more endpoints
-  - try a different endpoint from the same provider
-  - or remove the provider if the real flow is disappointing
-
-### Current first Phase C batch
-The current recommended first implementation batch is:
-
-- Lightning Enable → Agent Commerce Store
-- Satring → Directory API
-- Ganamos → Create Job
-
-The next candidates after that are:
-
-- Prime Technology → U.S. Grid — Cheapest Electricity Zones
-- Mycelia Signal → DLC Threshold Oracle
+This document should stay useful even if the current provider set changes completely.
 
 ---
 
-## Proposed future repository structure
+## Current operating assumptions
 
-The first implementation step of this structure is now in place:
+- discovery source: `402index.io` only
+- provider approval and service approval are tracked separately
+- landing pages can be published before paid validation, but unsupported services must stay on a non-supported path such as `coming-soon`
+- real paid activation is a later step, not part of the first intake pass
+- service-level support state controls CTA routing
+- provider and service decisions should be durable in git so the same work does not need to be repeated later
 
-- `src/registry/types.ts`
-- `src/registry/providers/*.ts`
+---
 
-The registry is currently used as the durable provider decision layer and includes lightweight backfilled entries for legacy providers plus a new entry for Sats4AI.
+## Four-stage workflow
+
+### 1. Provider intake
+
+Goal: decide whether a provider is worth tracking at all.
+
+Do this before adding landing pages.
+
+Checklist:
+
+- discover the provider from the approved source
+- dedupe against the repo, existing registry entries, and past PRs
+- inspect the real website and docs directly
+- assess whether the provider looks credible enough for future trial work
+- record the provider decision in the provider registry
+
+Recommended outcomes:
+
+- `approved`
+- `approved-for-trial`
+- `deferred`
+- `rejected`
+- `duplicate`
+
+Important rule:
+
+- directory health should be treated as telemetry, not as the approval gate
+- evaluate the real provider directly before rejecting it
+
+### 2. Service review
+
+Goal: choose representative services/endpoints under the provider.
+
+Checklist:
+
+- pick one or more representative services worth testing or publishing
+- record service-level metadata in the service registry
+- mark activation state separately from provider state
+- keep unpublished or unvalidated services on a `coming-soon` path
+
+Recommended service-level fields:
+
+- provider key
+- service key
+- endpoint URL
+- summary
+- landing page status
+- activation status
+- last checked date
+- notes about caveats or review quality
+
+### 3. Implementation / landing-page prep
+
+Goal: prepare the provider and service for the public site without overstating support.
+
+Checklist:
+
+- add provider data under `src/data/providers/`
+- add service data under `src/data/services/`
+- create or update generated variants
+- source provider branding locally under `public/providers/`
+- create landing pages that are honest about current support state
+
+Important rule:
+
+- a provider can have live landing pages while still being unvalidated for paid activation
+- in that case the landing pages should remain `coming-soon` or equivalent rather than routing to install/support claims
+
+### 4. Paid activation test
+
+Goal: validate one real paid endpoint before moving the service to supported.
+
+Checklist:
+
+- get explicit confirmation before spending funds or taking other side effects
+- run a real paid request against the chosen endpoint
+- capture request, response, cost, and any routing fees
+- save the artifact under `docs/provider-tests/`
+- update service-level support state based on real results
+
+After the paid test, decide whether to:
+
+- expand the provider with more endpoints
+- validate another endpoint under the same provider
+- keep the provider but leave some services coming soon
+- remove or downgrade the provider if the real flow disappoints
+
+---
+
+## Discovery guidance
+
+When using `402index.io` in bulk:
+
+- fetch the API directly rather than scraping the web UI
+- page through results until you reach the total count
+- group services by provider name or canonical provider identifier
+- ignore rows with `provider: null` when generating provider-intake candidates
+
+During dedupe:
+
+- dedupe by provider / brand / root domain, not by endpoint path alone
+- record obvious aliases as explicit duplicates rather than silently collapsing them
+
+Examples of duplicate patterns to watch for:
+
+- brand name vs root domain
+- subdomain vs brand
+- casing or spelling variants
+- marketplace hostname vs marketing site hostname
+
+---
+
+## Provider branding workflow
+
+Provider branding should be local and reusable.
+
+Rules:
+
+- store provider artwork under `public/providers/`
+- reference provider artwork through structured provider data, not external runtime URLs
+- prefer official logos, favicons, or official avatars first
+- if no usable public mark exists, create a simple fallback monogram for review
+
+Asset requirements:
+
+- provider images must be **square**
+- provider images must be **no larger than 256×256**
+- optimize images before shipping them
+- if a downloaded source is not square, crop or place it on a square canvas before committing it
+- if a downloaded source is oversized, resize it to a sensible square output before committing it
+
+This rule applies to both newly added providers and later cleanups of older provider assets.
+
+---
+
+## Repository structure
+
+Current and recommended structure:
 
 ```text
-registry/
-  providers/
-    <provider>.yaml
-  provider-endpoint-candidates/
-    <provider>.yaml
+src/
+  registry/
+    providers/
+      <provider>.ts
+    services/
+      <service>.ts
+  data/
+    providers/
+      <provider>.ts
+    services/
+      <service>.ts
 
 docs/
-  provider-evaluations/
-    <provider>.md
   provider-intake-and-activation.md
+  provider-tests/
+    <provider>-<service>-<date>.md
 ```
 
-Rationale:
+Separation of concerns:
 
-- `registry/providers/*` = machine-readable provider state
-- `docs/provider-evaluations/*` = human-readable review notes and evidence
-- `src/data/providers/*` and `src/data/services/*` remain the already-activated landing-page source of truth
+- `src/registry/providers/*` = durable provider decision layer
+- `src/registry/services/*` = durable service review + activation layer
+- `src/data/providers/*` and `src/data/services/*` = live public landing-page data
+- `docs/provider-tests/*` = paid test artifacts and one-off evidence
 
-### Provider registry should eventually record
+---
+
+## Registry guidance
+
+### Provider registry should record
 
 - canonical provider key
 - provider name
@@ -142,308 +215,156 @@ Rationale:
 - concise decision summary
 - notes / links / docs / GitHub
 
+### Service registry should record
+
+- canonical service key
+- provider key
+- service name
+- endpoint URL
+- landing page status
+- activation status
+- last checked date
+- concise summary
+- notes about caveats, schema quality, or confidence level
+
 ---
 
-## Manual v1 workflow
+## Manual workflow checklist
 
-### Step 1 — Discover provider from 402index
-- Search provider name on 402index
-- Confirm there are indexed services/endpoints
-- Note health, protocol, category, price, and source metadata from the index
+### Step 1 — discover providers
 
-### Step 2 — Dedupe before opening any PR
+- search the approved discovery source
+- confirm the provider has indexed services/endpoints
+- note protocol, category, pricing hints, and source metadata
+
+### Step 2 — dedupe before implementation
+
 Check for existing references in:
 
 - repo content
-- existing provider registry entries (future)
+- provider registry entries
+- service registry entries
 - open GitHub PRs
-- closed GitHub PRs if needed
+- closed PRs if needed
 
-Canonical dedupe should use the provider / brand / root domain, not individual endpoint paths.
+### Step 3 — evaluate provider credibility
 
-### Step 3 — Evaluate provider credibility
 Check:
 
 - website quality
 - docs quality
 - pricing clarity
-- terms / contact / support
-- GitHub repos
-- whether the provider exposes real discovery docs
-- whether the endpoints issue valid payment challenges
-- whether the service itself is useful enough to justify a landing page
+- terms / contact / support signals
+- GitHub repos or technical footprint
+- discovery docs or machine-readable metadata
+- whether the services are useful enough for public landing pages
 - any obvious red flags
 
-Important rule:
+### Step 4 — record provider decision
 
-- **do not use 402index health as the decision gate for provider approval or rejection**
-- record 402index health as telemetry only
-- if a provider looks interesting, evaluate the real site and service directly
-- a provider can still be worth tracking even when 402index currently shows degraded or down health
+- create or update the provider registry entry
+- add `lastCheckedAt`
+- record the reasoning compactly
 
-### Step 4 — Decide provider status
-Recommended status buckets:
+### Step 5 — choose representative services
 
-- `approved`
-- `approved-for-trial`
-- `deferred`
-- `rejected`
-- `duplicate`
+- pick the services most likely to produce useful, understandable landing pages
+- favor services that are easy to explain and later cheap to validate
+- create or update service registry entries
 
-### Step 5 — Add provider and service registry entries before activation
-For an approved or deferred provider:
+### Step 6 — prepare public data
 
-- add a provider registry entry with the review decision
-- add 1 representative service registry entry for the best initial endpoint candidate
-- keep service status separate from provider status
-- mark untested endpoints as `activationStatus: not-started` and `landingPageStatus: coming-soon`
+- add provider + service data for the public site
+- keep unsupported services routed to `coming-soon`
+- avoid implying support before a paid test exists
 
-### Step 6 — Choose only a few endpoints initially
-Selection criteria:
+### Step 7 — run paid validation later
 
-- cheap to test later
-- clear user value
-- simple request / response shape
-- strong landing-page story
-- synchronous when possible
-
-Avoid initial activation of expensive, obscure, or highly async endpoints unless necessary.
-
-### Step 7 — Build the landing-page candidate before paid testing
-For an approved provider / representative endpoint:
-
-- review the real docs and endpoint shape directly
-- confirm the provider is worth showing publicly even before paid validation
-- add provider data to `src/data/providers/*`
-- add service data to `src/data/services/*`
-- download and store a local provider logo under `public/providers/`
-- publish the first landing page as `coming-soon` or other clearly non-supported state if the endpoint is still untested
-
-### Step 8 — Run a real paid test later
-Treat paid testing as a follow-up step, ideally in a separate task or PR:
-
-- trigger the 402 / L402 challenge
-- pay it
-- retry successfully
-- save request / response / output artifacts
-- record quirks and pricing
-- decide whether to:
-  - keep and expand the provider
-  - try a different endpoint from the same provider
-  - or remove the provider if the real flow disappoints
-
-### Step 9 — Only then promote to supported / expand coverage
-Once the paid test is real and documented:
-
-- update the relevant service registry entry to reflect the real result
-- flip the landing page from `coming-soon` to `supported` only when justified
-- add more endpoints from the same provider only if the first paid test went well
+- confirm the user wants to spend
+- execute a real paid request
+- save artifacts
+- update service status from evidence, not optimism
 
 ---
 
-## Sats4AI manual test case
+## Automation guidance
 
-### Why Sats4AI was chosen
-Sats4AI is the first manual provider used to validate the workflow.
+The workflow is intentionally separable so it can be automated in pieces.
 
-### Duplicate check results
-Checked on 2026-04-19:
+Good automation targets:
 
-- no `Sats4AI` / `sats4ai` references in the repo
-- no open GitHub PRs matching `Sats4AI`
-- no historical GitHub PRs matching `Sats4AI`
+1. **directory ingestion**
+   - fetch providers/services from the approved discovery source
+   - normalize aliases
+   - produce candidate provider/service records
 
-Conclusion:
+2. **dedupe checks**
+   - compare candidates against registry entries and repo content
+   - detect duplicates and alias collisions
 
-- clean candidate for first provider intake test
+3. **landing-page prep**
+   - scaffold provider/service data files
+   - generate variants
+   - validate route generation and CTA routing
 
-### 402index findings
-402index search returned about 30 Sats4AI services, including:
+4. **branding normalization**
+   - download provider logos
+   - square them
+   - resize to max 256×256
+   - optimize file size
 
-- `generate-text`
-- `translate-text`
-- `transcribe-audio`
-- `extract-document`
-- `convert-html-to-pdf`
-- `generate-image`
-- `analyze-image`
+5. **paid activation follow-up**
+   - should remain gated by explicit confirmation because it spends funds and has side effects
 
-402index currently marks many Sats4AI services as:
+What should stay human-reviewed:
 
-- protocol: `L402`
-- provider: `Sats4AI`
-- status: `down`
-- poor reliability / uptime
-- source often includes `self-registered`
-
-Important observation:
-
-- 402index health did **not** fully match direct provider behavior
-
-### Direct provider evidence gathered
-Checked directly on `https://sats4ai.com`:
-
-- homepage exists and is product-specific
-- L402 docs exist: `/l402`
-- MCP docs exist: `/mcp`
-- unified docs exist: `/docs`
-- terms exist: `/terms`
-- contact page exists: `/contact`
-- roadmap exists: `/roadmap`
-- machine-readable discovery exists:
-  - `/.well-known/l402-services`
-  - `/llms.txt`
-- public GitHub links exposed in docs:
-  - `cnghockey/sats4ai-mcp-server`
-  - `cnghockey/sats4ai-l402-examples`
-
-### L402 verification results
-Direct terminal probes showed valid L402 challenge responses from real endpoints, including:
-
-- `https://sats4ai.com/api/l402/generate-text`
-- `https://sats4ai.com/api/l402/translate-text`
-- `https://sats4ai.com/api/l402/convert-html-to-pdf`
-
-Observed behavior:
-
-- HTTP `402 Payment Required`
-- `www-authenticate: L402 ...`
-- real BOLT11 invoice returned
-- real macaroon returned
-
-This means the provider is live enough to issue real payment challenges even though 402index health currently looks poor.
-
-### Sats4AI credibility summary
-Positive signals:
-
-- clear docs and product positioning
-- transparent per-service pricing
-- L402 + MCP + discovery docs
-- terms and contact pages exist
-- public GitHub repos exist and are recently updated
-- machine-readable catalog exists
-- valid live L402 payment challenges observed
-
-Caveats / red flags:
-
-- no clear team/about page found yet
-- weak public proof / social proof so far
-- GitHub repos are early / low-star
-- site is explicitly beta
-- 402index health appears inconsistent / weak
-
-Current recommendation:
-
-- **approved for trial**
-- promising but early
-- good enough to continue testing manually
-
-### Best first endpoint candidate
-Recommended first activation endpoint:
-
-- `translate-text`
-- `https://sats4ai.com/api/l402/translate-text`
-
-Status:
-
-- **paid test completed successfully**
-- **landing page service added locally as `sats4ai-translate-text`**
-- **service registry now records endpoint-level status separately from provider status, so additional Sats4AI pages can stay coming-soon until each endpoint is paid-tested**
-- **provider and service registry entries now include `lastCheckedAt` so review freshness is visible in git**
-- detailed test record: `docs/provider-tests/sats4ai-translate-text-2026-04-19.md`
-
-Why:
-
-- cheap
-- simple request body
-- easy synchronous response shape
-- clear landing-page value proposition
-- easier than audio / video / async workflows
-
-Fallback candidates:
-
-- `generate-text`
-- `convert-html-to-pdf`
-
-### Live paid test result
-The first end-to-end paid test for Sats4AI has now been completed successfully.
-
-Summary:
-
-- tool used: `@getalby/cli fetch`
-- endpoint tested: `translate-text`
-- request succeeded end-to-end with real payment and retry
-- returned translated Spanish text successfully
-- service cost observed: `1 sat`
-- routing / payment fees observed: `1 sat`
-- total wallet delta observed: `2 sats`
-
-See full artifact record:
-
-- `docs/provider-tests/sats4ai-translate-text-2026-04-19.md`
-
-### Why `translate-text` is preferred over `generate-text`
-`generate-text` works, but translation is more differentiated and makes a better first landing-page story for a pay-per-use service.
+- final provider credibility decision
+- final service usefulness decision
+- whether a provider is worth public landing-page exposure
+- whether a paid validation spend is justified
 
 ---
 
-## Wallet setup completed during this manual test
-We also set up wallet capability so the environment can complete real paid endpoint tests.
+## Documentation rules
 
-### Skill installation
-The Alby payments skill content was saved locally as a custom skill at:
+To keep this doc reusable:
 
-- `/home/ubuntu/.hermes/skills/custom/alby-bitcoin-payments/SKILL.md`
+- do not add provider-specific case studies here
+- do not add temporary shortlist batches here
+- do not add one-off implementation logs here
+- do not let this become a history dump of past experiments
 
-### Wallet auth flow
-Auth command run:
+Instead:
 
-```bash
-npx -y @getalby/cli@0.6.1 auth https://my.albyhub.com --app-name Hermes
-```
-
-Approval URL was generated and approved in Alby Hub.
-
-### Verification command
-Wallet access was verified with:
-
-```bash
-npx -y @getalby/cli@0.6.1 get-balance
-```
-
-Observed balance at setup time:
-
-- `10,000 sats`
-
-Conclusion:
-
-- the environment is now ready to perform real paid endpoint tests
+- keep this file procedural and general
+- store paid test artifacts in `docs/provider-tests/`
+- store provider-specific evaluation notes in dedicated docs if needed
+- update `README.md` with high-level references only
 
 ---
 
-## Recommended next implementation step
-The next repo work should be:
+## Verification checklist
 
-1. add a provider registry + legacy backfill structure
-2. add Sats4AI as the first provider intake record
-3. record provider evaluation notes in git
-4. perform real end-to-end paid test for `translate-text`
-5. capture artifacts for future landing page generation
+Before claiming the intake or implementation step is complete:
+
+- provider/service records are updated in the right layer
+- `lastCheckedAt` values are present where needed
+- provider branding assets are local, square, and no larger than 256×256
+- unsupported services route to `coming-soon`
+- supported services route to install only after real validation
+- `npm run build` passes
+- any relevant verification scripts pass
+- GitHub URLs are checked directly before claiming the work exists
 
 ---
 
-## Recommendation on documentation placement
-For now, a normal markdown file under `docs/` is better than introducing `AGENTS.md` immediately.
+## Summary
 
-Reason:
+This workflow is designed to support repeatable expansion:
 
-- this repo currently has no `AGENTS.md`
-- we only need one durable planning / workflow document right now
-- `docs/provider-intake-and-activation.md` is easy to link from `README.md`
-- if the repo later accumulates multiple operational conventions, we can add a top-level `AGENTS.md` that points to the docs folder
-
-Current recommendation:
-
-- keep the detailed workflow in `docs/provider-intake-and-activation.md`
-- link it from `README.md`
-- add `AGENTS.md` later only if the repo grows enough to justify a dedicated operator guide
+- intake providers first
+- review services separately
+- prepare landing pages honestly
+- validate paid support later with evidence
+- keep branding local and normalized
+- keep this document general so it remains useful for future runs and automation
