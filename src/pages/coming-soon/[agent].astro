@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { agentsByKey } from '../../data/agents';
 import { variants } from '../../data/build-variants';
+import { buildPageSeo } from '../../seo-rules';
 
 export function getStaticPaths() {
   return Object.keys(agentsByKey).map((agent) => ({ params: { agent } }));
@@ -14,9 +15,17 @@ const supportedToday = agentVariants.filter((variant) => variant.supportStatus =
 const installHref = `${import.meta.env.BASE_URL}install/${agent}/`;
 const title = `More services for ${currentAgent?.name ?? 'your agent'} are coming soon`;
 const description = `Explore services available now for ${currentAgent?.name ?? 'your agent'} and install the Alby Payments Skill.`;
+const seo = buildPageSeo({ pathname: Astro.url.pathname, site: Astro.site, pageType: 'coming-soon' });
+const schema = {
+  '@context': 'https://schema.org',
+  '@type': 'WebPage',
+  name: title,
+  description,
+  url: seo.canonical,
+};
 ---
 
-<BaseLayout title={title} description={description}>
+<BaseLayout title={title} description={description} canonical={seo.canonical} robots={seo.robots} schema={schema}>
   <section class="panel page">
     <div class="hero-row">
       {currentAgent && <img class="agent-logo" src={currentAgent.logoSrc} alt={`${currentAgent.name} logo`} />}
