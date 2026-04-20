@@ -114,8 +114,9 @@ Expected production URL:
 2. finalize the CTA destination and install UX for supported services
 3. improve SEO metadata per variant, including canonical strategy, Open Graph images, and structured data
 4. keep provider and service registry entries fresh with real last-checked dates as more endpoints are reviewed
-5. add automation that can generate more agent-specific pages from approved provider/service records
-6. add checks for thin or duplicate copy as the number of agents, providers, and services grows
+5. automate repeatable 402index intake runs that refresh provider and representative service registry entries without treating 402index health as the approval gate
+6. add automation that can generate more agent-specific pages from approved provider/service records
+7. add checks for thin or duplicate copy as the number of agents, providers, and services grows
 
 ## Why Astro here
 
