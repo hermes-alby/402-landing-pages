@@ -76,11 +76,6 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
           <p class="card-kicker">{variant.category}</p>
           <h3 class="card-title">{variant.description}</h3>
           <p class="card-meta">{variant.priceLabel} · {variant.paymentLabel}</p>
-          <ul class="card-list">
-            {variant.useCases.slice(0, 2).map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
           <a class="button tertiary" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
             View service details
           </a>
@@ -115,11 +110,6 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
           <p class="card-kicker">{variant.category}</p>
           <h3 class="card-title">{variant.description}</h3>
           <p class="card-meta">{variant.priceLabel} · {variant.paymentLabel}</p>
-          <ul class="card-list">
-            {variant.useCases.slice(0, 2).map((item) => (
-              <li>{item}</li>
-            ))}
-          </ul>
           <a class="button secondary card-link" href={`${import.meta.env.BASE_URL}agents/${variant.agentKey}/${variant.slug}/`}>
             Learn more
           </a>
@@ -282,17 +272,9 @@ const categoryHighlights = [...new Set(homepageVariants.map((variant) => variant
     line-height: 1.45;
   }
   .card-meta {
-    margin: 0 0 1rem;
+    margin: 0 0 1.1rem;
     color: var(--muted);
     font-size: 0.95rem;
-  }
-  .card-list {
-    color: var(--muted);
-    line-height: 1.65;
-    padding-left: 1.2rem;
-    min-height: 5.8rem;
-    margin: 0 0 1.25rem;
-    flex: 1 1 auto;
   }
   .button {
     display: inline-block;
