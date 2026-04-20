@@ -31,6 +31,11 @@ For now we only use:
 
 We are **not** scanning Satring, Sponge, x402 Bazaar directly, or other registries yet.
 
+### Health interpretation
+402index health is useful telemetry, but it is **not** the approval gate for provider intake.
+
+Use it to notice possible risk or staleness, but do not reject an otherwise credible provider only because 402index currently reports degraded or down health.
+
 ### Control plane
 We want a provider registry in the repo that records whether a provider is:
 
@@ -138,7 +143,15 @@ Check:
 - GitHub repos
 - whether the provider exposes real discovery docs
 - whether the endpoints issue valid payment challenges
+- whether the service itself is useful enough to justify a landing page
 - any obvious red flags
+
+Important rule:
+
+- **do not use 402index health as the decision gate for provider approval or rejection**
+- record 402index health as telemetry only
+- if a provider looks interesting, evaluate the real site and service directly
+- a provider can still be worth tracking even when 402index currently shows degraded or down health
 
 ### Step 4 — Decide provider status
 Recommended status buckets:
@@ -149,7 +162,15 @@ Recommended status buckets:
 - `rejected`
 - `duplicate`
 
-### Step 5 — Choose only a few endpoints initially
+### Step 5 — Add provider and service registry entries before activation
+For an approved or deferred provider:
+
+- add a provider registry entry with the review decision
+- add 1 representative service registry entry for the best initial endpoint candidate
+- keep service status separate from provider status
+- mark untested endpoints as `activationStatus: not-started` and `landingPageStatus: coming-soon`
+
+### Step 6 — Choose only a few endpoints initially
 Selection criteria:
 
 - cheap to test
@@ -160,7 +181,7 @@ Selection criteria:
 
 Avoid initial activation of expensive, obscure, or highly async endpoints unless necessary.
 
-### Step 6 — Run a real paid test
+### Step 7 — Run a real paid test
 For an approved provider:
 
 - trigger the 402 / L402 challenge
@@ -169,7 +190,7 @@ For an approved provider:
 - save request / response / output artifacts
 - record quirks and pricing
 
-### Step 7 — Only then generate landing page data
+### Step 8 — Only then generate landing page data
 Once the test is real and documented:
 
 - add provider data if needed
