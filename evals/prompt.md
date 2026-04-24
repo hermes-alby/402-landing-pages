@@ -10,6 +10,8 @@ Use the rubric as guidance, read the page carefully, and write the final report 
 - Prefer user-facing copy over internal-process copy.
 - Penalize wording that leaks internal workflow or review status into public copy.
 - Penalize abstract phrasing like 'value proposition', 'strong fit for', or similar vague marketing language.
+- Penalize unofficial or generic service/model names when an official name is known.
+- Penalize public copy that explains where examples, screenshots, or local assets were sourced from unless source attribution is legally or user-value necessary.
 - Prefer direct factual wording when facts are known.
 - Mentioning 'coming-soon' in hero or value-proposition language is a negative unless there is a very strong user-facing reason.
 - Dates like 'reviewed on 2026-04-20' usually do not help the reader and should normally be penalized.

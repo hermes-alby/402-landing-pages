@@ -2,13 +2,13 @@ import { createServiceDefinition } from '../service-factory';
 import { buildCostDetail, createUsdFixedPrice } from '../pricing';
 import type { ServiceDefinition } from '../types';
 
-const pricing = createUsdFixedPrice(0.069, 'per image',);
+const pricing = createUsdFixedPrice(0.069, 'per image');
 
 const service = createServiceDefinition({
   copyFamily: 'image-generation',
   key: 'payperq-gpt-image-2',
   providerKey: 'payperq',
-  name: 'GPT Image 2',
+  name: 'ChatGPT Images 2.0',
   endpointUrl: 'https://api.ppq.ai/v1/images/generations/gpt-image-2',
   resultLabel: 'Create launch-ready visuals on demand from one reusable prompt',
   category: 'Image generation',
@@ -17,9 +17,9 @@ const service = createServiceDefinition({
   pricing,
   exampleOutput: {
     kind: 'image',
-    title: 'Main showcase + supporting examples',
+    title: 'Launch visuals, editorial layouts, and multilingual posters',
     caption:
-      'Bring your ideas to life with a polished campaign-style image, then show the wider range of visuals this model can create on demand — from multilingual posters to editorial layouts.',
+      'Bring your ideas to life with polished campaign-style images, then explore the range ChatGPT Images 2.0 can cover on demand — from multilingual posters to layout-heavy editorial work.',
     imageSrc: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/main-matcha.webp`,
     imageAlt:
       'A premium matcha launch poster with refined product styling, editorial typography, and campaign-quality art direction',
@@ -48,15 +48,15 @@ const service = createServiceDefinition({
     ],
     details: [
       'Provider: PayPerQ',
-      'Service: GPT Image 2',
+      'Service: ChatGPT Images 2.0',
       'Endpoint: /v1/images/generations/gpt-image-2',
       buildCostDetail(pricing),
-      'Observed live model metadata: low, medium, and high quality tiers are listed in the PPQ models API',
-      'Observed live model metadata: prompt input is required, and optional image URL input, aspect ratio control, output format, and multi-image generation are supported',
-      'Main and supporting examples are local copies sourced from the OpenAI “Introducing ChatGPT Images 2.0” post to show commercial, multilingual, and editorial range',
-      'Price shown here uses the medium-quality rate from the live PPQ models API on 2026-04-24',
+      'Quality options: low, medium, and high tiers',
+      'Prompt input is required; optional image URL input, aspect ratio control, output format, and multi-image generation are supported',
+      'Example range: commercial product launch art, multilingual typography, editorial spreads, and broad visual exploration',
+      'Shown price reflects the medium-quality image tier',
     ],
-    briefingTitle: 'More ways to create with GPT Image 2',
+    briefingTitle: 'More ways to create with ChatGPT Images 2.0',
     briefingParagraphs: [
       'Create polished launch creative without the drag of a monthly subscription. Pay only per image, nothing wasted.',
       'From campaign visuals and multilingual posters to layout-heavy editorial work, you can generate the exact kind of image you need without committing to another creative subscription.',
@@ -75,7 +75,7 @@ const service = createServiceDefinition({
   ],
   whyItWorks: ({ agentName, providerName, priceLabel }) => [
     `${agentName} becomes far more useful when it can turn a concrete creative brief into a polished image instead of handing the job back to you halfway through.`,
-    `${providerName} lists ${priceLabel} for the medium-quality tier in the live models API, which makes high-quality one-off visuals easier to justify than another recurring subscription.`,
+    `${providerName} lists ${priceLabel} for the medium-quality tier, which makes high-quality one-off visuals easier to justify than another recurring subscription.`,
     'That means more room to experiment, more freedom to try new ideas, and less money tied up in tools you barely use.',
   ],
   useCases: () => [

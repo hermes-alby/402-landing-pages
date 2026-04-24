@@ -1,0 +1,14 @@
+{
+  "slug": "payperq-gpt-image-2",
+  "agent": "hermes",
+  "title": "PayPerQ image page uses generic model name and source-attribution copy",
+  "excerpt": "Service: GPT Image 2. Main and supporting examples are local copies sourced from the OpenAI “Introducing ChatGPT Images 2.0” post to show commercial, multilingual, and editorial range.",
+  "notes": [
+    "Use the official public model/service name when known. In this case the page should say ChatGPT Images 2.0, not generic GPT Image 2, except where the endpoint slug itself is relevant.",
+    "End users do not need to know that images are local copies sourced from an official post. That research should inform the page, but public copy should translate it into benefits and examples.",
+    "Source attribution belongs in internal intake notes or asset metadata unless it materially helps the reader."
+  ],
+  "criterionTags": ["specificity", "factual-discipline", "user-facing-positioning"],
+  "source": "human-review",
+  "recordedAt": "2026-04-24"
+}

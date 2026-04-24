@@ -7,13 +7,13 @@
       "id": "specificity",
       "label": "Specificity and usefulness",
       "weight": 30,
-      "guidance": "Reward concrete, provider-specific, service-specific copy that helps a user understand why this page matters. Penalize vague praise, abstract value-proposition language, and generic statements that could fit many providers."
+      "guidance": "Reward concrete, provider-specific, service-specific copy that helps a user understand why this page matters. Reward use of the official service/model/product name when one exists. Penalize vague praise, abstract value-proposition language, unofficial/generic service naming, and generic statements that could fit many providers."
     },
     {
       "id": "factual-discipline",
       "label": "Factual discipline and confidence calibration",
       "weight": 30,
-      "guidance": "Reward direct factual phrasing when facts are known. Penalize hedging like 'the site is explicit that', 'observed item', 'reviewed on', or phrasing that leaks internal research process instead of stating the fact plainly. Penalize claims that go beyond observed evidence."
+      "guidance": "Reward direct factual phrasing when facts are known. Penalize hedging like 'the site is explicit that', 'observed item', 'reviewed on', irrelevant source-attribution notes such as where local example images were copied from, or phrasing that leaks internal research process instead of stating the fact plainly. Penalize claims that go beyond observed evidence."
     },
     {
       "id": "user-facing-positioning",
@@ -45,14 +45,19 @@
     "strong fit for",
     "observed item",
     "the live site is explicit that",
-    "reviewed on"
+    "reviewed on",
+    "local copies sourced from",
+    "sourced from the",
+    "official source"
   ],
   "redFlagGuidance": [
     "Do not reward a page just for repeating provider names, endpoint paths, or pricing if the prose is still weak.",
     "Penalize any sentence that mentions 'coming-soon' in the user-facing value proposition or hero copy.",
     "Prefer direct factual statements like 'No account is required' over meta-language like 'The live site is explicit that no account is required'.",
     "Do not reward internal process leakage such as checked dates, review notes, or activation caveats unless that information is genuinely useful to the reader.",
-    "Penalize phrasing that sounds apologetic, overly observational, or written for internal reviewers rather than users."
+    "Penalize phrasing that sounds apologetic, overly observational, or written for internal reviewers rather than users.",
+    "Penalize unofficial or generic product/model names when an official name is known. The public page should use the official name consistently, with endpoint slugs only as technical details when useful.",
+    "Penalize public copy that tells users where local assets or examples were sourced from. Use official sources during research, but turn that evidence into user-facing benefits instead of source-attribution notes."
   ],
   "requiredHeadings": [
     "Example prompt",
