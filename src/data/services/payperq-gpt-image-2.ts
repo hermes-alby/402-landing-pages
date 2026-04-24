@@ -17,12 +17,29 @@ const service = createServiceDefinition({
   pricing,
   exampleOutput: {
     kind: 'image',
-    title: 'Showcase concept image',
+    title: 'Main showcase + supporting examples',
     caption:
-      'A showcase concept built around a reusable launch-visual prompt for product pages, blog headers, and social campaigns — the kind of polished composition this landing page is meant to help an agent request.',
-    imageSrc: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/showcase.svg`,
+      'Main showcase image: a polished campaign-style product ad from the OpenAI ChatGPT Images 2.0 launch post, chosen because it demonstrates a concrete commercial brief instead of generic AI art.',
+    imageSrc: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/main-matcha.webp`,
     imageAlt:
-      'A premium launch-style product visual with a glowing dashboard card, phone mockup, and social crop frames in amber and indigo tones',
+      'A premium matcha launch poster with refined product styling, editorial typography, and campaign-quality art direction',
+    supportingImages: [
+      {
+        src: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/support-languages.webp`,
+        alt: 'A multilingual editorial poster showing strong text rendering across multiple languages and scripts',
+        caption: 'Typography and multilingual layout control',
+      },
+      {
+        src: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/support-wolf-magazine.webp`,
+        alt: 'A magazine-style educational spread about wolves with photography, sidebars, maps, and infographic structure',
+        caption: 'Editorial spreads, infographics, and structured layouts',
+      },
+      {
+        src: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/support-visual-polyglot.webp`,
+        alt: 'A dense collage poster combining art, science, design, culture, and mixed-media visual references',
+        caption: 'Broad visual range across styles, subjects, and media',
+      },
+    ],
     details: [
       'Provider: PayPerQ',
       'Service: GPT Image 2',
@@ -30,16 +47,17 @@ const service = createServiceDefinition({
       buildCostDetail(pricing),
       'Observed live model metadata: low, medium, and high quality tiers are listed in the PPQ models API',
       'Observed live model metadata: prompt input is required, and optional image URL input, aspect ratio control, output format, and multi-image generation are supported',
+      'Main and supporting examples are local copies sourced from the OpenAI “Introducing ChatGPT Images 2.0” post to show commercial, multilingual, and editorial range',
       'Price shown here uses the medium-quality rate from the live PPQ models API on 2026-04-24',
     ],
-    briefingTitle: 'Why this prompt direction is broadly useful',
+    briefingTitle: 'Why this showcase is stronger than a single vague hero image',
     briefingParagraphs: [
-      'A strong first image workflow for many users is not abstract art — it is a launch-ready visual that can work across a landing page, blog post, and social promotion with only small edits.',
-      'This example prompt is designed to give an agent one reusable creative brief with clear composition, cropping, and quality constraints instead of a vague request that produces pretty but unusable output.',
+      'A single pretty image is easy to dismiss as generic AI slop. A stronger landing-page story shows the model solving different real briefs: campaign creative, multilingual poster design, and dense editorial layout work.',
+      'This makes the page more useful to a wider set of visitors because they can immediately see whether they care about ads, social creative, typography, or infographic-style visual production.',
     ],
   },
   examplePrompt:
-    'Create a launch-ready hero image for a new AI product announcement. Show one clear central product moment with clean negative space for a headline overlay, premium editorial lighting, crisp interface detail, and a composition that can crop cleanly to 16:9, 1:1, and 4:5 for a landing page, blog post, and social campaign. Use a dark indigo background with warm amber accents, avoid text, logos, and watermarks, and deliver a polished marketing visual using PayPerQ with the Alby payments skill.',
+    'Create a premium launch poster for a new specialty matcha café opening in Brooklyn Heights. Show one hero iced strawberry matcha in a clear glass with visible layering, condensation, and two fresh strawberries beside it on a stone pedestal. Use warm natural editorial light, refined Japanese-inspired art direction, soft cream walls, olive and blush accents, and enough clean negative space for a landing-page headline. The image should feel like a finished commercial campaign asset for a website hero, blog feature, and social announcement. No watermarks, no extra logos, and no baked-in website UI. Generate it using PayPerQ with the Alby payments skill.',
   variantTitle: ({ agentName, providerName, serviceName }) => `Generate launch-ready images with ${agentName} using ${providerName} ${serviceName}`,
   variantDescription: ({ agentName, providerName, serviceName, priceLabel }) =>
     `Enable ${agentName} to create polished product, blog, and campaign visuals through ${providerName} ${serviceName} for ${priceLabel}, without forcing another subscription or prepaid credit flow.`,

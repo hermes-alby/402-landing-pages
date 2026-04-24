@@ -128,6 +128,16 @@ const schema = [
           <figure class="example-card">
             <img src={variant.exampleOutput.imageSrc} alt={variant.exampleOutput.imageAlt} />
             <figcaption>{variant.exampleOutput.caption}</figcaption>
+            {variant.exampleOutput.supportingImages?.length ? (
+              <div class="supporting-gallery">
+                {variant.exampleOutput.supportingImages.map((image) => (
+                  <figure class="supporting-card">
+                    <img src={image.src} alt={image.alt} />
+                    {image.caption ? <figcaption>{image.caption}</figcaption> : null}
+                  </figure>
+                ))}
+              </div>
+            ) : null}
           </figure>
         ) : (
           <div class="table-card">
@@ -343,6 +353,31 @@ const schema = [
     width: 100%;
     height: auto;
   }
+  .supporting-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.9rem;
+    margin-top: 1rem;
+  }
+  .supporting-card {
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+  .supporting-card img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+  }
+  .supporting-card figcaption {
+    padding: 0.75rem 0.85rem;
+    color: var(--muted);
+    line-height: 1.55;
+    font-size: 0.94rem;
+  }
   .example-card figcaption,
   .table-caption,
   .output-meta,
@@ -429,6 +464,9 @@ const schema = [
     .hero,
     .example-grid,
     .example-grid.table-layout {
+      grid-template-columns: 1fr;
+    }
+    .supporting-gallery {
       grid-template-columns: 1fr;
     }
   }

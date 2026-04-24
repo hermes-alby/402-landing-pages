@@ -18,6 +18,11 @@ export type ExampleImageOutput = {
   caption: string;
   imageSrc: string;
   imageAlt: string;
+  supportingImages?: {
+    src: string;
+    alt: string;
+    caption?: string;
+  }[];
   details: string[];
   briefingTitle?: string;
   briefingParagraphs?: string[];
