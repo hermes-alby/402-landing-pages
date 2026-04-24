@@ -56,10 +56,10 @@ const service = createServiceDefinition({
       'Main and supporting examples are local copies sourced from the OpenAI “Introducing ChatGPT Images 2.0” post to show commercial, multilingual, and editorial range',
       'Price shown here uses the medium-quality rate from the live PPQ models API on 2026-04-24',
     ],
-    briefingTitle: 'More ways to turn ideas into visuals',
+    briefingTitle: 'More ways to create with GPT Image 2',
     briefingParagraphs: [
-      'The main image sells one concrete promise: polished launch creative without the drag of a monthly subscription. Pay only per image, nothing wasted.',
-      'The supporting examples widen the appeal so more visitors can picture what they would create next — campaign visuals, multilingual posters, or layout-heavy editorial work — all without committing to another creative subscription.',
+      'Create polished launch creative without the drag of a monthly subscription. Pay only per image, nothing wasted.',
+      'From campaign visuals and multilingual posters to layout-heavy editorial work, you can generate the exact kind of image you need without committing to another creative subscription.',
     ],
   },
   examplePrompt:
