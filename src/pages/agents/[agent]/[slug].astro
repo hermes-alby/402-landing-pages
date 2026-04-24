@@ -133,7 +133,16 @@ const schema = [
                 {variant.exampleOutput.supportingImages.map((image) => (
                   <figure class="supporting-card">
                     <img src={image.src} alt={image.alt} />
-                    {image.caption ? <figcaption>{image.caption}</figcaption> : null}
+                    {image.caption || image.promptDirection ? (
+                      <figcaption>
+                        {image.caption ? <p class="supporting-caption">{image.caption}</p> : null}
+                        {image.promptDirection ? (
+                          <p class="supporting-prompt-direction">
+                            <strong>Prompt direction:</strong> {image.promptDirection}
+                          </p>
+                        ) : null}
+                      </figcaption>
+                    ) : null}
                   </figure>
                 ))}
               </div>
@@ -377,6 +386,17 @@ const schema = [
     color: var(--muted);
     line-height: 1.55;
     font-size: 0.94rem;
+  }
+  .supporting-caption {
+    margin: 0;
+  }
+  .supporting-prompt-direction {
+    margin: 0.55rem 0 0;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+  .supporting-prompt-direction strong {
+    color: var(--text);
   }
   .example-card figcaption,
   .table-caption,

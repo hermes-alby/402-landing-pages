@@ -22,6 +22,7 @@ export type ExampleImageOutput = {
     src: string;
     alt: string;
     caption?: string;
+    promptDirection?: string;
   }[];
   details: string[];
   briefingTitle?: string;

@@ -28,16 +28,22 @@ const service = createServiceDefinition({
         src: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/support-languages.webp`,
         alt: 'A multilingual editorial poster showing strong text rendering across multiple languages and scripts',
         caption: 'Typography and multilingual layout control',
+        promptDirection:
+          'Design a modern editorial poster about multilingual communication with bold geometric layout, strong hierarchy, and dense readable text across multiple scripts and languages.',
       },
       {
         src: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/support-wolf-magazine.webp`,
         alt: 'A magazine-style educational spread about wolves with photography, sidebars, maps, and infographic structure',
         caption: 'Editorial spreads, infographics, and structured layouts',
+        promptDirection:
+          'Create a magazine-style educational spread about wolves in North America with wildlife photography, myth-versus-fact sidebars, maps, statistics, and infographic callouts.',
       },
       {
         src: `${import.meta.env.BASE_URL}services/payperq-gpt-image-2/support-visual-polyglot.webp`,
         alt: 'A dense collage poster combining art, science, design, culture, and mixed-media visual references',
         caption: 'Broad visual range across styles, subjects, and media',
+        promptDirection:
+          'Create a dense editorial collage showing art, science, history, nature, and design references arranged around a central creative manifesto headline.',
       },
     ],
     details: [
