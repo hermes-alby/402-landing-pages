@@ -121,6 +121,54 @@ After the paid test, decide whether to:
 
 ---
 
+## Public copy and companion blog-post tone
+
+Landing pages and any companion blog posts are for end users first.
+
+That means the copy should not read like internal review notes, eval commentary, or implementation justification.
+
+### What good public copy should do
+
+- make the service feel desirable and easy to imagine using
+- keep the promise grounded in observed facts
+- connect pricing to relief and freedom, not just mechanics
+- help a human visitor picture the outcome they want
+
+### Useful emotional directions
+
+These are good patterns when they remain honest and specific:
+
+- `Bring your ideas to life with ...`
+- `Unlock stunning visuals on demand ...`
+- `Pay only per image, nothing wasted.`
+- `No subscription, just creative freedom.`
+- `Turn a blog post into a visual story people actually want to open.`
+
+### What to avoid in public copy
+
+- internal headings like `Why this showcase is stronger than ...`
+- lines that explain the agent's reasoning instead of the user's outcome
+- critique language such as `generic AI slop`, `vague hero image`, or similar internal judgments
+- review-note phrasing that belongs in a PR or eval instead of a landing page
+- dry implementation language when a concrete user benefit would say the same thing better
+
+### Copy rule for image-generation pages
+
+- Prefer a concrete, aspirational outcome plus a clear payment benefit.
+- A strong pattern is: desired result + no subscription + pay only for what you use.
+- When showing multiple examples, frame them as inspiration for different user goals, not as an explanation of why the page architecture is clever.
+
+### Companion blog posts
+
+If a landing page is paired with a blog-style intake or launch post:
+
+- keep the tone warmer and more vivid than internal docs
+- show what kinds of images a visitor could make for their own launch, blog, campaign, or product
+- borrow inspiration from strong headline directions like `bring your ideas to life`, `unlock stunning visuals on demand`, and `pay only for the images you actually need`
+- avoid sounding like a changelog entry unless the audience is explicitly technical
+
+---
+
 ## Discovery guidance
 
 When using `402index.io` in bulk:
