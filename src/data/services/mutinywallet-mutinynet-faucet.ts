@@ -16,44 +16,45 @@ const service = createServiceDefinition({
   pricing,
   exampleOutput: {
     kind: 'table',
-    title: 'What the live faucet flow already shows',
+    title: 'What you get from the faucet flow',
     caption:
-      'The Mutinynet site openly advertises pay-with-Lightning access, and the faucet API returns a real 402 JSON challenge with invoice and token so agents can unlock testnet sats without a web account.',
-    columns: ['Observed item', 'Value'],
+      'Request Mutinynet testnet sats through a Lightning-gated faucet so an agent can keep a Bitcoin test workflow moving without a browser detour or manual faucet hunt.',
+    columns: ['What you get', 'Details'],
     rows: [
-      ['Homepage CTA', 'Pay with Lightning — no account needed'],
-      ['Live endpoint challenge', '402 JSON with invoice + token'],
-      ['Directory-listed price', '50 sats'],
+      ['No account required', 'Pay with Lightning faucet flow on the site'],
+      ['API access', '402 challenge with invoice and token at /api/l402'],
+      ['Price', '50 sats per faucet request'],
     ],
     details: [
       'Provider: MutinyWallet',
       'Service: Mutinynet Faucet',
       'Endpoint: /api/l402',
       buildCostDetail(pricing),
-      'Checked: live homepage and live 402 challenge reviewed on 2026-04-20',
-      'Observed site also exposes refund details, faucet node details, federation data, and Cashu mint context for the broader Mutinynet ecosystem',
+      'No account required',
+      'Lightning invoice and token challenge',
+      'The faucet page also links refund details, faucet node details, federation data, and Cashu mint context for the wider Mutinynet stack',
     ],
-    briefingTitle: 'Why this page is live before paid activation',
+    briefingTitle: 'Keep Bitcoin test workflows moving',
     briefingParagraphs: [
-      'The homepage already explains the pay-with-Lightning flow clearly and the API returns a live 402 challenge, so the landing page can describe the faucet honestly before we run the paid request end to end.',
-      'This page stays on the coming-soon path until we execute a real paid faucet request and capture the returned faucet result as an activation artifact.',
+      'Get testnet sats without leaving an agent workflow for a browser faucet detour.',
+      'When a Mutinynet test needs funds before the next wallet or node step can run, paying once for a faucet request is simpler than signing up for another tool.',
     ],
   },
   examplePrompt:
-    'Use Mutinynet Faucet to request testnet sats for a Bitcoin integration test, then summarize the steps needed to continue the workflow using MutinyWallet with the Alby payments skill.',
+    'Use Mutinynet Faucet to request testnet sats for a Mutinynet wallet integration test, then summarize the next setup steps using MutinyWallet with the Alby payments skill.',
   variantTitle: ({ agentName, providerName }) => `Get Mutinynet testnet sats with ${agentName} using ${providerName}`,
   variantDescription: ({ agentName, providerName, priceLabel }) =>
     `Enable ${agentName} to unlock Mutinynet testnet sats through ${providerName} for ${priceLabel}, without stopping for a browser-only faucet flow.`,
   heroSummary: ({ agentName, providerName, serviceName }) =>
     `Give ${agentName} access to ${providerName} ${serviceName} so it can fund a Mutinynet test workflow through a Lightning-gated faucet instead of waiting for manual setup or account creation.`,
   heroBulletHighlights: () => [
-    'Strong fit for Bitcoin development and testing workflows where an agent needs testnet sats before it can continue.',
-    'The live site is explicit that no account is required, which makes the value proposition unusually clear for a coming-soon page.',
+    'Perfect for Bitcoin development and testing workflows that need testnet sats before the next step can run.',
+    'No account required. Pay with Lightning and keep a Mutinynet test flow moving.',
   ],
   whyItWorks: ({ agentName, providerName }) => [
-    `${agentName} can keep a Bitcoin integration workflow moving when it can get Mutinynet sats programmatically instead of asking a human to hunt for a faucet manually.`,
-    `${providerName} already exposes both a clear pay-with-Lightning site flow and a real 402 API response, which makes the faucet easy to explain honestly before paid activation is complete.`,
-    'That makes this a strong practical landing page for agent-native Bitcoin testing workflows even before the endpoint graduates to supported-now status.',
+    `${agentName} can keep a Bitcoin integration workflow moving when it can request Mutinynet sats inside the same flow instead of sending a human off to find a faucet manually.`,
+    `${providerName} exposes a pay-with-Lightning faucet instead of a browser-only giveaway flow, which makes funding a test environment easier to automate.`,
+    'At 50 sats per request, the cost is easy to understand when you just need test funds to unblock the next wallet, node, or app step.',
   ],
   useCases: () => [
     'Fund a Mutinynet integration test before running wallet or node automation',

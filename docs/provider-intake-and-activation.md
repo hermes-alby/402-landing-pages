@@ -160,6 +160,20 @@ These are good patterns when they remain honest and specific:
 
 ### Companion blog posts
 
+Before writing a landing page or companion blog-style intake / launch post, research official sources for the service.
+
+Use official sources to find:
+
+- the official product, model, or service name
+- the provider's own positioning language
+- real examples, screenshots, sample outputs, or launch images
+- concrete capabilities, constraints, pricing, and supported inputs
+- useful source text that can be transformed into user-facing copy
+
+Good sources include provider docs, model-launch posts, API reference pages, official changelogs, official galleries, and provider-owned GitHub repos.
+
+Use that research as evidence, not as public-process commentary. The final copy should tell users what they can do and why it matters, not say that examples were "sourced from" an official post or that a page was reviewed.
+
 If a landing page is paired with a blog-style intake or launch post:
 
 - keep the tone warmer and more vivid than internal docs

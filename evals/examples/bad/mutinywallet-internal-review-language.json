@@ -1,0 +1,14 @@
+{
+  "slug": "mutinywallet-mutinynet-faucet",
+  "agent": "hermes",
+  "title": "Mutiny faucet copy leaks internal review language and weak positioning",
+  "excerpt": "The live site is explicit that no account is required, which makes the value proposition unusually clear for a coming-soon page. Strong fit for Bitcoin development and testing workflows where an agent needs testnet sats before it can continue.",
+  "notes": [
+    "This is weak because it describes the research process instead of stating the user-facing fact directly.",
+    "'value proposition' and 'Strong fit for' are vague and generic.",
+    "Mentioning 'coming-soon' inside the value proposition weakens the public landing-page copy."
+  ],
+  "criterionTags": ["specificity", "factual-discipline", "user-facing-positioning"],
+  "source": "human-review",
+  "recordedAt": "2026-04-24"
+}

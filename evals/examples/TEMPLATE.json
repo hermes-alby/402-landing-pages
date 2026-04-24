@@ -1,0 +1,13 @@
+{
+  "slug": "sats4ai-generate-text",
+  "agent": "hermes",
+  "title": "Example title for this reviewed excerpt",
+  "excerpt": "Paste a short excerpt from the landing page here.",
+  "notes": [
+    "Why this excerpt is useful to keep in the eval corpus.",
+    "What it does well or poorly."
+  ],
+  "criterionTags": ["grounding", "honesty"],
+  "source": "human-review",
+  "recordedAt": "2026-04-24"
+}
