@@ -1,13 +1,13 @@
 # Landing page eval: hermes / mutinywallet-mutinynet-faucet
 
-- Score: **43/100**
+- Score: **84/100**
 - Threshold: **75**
-- Verdict: **FAIL**
+- Verdict: **PASS**
 - Judge: **Hermes manual LLM review**
 
 ## Overall summary
 
-This page is materially weaker than a passing public landing page. It has the right service and some real facts, but the copy is full of internal-review language, weak positioning, and support-state narration that should not be on the page. It needs substantial rewriting before it should score as good public copy.
+This rewrite is a real improvement and now reads like a credible landing page rather than internal review notes pasted into public copy. The main problems from the earlier draft are fixed: the support-state leakage is gone, the evidence-gathering language is gone, and the phrasing is far more direct. It still has room to become more vivid and desirable, but it is now comfortably above the pass threshold.
 
 ## Source facts
 
@@ -19,97 +19,79 @@ This page is materially weaker than a passing public landing page. It has the ri
 
 ## Criteria
 
-### Specificity and usefulness — 11/30
+### Specificity and usefulness — 24/30
 
-The page has a concrete service and a real use case, but too much of the prose is generic, self-conscious, or written like internal review notes instead of sharp public copy.
-
-Evidence:
-- The page is about a real faucet with a concrete price and endpoint.
-- The phrase `Strong fit for Bitcoin development and testing workflows` is generic and weak.
-- The phrase `which makes the value proposition unusually clear` is abstract and adds no concrete user value.
-
-Issues:
-- Too many sentences explain the page instead of selling the service clearly.
-- Several lines could fit many pages with small word swaps rather than sounding specific to this faucet.
-
-### Factual discipline and confidence calibration — 10/30
-
-The page contains real facts, but it repeatedly frames them as observations or review artifacts instead of stating them directly and confidently.
+The page is much clearer now. It speaks directly to a concrete user problem — getting testnet sats into a Mutinynet workflow — and most of the copy now feels specific to this faucet instead of generic landing-page filler.
 
 Evidence:
-- `The live site is explicit that no account is required` weakens a simple factual statement that could just say `No account is required.`
-- `Checked: live homepage and live 402 challenge reviewed on 2026-04-20` leaks internal review process into public copy.
-- The table heading `Observed item` sounds like a research notebook, not user-facing content.
+- The caption focuses on a concrete outcome: `keep a Bitcoin test workflow moving without a browser detour or manual faucet hunt.`
+- The best hero bullet is specific and useful: `Perfect for Bitcoin development and testing workflows that need testnet sats before the next step can run.`
+- The table now uses `What you get` instead of internal labels.
 
 Issues:
-- The page talks about what was reviewed rather than cleanly presenting the facts.
-- The copy sounds tentative and observational in places where the fact is already known.
+- The main description still leans a little functional rather than vivid.
+- The hero copy could still feel more desirable and less mechanical if we want a stronger public page.
 
-### User-facing positioning — 12/25
+### Factual discipline and confidence calibration — 25/30
 
-The core user outcome is present, but the copy is diluted by internal support-state language and explanations of activation status that users do not need in the value proposition.
+This is a major improvement. The page now states facts directly instead of narrating how they were reviewed. Most of the internal-review leakage is gone.
 
 Evidence:
-- `which makes the value proposition unusually clear for a coming-soon page` puts internal support-state framing into a user-facing bullet.
-- `This page stays on the coming-soon path until we execute a real paid faucet request` is internal workflow language, not customer-facing value.
-- `which makes the faucet easy to explain honestly before paid activation is complete` is written for internal reviewers, not users.
+- `No account required` now appears directly instead of `The live site is explicit that no account is required.`
+- The old checked-date language is gone from the details list.
+- The page no longer explains the service with lines about being `easy to explain honestly before paid activation is complete`.
 
 Issues:
-- The page should emphasize what the faucet does for the reader, not narrate internal activation status.
-- Coming-soon/process language is overexposed in the public copy.
+- The line `The faucet page also links refund details, faucet node details, federation data, and Cashu mint context for the wider Mutinynet stack` is factual, but it still reads more like documentation inventory than public copy.
+- A few lines remain descriptive in a documentation tone rather than fully polished landing-page prose.
 
-### Structure and consistency — 10/15
+### User-facing positioning — 22/25
 
-The page has the expected sections and is structurally complete, but the wording inside those sections is not consistently strong.
+The page now stays focused on the user outcome much better. It no longer drags internal support-state commentary into the value proposition, and the briefing copy is more useful to readers.
 
 Evidence:
-- The page has Example prompt, Use cases, and FAQ sections.
-- The report structure is complete enough to review.
-- Weak labels like `Observed item` hurt consistency with stronger pages.
+- The public copy no longer says things like `coming-soon page` inside value bullets.
+- The briefing now emphasizes workflow relief: `Get testnet sats without leaving an agent workflow for a browser faucet detour.`
+- The why-it-works section is now about funding a test environment, not about internal activation posture.
 
 Issues:
-- Structural completeness should not hide weak phrasing inside bullets, table labels, and briefing copy.
+- Because the page is still on the coming-soon path, there is a natural limit on how confident the CTA experience can feel.
+- The description could do a little more to make the faucet feel attractive rather than simply practical.
+
+### Structure and consistency — 13/15
+
+The page is structurally solid and now uses cleaner section copy. It follows the expected landing-page shape and no longer undermines itself with obviously bad labels.
+
+Evidence:
+- The page keeps the expected Example prompt, Use cases, and FAQ sections.
+- The table label and details list are cleaner than before.
+- The page remains complete and easy to scan.
+
+Issues:
+- The details list still mixes strong user-facing items with a more technical ecosystem-context line that feels less polished than the rest.
 
 ## Red flags
 
-- **high** — `which makes the value proposition unusually clear for a coming-soon page`
-  - Reason: This is vague, internally framed, and explicitly mentions coming-soon inside a user-facing value statement.
-  - Suggestion: Replace it with a direct user-facing fact such as what the faucet enables and why it is useful.
-- **high** — `The live site is explicit that no account is required`
-  - Reason: It narrates the evidence-gathering process instead of stating the fact directly.
-  - Suggestion: Rewrite as `No account is required.`
-- **medium** — `Observed item`
-  - Reason: This sounds like an internal research table label, not public copy.
-  - Suggestion: Rename the column to something user-facing like `What you get` or restructure the table entirely.
-- **high** — `which makes the faucet easy to explain honestly before paid activation is complete`
-  - Reason: This is internal-review language and should not appear in public positioning copy.
-  - Suggestion: Replace it with a direct explanation of why the service is useful in a test workflow.
+- **low** — `The faucet page also links refund details, faucet node details, federation data, and Cashu mint context for the wider Mutinynet stack`
+  - Reason: This is factual, but it reads more like documentation inventory than polished user-facing copy.
+  - Suggestion: Either tighten it into a shorter ecosystem-context line or remove it if it does not help the user decide.
 
 ## Recommended edits
 
-- **high** / bullet — `Strong fit for Bitcoin development and testing workflows where an agent needs testnet sats before it can continue.`
-  - Problem: `Strong fit for` is generic and unconvincing.
-  - Suggestion: Rewrite with a direct use case, for example by stating that the faucet helps fund Mutinynet tests before wallet or node automation can proceed.
-- **high** / bullet — `The live site is explicit that no account is required, which makes the value proposition unusually clear for a coming-soon page.`
-  - Problem: This sentence is vague, meta, and unnecessarily references coming-soon status.
-  - Suggestion: Split into a direct factual statement such as `No account is required` plus a separate concrete user benefit if needed.
-- **high** / details — `Checked: live homepage and live 402 challenge reviewed on 2026-04-20`
-  - Problem: This is internal validation metadata, not useful public copy.
-  - Suggestion: Remove it from the page entirely.
-- **medium** / table — `Observed item`
-  - Problem: The label sounds provisional and internal.
-  - Suggestion: Replace it with a label that describes user-facing information or remove the table framing altogether.
-- **high** / summary — `which makes the faucet easy to explain honestly before paid activation is complete`
-  - Problem: This explains internal review posture instead of user value.
-  - Suggestion: Rewrite around the user outcome: getting Mutinynet sats programmatically for a test workflow.
+- **medium** / details — `The faucet page also links refund details, faucet node details, federation data, and Cashu mint context for the wider Mutinynet stack`
+  - Problem: The line is informative but a little dry and documentation-heavy for a landing page.
+  - Suggestion: Shorten it or replace it with one concise benefit-oriented line about broader Mutinynet ecosystem context.
+- **medium** / metadata — `Enable Hermes to unlock Mutinynet testnet sats through MutinyWallet for ~$0.04 (50 sats) per faucet request, without stopping for a browser-only faucet flow.`
+  - Problem: The description is clear, but still slightly mechanical.
+  - Suggestion: Consider a tighter and more inviting phrasing that still keeps the concrete price and workflow benefit.
 
 ## Strengths
 
-- The page covers a concrete service with a clear Bitcoin testing use case.
-- The pricing and endpoint context give the page real factual anchors.
-- The overall section structure is usable as a base for revision.
+- The page now states key facts directly and cleanly.
+- The copy is focused on a concrete Bitcoin testing workflow instead of internal process narration.
+- The strongest lines make it easy to understand why this faucet matters in an agent flow.
 
 ## Needs more human examples
 
-- Add a good example showing how to state a factual benefit directly without narrating the evidence source.
-- Add a bad example for support-state language leaking into user-facing bullets.
+- Add a good example showing concise, factual copy for a Bitcoin testing utility page.
+- Add a good example of a details list that stays useful without drifting into documentation inventory.
