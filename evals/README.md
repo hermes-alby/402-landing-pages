@@ -1,20 +1,25 @@
 # Landing page eval framework
 
-This repo now has a **human-triggered, LLM-based** landing-page eval framework.
+This repo now has a **human-triggered eval framework executed by Hermes**.
 
-The goal is not to auto-grade every page yet. The goal is to make it easy to:
+The qualitative judgment is not meant to run from a local script or external API key in this repository.
+Instead, Hermes should:
 
-1. evaluate one landing page at a time
-2. store good and bad examples as we review pages together
-3. keep the rubric and examples in git so the process stays consistent
+1. read the rubric, prompt, examples, and relevant landing-page source
+2. inspect the built page and supporting facts
+3. write the eval report artifacts into `evals/reports/`
+4. run structural validation on those generated artifacts
 
 ## What is in this folder
 
-- `rubric.json` — the current scoring criteria, weights, phrase lists, and thresholds
+- `rubric.json` — the current qualitative scoring criteria and weights
+- `prompt.md` — instructions Hermes should follow while judging a page
 - `examples/good/` — reviewed examples of strong copy
 - `examples/bad/` — reviewed examples of weak or misleading copy
 - `examples/TEMPLATE.json` — schema for adding a new example
-- `reports/` — generated eval reports for local review only
+- `report-template.json` — shape for Hermes-written JSON reports
+- `report-template.md` — shape for Hermes-written Markdown reports
+- `reports/` — generated eval reports
 
 ## Workflow
 
@@ -30,41 +35,30 @@ npm run build
 npm run eval:check
 ```
 
-### 3. Configure the LLM judge
+### 3. Ask Hermes to evaluate one page
 
-Set one of these:
+Hermes should read:
 
-```bash
-export LANDING_PAGE_EVAL_API_KEY=...
-# or
-export OPENAI_API_KEY=...
-# or
-export OPENROUTER_API_KEY=...
-```
+- `evals/rubric.json`
+- `evals/prompt.md`
+- any relevant example files under `evals/examples/`
+- the landing-page source under `src/data/services/`
+- the built page under `dist/agents/<agent>/<slug>/index.html`
 
-Optional:
+Hermes then writes:
 
-```bash
-export LANDING_PAGE_EVAL_BASE_URL=https://openrouter.ai/api/v1
-export LANDING_PAGE_EVAL_MODEL=openai/gpt-4.1-mini
-```
+- `evals/reports/<agent>--<slug>.json`
+- `evals/reports/<agent>--<slug>.md`
 
-### 4. Evaluate one page
+### 4. Validate the generated report files
 
 ```bash
-npm run eval:page -- --slug sats4ai-generate-text --agent hermes
+npm run eval:validate-report -- \
+  evals/reports/hermes--sats4ai-generate-text.json \
+  evals/reports/hermes--sats4ai-generate-text.md
 ```
 
-Short form also works:
-
-```bash
-npm run eval:page -- sats4ai-generate-text hermes
-```
-
-This writes:
-
-- `evals/reports/hermes--sats4ai-generate-text.json`
-- `evals/reports/hermes--sats4ai-generate-text.md`
+This step only checks structure. It does **not** judge copy quality.
 
 ## How to add a reviewed example
 
@@ -79,12 +73,23 @@ Copy `evals/examples/TEMPLATE.json` into either `evals/examples/good/` or `evals
 
 Examples should be short and specific. Prefer a focused excerpt plus notes about why it is good or bad.
 
+## Important boundary
+
+The repository contains:
+
+- the rubric
+- the prompt
+- the example corpus
+- report templates
+- structural validators
+
+Hermes provides the actual qualitative judgment and writes the report artifacts.
+
 ## Current scope
 
 This first version is intentionally narrow:
 
-- human-triggered, not automatic
-- no CI gating yet
+- Hermes-executed, not automatic CI scoring
 - no auto-rewrite loop
 - no mass scoring across all pages
 - no requirement to evaluate every PR yet

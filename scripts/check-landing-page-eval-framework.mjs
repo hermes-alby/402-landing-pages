@@ -5,6 +5,8 @@ import assert from 'node:assert/strict';
 const root = process.cwd();
 const rubricPath = path.join(root, 'evals', 'rubric.json');
 const promptPath = path.join(root, 'evals', 'prompt.md');
+const reportTemplateJsonPath = path.join(root, 'evals', 'report-template.json');
+const reportTemplateMdPath = path.join(root, 'evals', 'report-template.md');
 const examplesRoot = path.join(root, 'evals', 'examples');
 
 const rubric = JSON.parse(fs.readFileSync(rubricPath, 'utf8'));
@@ -32,6 +34,14 @@ for (const key of ['hardFailPatterns', 'softNegativePatterns', 'redFlagGuidance'
 
 const prompt = fs.readFileSync(promptPath, 'utf8').trim();
 assert.ok(prompt.length > 200, 'eval prompt should exist and be non-trivial');
+
+const reportTemplateJson = JSON.parse(fs.readFileSync(reportTemplateJsonPath, 'utf8'));
+assert.equal(typeof reportTemplateJson.judge?.executor, 'string', 'report-template.json must define judge.executor');
+assert.equal(typeof reportTemplateJson.judge?.method, 'string', 'report-template.json must define judge.method');
+
+const reportTemplateMd = fs.readFileSync(reportTemplateMdPath, 'utf8').trim();
+assert.ok(reportTemplateMd.includes('## Overall summary'), 'report-template.md must include overall summary section');
+assert.ok(reportTemplateMd.includes('## Criteria'), 'report-template.md must include criteria section');
 
 const loadExampleFiles = (dirName) => {
   const dir = path.join(examplesRoot, dirName);

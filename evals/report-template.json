@@ -1,0 +1,79 @@
+{
+  "slug": "example-service-slug",
+  "agent": "hermes",
+  "threshold": 75,
+  "passed": false,
+  "verdict": "review",
+  "totalScore": 0,
+  "sourceFacts": {
+    "providerName": "Example Provider",
+    "serviceName": "Example Service",
+    "endpointUrl": "https://example.com/api",
+    "supportStatus": "coming-soon",
+    "resultLabel": "Example result label"
+  },
+  "criteria": [
+    {
+      "id": "specificity",
+      "label": "Specificity and usefulness",
+      "score": 0,
+      "maxScore": 30,
+      "summary": "Short summary of how the page performs on this criterion.",
+      "evidence": ["Quote or observation that supports the score."],
+      "issues": ["Key problem to fix."]
+    },
+    {
+      "id": "factual-discipline",
+      "label": "Factual discipline and confidence calibration",
+      "score": 0,
+      "maxScore": 30,
+      "summary": "...",
+      "evidence": [],
+      "issues": []
+    },
+    {
+      "id": "user-facing-positioning",
+      "label": "User-facing positioning",
+      "score": 0,
+      "maxScore": 25,
+      "summary": "...",
+      "evidence": [],
+      "issues": []
+    },
+    {
+      "id": "structure-and-consistency",
+      "label": "Structure and consistency",
+      "score": 0,
+      "maxScore": 15,
+      "summary": "...",
+      "evidence": [],
+      "issues": []
+    }
+  ],
+  "overallSummary": "Overall judgment of the page.",
+  "strengths": ["Optional strengths."],
+  "redFlags": [
+    {
+      "severity": "high",
+      "quote": "Exact quote from the page.",
+      "reason": "Why it is a problem.",
+      "suggestion": "Concrete rewrite direction."
+    }
+  ],
+  "recommendedEdits": [
+    {
+      "priority": "high",
+      "target": "hero",
+      "quote": "Exact quote from the page.",
+      "problem": "What is wrong with it.",
+      "suggestion": "Concrete replacement direction."
+    }
+  ],
+  "needsHumanExamples": ["Optional: note what example should be added to the corpus."],
+  "judge": {
+    "executor": "hermes",
+    "method": "manual-llm-review",
+    "rubricVersion": 2,
+    "promptPath": "evals/prompt.md"
+  }
+}

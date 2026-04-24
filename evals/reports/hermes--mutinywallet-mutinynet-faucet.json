@@ -1,0 +1,159 @@
+{
+  "slug": "mutinywallet-mutinynet-faucet",
+  "agent": "hermes",
+  "threshold": 75,
+  "passed": false,
+  "verdict": "fail",
+  "totalScore": 43,
+  "sourceFacts": {
+    "providerName": "MutinyWallet",
+    "serviceName": "Mutinynet Faucet",
+    "endpointUrl": "https://faucet.mutinynet.com/api/l402",
+    "supportStatus": "coming-soon",
+    "resultLabel": "Get testnet sats from a Lightning-gated faucet for Mutinynet workflows"
+  },
+  "criteria": [
+    {
+      "id": "specificity",
+      "label": "Specificity and usefulness",
+      "score": 11,
+      "maxScore": 30,
+      "summary": "The page has a concrete service and a real use case, but too much of the prose is generic, self-conscious, or written like internal review notes instead of sharp public copy.",
+      "evidence": [
+        "The page is about a real faucet with a concrete price and endpoint.",
+        "The phrase 'Strong fit for Bitcoin development and testing workflows' is generic and weak.",
+        "The phrase 'which makes the value proposition unusually clear' is abstract and adds no concrete user value."
+      ],
+      "issues": [
+        "Too many sentences explain the page instead of selling the service clearly.",
+        "Several lines could fit many pages with small word swaps rather than sounding specific to this faucet."
+      ]
+    },
+    {
+      "id": "factual-discipline",
+      "label": "Factual discipline and confidence calibration",
+      "score": 10,
+      "maxScore": 30,
+      "summary": "The page contains real facts, but it repeatedly frames them as observations or review artifacts instead of stating them directly and confidently.",
+      "evidence": [
+        "'The live site is explicit that no account is required' weakens a simple factual statement that could just say 'No account is required.'",
+        "'Checked: live homepage and live 402 challenge reviewed on 2026-04-20' leaks internal review process into public copy.",
+        "The table heading 'Observed item' sounds like a research notebook, not user-facing content."
+      ],
+      "issues": [
+        "The page talks about what was reviewed rather than cleanly presenting the facts.",
+        "The copy sounds tentative and observational in places where the fact is already known."
+      ]
+    },
+    {
+      "id": "user-facing-positioning",
+      "label": "User-facing positioning",
+      "score": 12,
+      "maxScore": 25,
+      "summary": "The core user outcome is present, but the copy is diluted by internal support-state language and explanations of activation status that users do not need in the value proposition.",
+      "evidence": [
+        "'which makes the value proposition unusually clear for a coming-soon page' puts internal support-state framing into a user-facing bullet.",
+        "'This page stays on the coming-soon path until we execute a real paid faucet request' is internal workflow language, not customer-facing value.",
+        "'which makes the faucet easy to explain honestly before paid activation is complete' is written for internal reviewers, not users."
+      ],
+      "issues": [
+        "The page should emphasize what the faucet does for the reader, not narrate internal activation status.",
+        "Coming-soon/process language is overexposed in the public copy."
+      ]
+    },
+    {
+      "id": "structure-and-consistency",
+      "label": "Structure and consistency",
+      "score": 10,
+      "maxScore": 15,
+      "summary": "The page has the expected sections and is structurally complete, but the wording inside those sections is not consistently strong.",
+      "evidence": [
+        "The page has Example prompt, Use cases, and FAQ sections.",
+        "The report structure is complete enough to review.",
+        "Weak labels like 'Observed item' hurt consistency with stronger pages."
+      ],
+      "issues": [
+        "Structural completeness should not hide weak phrasing inside bullets, table labels, and briefing copy."
+      ]
+    }
+  ],
+  "overallSummary": "This page is materially weaker than a passing public landing page. It has the right service and some real facts, but the copy is full of internal-review language, weak positioning, and support-state narration that should not be on the page. It needs substantial rewriting before it should score as good public copy.",
+  "strengths": [
+    "The page covers a concrete service with a clear Bitcoin testing use case.",
+    "The pricing and endpoint context give the page real factual anchors.",
+    "The overall section structure is usable as a base for revision."
+  ],
+  "redFlags": [
+    {
+      "severity": "high",
+      "quote": "which makes the value proposition unusually clear for a coming-soon page",
+      "reason": "This is vague, internally framed, and explicitly mentions coming-soon inside a user-facing value statement.",
+      "suggestion": "Replace it with a direct user-facing fact such as what the faucet enables and why it is useful."
+    },
+    {
+      "severity": "high",
+      "quote": "The live site is explicit that no account is required",
+      "reason": "It narrates the evidence-gathering process instead of stating the fact directly.",
+      "suggestion": "Rewrite as 'No account is required.'"
+    },
+    {
+      "severity": "medium",
+      "quote": "Observed item",
+      "reason": "This sounds like an internal research table label, not public copy.",
+      "suggestion": "Rename the column to something user-facing like 'What you get' or restructure the table entirely."
+    },
+    {
+      "severity": "high",
+      "quote": "which makes the faucet easy to explain honestly before paid activation is complete",
+      "reason": "This is internal-review language and should not appear in public positioning copy.",
+      "suggestion": "Replace it with a direct explanation of why the service is useful in a test workflow."
+    }
+  ],
+  "recommendedEdits": [
+    {
+      "priority": "high",
+      "target": "bullet",
+      "quote": "Strong fit for Bitcoin development and testing workflows where an agent needs testnet sats before it can continue.",
+      "problem": "'Strong fit for' is generic and unconvincing.",
+      "suggestion": "Rewrite with a direct use case, for example by stating that the faucet helps fund Mutinynet tests before wallet or node automation can proceed."
+    },
+    {
+      "priority": "high",
+      "target": "bullet",
+      "quote": "The live site is explicit that no account is required, which makes the value proposition unusually clear for a coming-soon page.",
+      "problem": "This sentence is vague, meta, and unnecessarily references coming-soon status.",
+      "suggestion": "Split into a direct factual statement such as 'No account is required' plus a separate concrete user benefit if needed."
+    },
+    {
+      "priority": "high",
+      "target": "details",
+      "quote": "Checked: live homepage and live 402 challenge reviewed on 2026-04-20",
+      "problem": "This is internal validation metadata, not useful public copy.",
+      "suggestion": "Remove it from the page entirely."
+    },
+    {
+      "priority": "medium",
+      "target": "table",
+      "quote": "Observed item",
+      "problem": "The label sounds provisional and internal.",
+      "suggestion": "Replace it with a label that describes user-facing information or remove the table framing altogether."
+    },
+    {
+      "priority": "high",
+      "target": "summary",
+      "quote": "which makes the faucet easy to explain honestly before paid activation is complete",
+      "problem": "This explains internal review posture instead of user value.",
+      "suggestion": "Rewrite around the user outcome: getting Mutinynet sats programmatically for a test workflow."
+    }
+  ],
+  "needsHumanExamples": [
+    "Add a good example showing how to state a factual benefit directly without narrating the evidence source.",
+    "Add a bad example for support-state language leaking into user-facing bullets."
+  ],
+  "judge": {
+    "executor": "hermes",
+    "method": "manual-llm-review",
+    "rubricVersion": 2,
+    "promptPath": "evals/prompt.md"
+  }
+}

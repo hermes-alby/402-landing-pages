@@ -111,16 +111,16 @@ Expected production URL:
 
 ## Landing page evals
 
-This repo now includes a **human-triggered, LLM-based** eval framework for reviewing one landing page at a time.
+This repo now includes a **human-triggered eval framework executed by Hermes** for reviewing one landing page at a time.
 
 Current commands:
 
 ```bash
 npm run build
 npm run eval:check
-# requires an LLM API key such as OPENAI_API_KEY, OPENROUTER_API_KEY,
-# or LANDING_PAGE_EVAL_API_KEY
-npm run eval:page -- --slug sats4ai-generate-text --agent hermes
+npm run eval:validate-report -- \
+  evals/reports/hermes--sats4ai-generate-text.json \
+  evals/reports/hermes--sats4ai-generate-text.md
 ```
 
 The eval framework is designed to evolve in git as we review pages together:
