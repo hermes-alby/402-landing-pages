@@ -4,6 +4,7 @@ import assert from 'node:assert/strict';
 
 const root = process.cwd();
 const rubricPath = path.join(root, 'evals', 'rubric.json');
+const promptPath = path.join(root, 'evals', 'prompt.md');
 const examplesRoot = path.join(root, 'evals', 'examples');
 
 const rubric = JSON.parse(fs.readFileSync(rubricPath, 'utf8'));
@@ -20,14 +21,17 @@ for (const criterion of rubric.criteria) {
   ids.add(criterion.id);
   assert.equal(typeof criterion.label, 'string', `criterion ${criterion.id} must have a label`);
   assert.equal(typeof criterion.weight, 'number', `criterion ${criterion.id} must have a numeric weight`);
-  assert.ok(Array.isArray(criterion.checks), `criterion ${criterion.id} must define checks[]`);
+  assert.equal(typeof criterion.guidance, 'string', `criterion ${criterion.id} must have guidance text`);
   totalWeight += criterion.weight;
 }
 assert.equal(totalWeight, 100, `rubric weights must add up to 100, got ${totalWeight}`);
 
-for (const key of ['forbiddenPhrases', 'warningPhrases', 'unsupportedSupportPhrases', 'requiredHeadings', 'legacyPromptHeadings']) {
+for (const key of ['hardFailPatterns', 'softNegativePatterns', 'redFlagGuidance', 'requiredHeadings', 'legacyPromptHeadings']) {
   assert.ok(Array.isArray(rubric[key]), `rubric.${key} must be an array`);
 }
+
+const prompt = fs.readFileSync(promptPath, 'utf8').trim();
+assert.ok(prompt.length > 200, 'eval prompt should exist and be non-trivial');
 
 const loadExampleFiles = (dirName) => {
   const dir = path.join(examplesRoot, dirName);

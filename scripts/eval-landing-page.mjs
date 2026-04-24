@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import process from 'node:process';
 
 const root = process.cwd();
 
@@ -62,15 +63,6 @@ const titleCaseServiceName = (value) => {
     .join(' ');
 };
 
-const countOccurrences = (text, needle) => {
-  if (!needle) return 0;
-  const matches = text.match(new RegExp(needle.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'), 'gi'));
-  return matches ? matches.length : 0;
-};
-
-const findPhraseHits = (text, phrases) =>
-  phrases.filter((phrase) => text.toLowerCase().includes(phrase.toLowerCase()));
-
 const parseArgs = (argv) => {
   const result = { slug: null, agent: 'hermes', threshold: null };
   const positional = [];
@@ -101,219 +93,344 @@ const parseArgs = (argv) => {
   return result;
 };
 
-const { slug, agent, threshold } = parseArgs(process.argv.slice(2));
-if (!slug) {
-  console.error('Usage: node scripts/eval-landing-page.mjs --slug <service-slug> [--agent hermes] [--threshold 70]');
-  process.exit(1);
-}
+const extractJson = (text) => {
+  const trimmed = text.trim();
+  if (trimmed.startsWith('{') && trimmed.endsWith('}')) {
+    return trimmed;
+  }
 
-const rubric = JSON.parse(fs.readFileSync(path.join(root, 'evals', 'rubric.json'), 'utf8'));
-const scoreThreshold = Number.isFinite(threshold) ? threshold : rubric.defaultThreshold;
-const htmlPath = path.join(root, 'dist', 'agents', agent, slug, 'index.html');
-const html = readIfExists(htmlPath);
-if (!html) {
-  console.error(`Built page not found: ${path.relative(root, htmlPath)}. Run npm run build first.`);
-  process.exit(1);
-}
+  const fenced = trimmed.match(/```json\s*([\s\S]*?)```/i) ?? trimmed.match(/```\s*([\s\S]*?)```/i);
+  if (fenced) {
+    return fenced[1].trim();
+  }
 
-const serviceSourcePath = path.join(root, 'src', 'data', 'services', `${slug}.ts`);
-const serviceSource = readIfExists(serviceSourcePath);
-if (!serviceSource) {
-  console.error(`Service source not found: ${path.relative(root, serviceSourcePath)}`);
-  process.exit(1);
-}
+  const firstBrace = trimmed.indexOf('{');
+  const lastBrace = trimmed.lastIndexOf('}');
+  if (firstBrace >= 0 && lastBrace > firstBrace) {
+    return trimmed.slice(firstBrace, lastBrace + 1);
+  }
 
-const providerKey = extractSingleQuotedField(serviceSource, 'providerKey');
-if (!providerKey) {
-  console.error(`Could not extract providerKey from ${path.relative(root, serviceSourcePath)}`);
-  process.exit(1);
-}
-
-const providerSourcePath = path.join(root, 'src', 'data', 'providers', `${providerKey}.ts`);
-const providerSource = readIfExists(providerSourcePath);
-if (!providerSource) {
-  console.error(`Provider source not found: ${path.relative(root, providerSourcePath)}`);
-  process.exit(1);
-}
-
-const serviceNameRaw = extractSingleQuotedField(serviceSource, 'name') ?? slug;
-const serviceName = titleCaseServiceName(serviceNameRaw);
-const providerName = extractSingleQuotedField(providerSource, 'name') ?? providerKey;
-const endpointUrl = extractSingleQuotedField(serviceSource, 'endpointUrl');
-const endpointPath = endpointUrl ? new URL(endpointUrl).pathname : null;
-const serviceSupportStatus = extractSingleQuotedField(serviceSource, 'supportStatus') ?? 'coming-soon';
-const resultLabel = extractSingleQuotedField(serviceSource, 'resultLabel');
-const bodyText = stripHtml(html);
-const bodyTextLower = bodyText.toLowerCase();
-
-const title = extractTag(html, /<title>([^<]+)<\/title>/i);
-const metaDescription = extractTag(html, /<meta\s+name="description"\s+content="([^"]+)"/i);
-const canonical = extractTag(html, /<link\s+rel="canonical"\s+href="([^"]+)"/i);
-const robots = extractTag(html, /<meta\s+name="robots"\s+content="([^"]+)"/i);
-const h1 = extractTag(html, /<h1[^>]*>(.*?)<\/h1>/i);
-
-const pageHasExamplePrompt = bodyText.includes('Example prompt');
-const sourceHasExamplePrompt = /examplePrompt:\s*/.test(serviceSource);
-const pageHasUseCases = bodyText.includes('Use cases');
-const pageHasFaq = bodyText.includes('FAQ');
-const legacyHeadingHits = findPhraseHits(bodyText, rubric.legacyPromptHeadings);
-const forbiddenHits = findPhraseHits(bodyText, rubric.forbiddenPhrases);
-const warningHits = findPhraseHits(bodyText, rubric.warningPhrases);
-const unsupportedSupportHits = serviceSupportStatus === 'coming-soon' ? findPhraseHits(bodyText, rubric.unsupportedSupportPhrases) : [];
-
-const providerMentions = countOccurrences(bodyText, providerName);
-const serviceMentions = countOccurrences(bodyText, serviceName);
-const endpointEvidence = endpointPath ? bodyText.includes(endpointPath) || bodyText.includes(endpointUrl) : false;
-const pricingEvidence = /\$\d|\bsats?\b|cost/i.test(bodyText);
-const resultLabelEvidence = resultLabel
-  ? resultLabel
-      .split(/\s+/)
-      .filter((token) => token.length > 4)
-      .slice(0, 4)
-      .some((token) => bodyTextLower.includes(token.toLowerCase()))
-  : false;
-
-const criteria = [];
-
-const pushCriterion = (id, label, weight, checks) => {
-  const passedCount = checks.filter((check) => check.passed).length;
-  const score = Math.round((passedCount / checks.length) * weight * 100) / 100;
-  criteria.push({ id, label, weight, score, maxScore: weight, checks });
+  throw new Error('Could not extract JSON from model response');
 };
 
-pushCriterion('metadata', 'Metadata and page structure', 20, [
-  { label: 'Title exists', passed: Boolean(title), details: title ?? 'Missing <title>' },
-  { label: 'Meta description exists', passed: Boolean(metaDescription), details: metaDescription ?? 'Missing meta description' },
-  { label: 'Canonical exists', passed: Boolean(canonical), details: canonical ?? 'Missing canonical URL' },
-  { label: 'Robots exists', passed: Boolean(robots), details: robots ?? 'Missing robots directive' },
-  { label: 'H1 exists', passed: Boolean(h1), details: h1 ?? 'Missing H1' },
-]);
+const loadExamples = (slug) => {
+  const examplesRoot = path.join(root, 'evals', 'examples');
+  return ['good', 'bad'].flatMap((label) => {
+    const dir = path.join(examplesRoot, label);
+    if (!fs.existsSync(dir)) return [];
+    return fs
+      .readdirSync(dir)
+      .filter((name) => name.endsWith('.json'))
+      .map((name) => ({ label, path: path.join(dir, name), value: JSON.parse(fs.readFileSync(path.join(dir, name), 'utf8')) }))
+      .filter((entry) => entry.value.slug === slug || entry.value.slug === '*')
+      .map((entry) => ({
+        label,
+        title: entry.value.title,
+        excerpt: entry.value.excerpt,
+        notes: entry.value.notes,
+        criterionTags: entry.value.criterionTags,
+        file: path.relative(root, entry.path),
+      }));
+  });
+};
 
-pushCriterion('grounding', 'Grounding in observed provider/service facts', 35, [
-  { label: 'Provider mentioned at least twice', passed: providerMentions >= 2, details: `mentions=${providerMentions}` },
-  { label: 'Service name mentioned at least twice', passed: serviceMentions >= 2, details: `mentions=${serviceMentions}` },
-  { label: 'Endpoint or route evidence appears on page', passed: endpointEvidence, details: endpointPath ?? 'No endpoint path found in source' },
-  { label: 'Pricing evidence appears on page', passed: pricingEvidence, details: pricingEvidence ? 'Found cost/price text' : 'No cost evidence found' },
-  { label: 'Result label evidence appears on page', passed: resultLabelEvidence, details: resultLabel ?? 'No resultLabel found in source' },
-]);
+const buildPayload = ({ slug, agent, threshold, rubric, examples, html, serviceSource, providerSource }) => {
+  const providerKey = extractSingleQuotedField(serviceSource, 'providerKey');
+  if (!providerKey) {
+    throw new Error(`Could not extract providerKey from service source for ${slug}`);
+  }
 
-pushCriterion('honesty', 'Honesty and support-state alignment', 25, [
-  { label: 'No forbidden phrases', passed: forbiddenHits.length === 0, details: forbiddenHits.length ? forbiddenHits.join(', ') : 'None' },
-  { label: 'No unsupported-support phrasing for coming-soon services', passed: unsupportedSupportHits.length === 0, details: unsupportedSupportHits.length ? unsupportedSupportHits.join(', ') : 'None' },
-  { label: 'No warning-fluff phrases', passed: warningHits.length === 0, details: warningHits.length ? warningHits.join(', ') : 'None' },
-]);
+  const serviceNameRaw = extractSingleQuotedField(serviceSource, 'name') ?? slug;
+  const serviceName = titleCaseServiceName(serviceNameRaw);
+  const providerName = extractSingleQuotedField(providerSource, 'name') ?? providerKey;
+  const endpointUrl = extractSingleQuotedField(serviceSource, 'endpointUrl');
+  const supportStatus = extractSingleQuotedField(serviceSource, 'supportStatus') ?? 'coming-soon';
+  const resultLabel = extractSingleQuotedField(serviceSource, 'resultLabel');
+  const title = extractTag(html, /<title>([^<]+)<\/title>/i);
+  const metaDescription = extractTag(html, /<meta\s+name="description"\s+content="([^"]+)"/i);
+  const canonical = extractTag(html, /<link\s+rel="canonical"\s+href="([^"]+)"/i);
+  const robots = extractTag(html, /<meta\s+name="robots"\s+content="([^"]+)"/i);
+  const h1 = extractTag(html, /<h1[^>]*>(.*?)<\/h1>/i);
 
-pushCriterion('style', 'Landing-page style consistency', 20, [
-  { label: 'Example prompt heading is used when source has example prompt', passed: !sourceHasExamplePrompt || pageHasExamplePrompt, details: sourceHasExamplePrompt ? (pageHasExamplePrompt ? 'Found Example prompt heading' : 'Source defines examplePrompt but page heading is missing') : 'No example prompt in source' },
-  { label: 'Legacy prompt headings are absent', passed: legacyHeadingHits.length === 0, details: legacyHeadingHits.length ? legacyHeadingHits.join(', ') : 'None' },
-  { label: 'Use cases section exists', passed: pageHasUseCases, details: pageHasUseCases ? 'Found Use cases section' : 'Missing Use cases section' },
-  { label: 'FAQ section exists', passed: pageHasFaq, details: pageHasFaq ? 'Found FAQ section' : 'Missing FAQ section' },
-]);
+  return {
+    task: 'Evaluate the public quality of one landing page using the rubric and examples. Be strict.',
+    slug,
+    agent,
+    threshold,
+    rubric,
+    examples,
+    sourceFacts: {
+      providerKey,
+      providerName,
+      serviceName,
+      endpointUrl,
+      supportStatus,
+      resultLabel,
+    },
+    pageSignals: {
+      title,
+      metaDescription,
+      canonical,
+      robots,
+      h1,
+    },
+    serviceSource,
+    providerSource,
+    pageText: stripHtml(html),
+    htmlSnippet: html.slice(0, 30000),
+  };
+};
 
-const totalScore = Math.round(criteria.reduce((sum, item) => sum + item.score, 0) * 100) / 100;
-const failingChecks = criteria.flatMap((criterion) =>
-  criterion.checks.filter((check) => !check.passed).map((check) => ({ criterion: criterion.id, label: check.label, details: check.details })),
-);
+const createClientConfig = () => {
+  const apiKey = process.env.LANDING_PAGE_EVAL_API_KEY || process.env.OPENAI_API_KEY || process.env.OPENROUTER_API_KEY;
+  if (!apiKey) {
+    throw new Error(
+      'Missing API key. Set LANDING_PAGE_EVAL_API_KEY, OPENAI_API_KEY, or OPENROUTER_API_KEY to run the LLM-based evaluator.',
+    );
+  }
 
-const examples = ['good', 'bad'].flatMap((label) => {
-  const dir = path.join(root, 'evals', 'examples', label);
-  if (!fs.existsSync(dir)) return [];
-  return fs
-    .readdirSync(dir)
-    .filter((name) => name.endsWith('.json'))
-    .map((name) => ({ label, path: path.join(dir, name), value: JSON.parse(fs.readFileSync(path.join(dir, name), 'utf8')) }))
-    .filter((record) => record.value.slug === slug || record.value.criterionTags?.some((tag) => failingChecks.some((item) => item.criterion === tag)));
+  const defaultBaseUrl = process.env.OPENROUTER_API_KEY && !process.env.LANDING_PAGE_EVAL_BASE_URL && !process.env.OPENAI_API_KEY
+    ? 'https://openrouter.ai/api/v1'
+    : 'https://api.openai.com/v1';
+
+  return {
+    apiKey,
+    baseUrl: (process.env.LANDING_PAGE_EVAL_BASE_URL || process.env.OPENAI_BASE_URL || defaultBaseUrl).replace(/\/$/, ''),
+    model: process.env.LANDING_PAGE_EVAL_MODEL || process.env.OPENAI_MODEL || (process.env.OPENROUTER_API_KEY ? 'openai/gpt-4.1-mini' : 'gpt-4.1-mini'),
+  };
+};
+
+const callJudge = async ({ prompt, payload, threshold }) => {
+  const client = createClientConfig();
+
+  const headers = {
+    'content-type': 'application/json',
+    authorization: `Bearer ${client.apiKey}`,
+  };
+
+  if (client.baseUrl.includes('openrouter.ai')) {
+    headers['HTTP-Referer'] = 'https://github.com/hermes-alby/402-landing-pages';
+    headers['X-Title'] = '402 landing pages eval';
+  }
+
+  const response = await fetch(`${client.baseUrl}/chat/completions`, {
+    method: 'POST',
+    headers,
+    body: JSON.stringify({
+      model: client.model,
+      temperature: 0.2,
+      response_format: { type: 'json_object' },
+      messages: [
+        {
+          role: 'system',
+          content: prompt,
+        },
+        {
+          role: 'user',
+          content: JSON.stringify({ threshold, payload }, null, 2),
+        },
+      ],
+    }),
+  });
+
+  if (!response.ok) {
+    const body = await response.text();
+    throw new Error(`LLM eval request failed (${response.status}): ${body}`);
+  }
+
+  const data = await response.json();
+  const content = data.choices?.[0]?.message?.content;
+  if (!content) {
+    throw new Error('LLM eval response did not include message content');
+  }
+
+  return JSON.parse(extractJson(content));
+};
+
+const normaliseReport = ({ raw, payload, threshold }) => {
+  const criteria = payload.rubric.criteria.map((criterion) => {
+    const matched = Array.isArray(raw.criteria)
+      ? raw.criteria.find((item) => item.id === criterion.id)
+      : null;
+
+    return {
+      id: criterion.id,
+      label: criterion.label,
+      score: matched?.score ?? 0,
+      maxScore: criterion.weight,
+      summary: matched?.summary ?? '',
+      evidence: Array.isArray(matched?.evidence) ? matched.evidence : [],
+      issues: Array.isArray(matched?.issues) ? matched.issues : [],
+    };
+  });
+
+  const totalScore = criteria.reduce((sum, criterion) => sum + criterion.score, 0);
+  const verdict = raw.verdict ?? (totalScore >= threshold ? 'pass' : totalScore >= threshold - 15 ? 'review' : 'fail');
+
+  return {
+    slug: payload.slug,
+    agent: payload.agent,
+    threshold,
+    passed: totalScore >= threshold,
+    verdict,
+    totalScore,
+    sourceFacts: payload.sourceFacts,
+    pageSignals: payload.pageSignals,
+    criteria,
+    overallSummary: raw.overallSummary ?? '',
+    strengths: Array.isArray(raw.strengths) ? raw.strengths : [],
+    redFlags: Array.isArray(raw.redFlags) ? raw.redFlags : [],
+    recommendedEdits: Array.isArray(raw.recommendedEdits) ? raw.recommendedEdits : [],
+    needsHumanExamples: Array.isArray(raw.needsHumanExamples) ? raw.needsHumanExamples : [],
+    relatedExamples: payload.examples,
+    modelMetadata: {
+      providerBaseUrl: process.env.LANDING_PAGE_EVAL_BASE_URL || process.env.OPENAI_BASE_URL || null,
+      model: process.env.LANDING_PAGE_EVAL_MODEL || process.env.OPENAI_MODEL || null,
+      llmBased: true,
+    },
+  };
+};
+
+const buildMarkdownReport = (report) => {
+  const lines = [
+    `# Landing page eval: ${report.agent} / ${report.slug}`,
+    '',
+    `- Score: **${report.totalScore}/100**`,
+    `- Threshold: **${report.threshold}**`,
+    `- Verdict: **${String(report.verdict).toUpperCase()}**`,
+    `- LLM-based eval: **yes**`,
+    '',
+    '## Overall summary',
+    '',
+    report.overallSummary || 'No overall summary returned.',
+    '',
+    '## Source facts',
+    '',
+    `- Provider: ${report.sourceFacts.providerName}`,
+    `- Service: ${report.sourceFacts.serviceName}`,
+    `- Endpoint: ${report.sourceFacts.endpointUrl ?? 'unknown'}`,
+    `- Support status: ${report.sourceFacts.supportStatus}`,
+    `- Result label: ${report.sourceFacts.resultLabel ?? 'unknown'}`,
+    '',
+    '## Criteria',
+    '',
+  ];
+
+  for (const criterion of report.criteria) {
+    lines.push(`### ${criterion.label} — ${criterion.score}/${criterion.maxScore}`);
+    lines.push('');
+    if (criterion.summary) lines.push(criterion.summary, '');
+    if (criterion.evidence.length) {
+      lines.push('Evidence:');
+      for (const item of criterion.evidence) lines.push(`- ${item}`);
+      lines.push('');
+    }
+    if (criterion.issues.length) {
+      lines.push('Issues:');
+      for (const item of criterion.issues) lines.push(`- ${item}`);
+      lines.push('');
+    }
+  }
+
+  lines.push('## Red flags', '');
+  if (report.redFlags.length) {
+    for (const item of report.redFlags) {
+      lines.push(`- **${item.severity ?? 'unknown'}** — \`${item.quote ?? ''}\``);
+      lines.push(`  - Reason: ${item.reason ?? ''}`);
+      lines.push(`  - Suggestion: ${item.suggestion ?? ''}`);
+    }
+  } else {
+    lines.push('- None');
+  }
+
+  lines.push('', '## Recommended edits', '');
+  if (report.recommendedEdits.length) {
+    for (const item of report.recommendedEdits) {
+      lines.push(`- **${item.priority ?? 'unknown'}** / ${item.target ?? 'other'} — \`${item.quote ?? ''}\``);
+      lines.push(`  - Problem: ${item.problem ?? ''}`);
+      lines.push(`  - Suggestion: ${item.suggestion ?? ''}`);
+    }
+  } else {
+    lines.push('- None');
+  }
+
+  lines.push('', '## Strengths', '');
+  if (report.strengths.length) {
+    for (const item of report.strengths) lines.push(`- ${item}`);
+  } else {
+    lines.push('- None noted');
+  }
+
+  lines.push('', '## Related reviewed examples', '');
+  if (report.relatedExamples.length) {
+    for (const item of report.relatedExamples) {
+      lines.push(`- ${item.label.toUpperCase()}: ${item.title} (${item.file})`);
+    }
+  } else {
+    lines.push('- None yet');
+  }
+
+  lines.push('', '## Needs more human examples', '');
+  if (report.needsHumanExamples.length) {
+    for (const item of report.needsHumanExamples) lines.push(`- ${item}`);
+  } else {
+    lines.push('- None');
+  }
+
+  return `${lines.join('\n')}\n`;
+};
+
+const main = async () => {
+  const { slug, agent, threshold } = parseArgs(process.argv.slice(2));
+  if (!slug) {
+    console.error('Usage: node scripts/eval-landing-page.mjs --slug <service-slug> [--agent hermes] [--threshold 75]');
+    process.exit(1);
+  }
+
+  const rubric = JSON.parse(fs.readFileSync(path.join(root, 'evals', 'rubric.json'), 'utf8'));
+  const prompt = fs.readFileSync(path.join(root, 'evals', 'prompt.md'), 'utf8');
+  const scoreThreshold = Number.isFinite(threshold) ? threshold : rubric.defaultThreshold;
+  const htmlPath = path.join(root, 'dist', 'agents', agent, slug, 'index.html');
+  const html = readIfExists(htmlPath);
+  if (!html) {
+    throw new Error(`Built page not found: ${path.relative(root, htmlPath)}. Run npm run build first.`);
+  }
+
+  const serviceSourcePath = path.join(root, 'src', 'data', 'services', `${slug}.ts`);
+  const serviceSource = readIfExists(serviceSourcePath);
+  if (!serviceSource) {
+    throw new Error(`Service source not found: ${path.relative(root, serviceSourcePath)}`);
+  }
+
+  const providerKey = extractSingleQuotedField(serviceSource, 'providerKey');
+  if (!providerKey) {
+    throw new Error(`Could not extract providerKey from ${path.relative(root, serviceSourcePath)}`);
+  }
+  const providerSourcePath = path.join(root, 'src', 'data', 'providers', `${providerKey}.ts`);
+  const providerSource = readIfExists(providerSourcePath);
+  if (!providerSource) {
+    throw new Error(`Provider source not found: ${path.relative(root, providerSourcePath)}`);
+  }
+
+  const examples = loadExamples(slug);
+  const payload = buildPayload({ slug, agent, threshold: scoreThreshold, rubric, examples, html, serviceSource, providerSource });
+  const raw = await callJudge({ prompt, payload, threshold: scoreThreshold });
+  const report = normaliseReport({ raw, payload, threshold: scoreThreshold });
+
+  const reportsDir = path.join(root, 'evals', 'reports');
+  fs.mkdirSync(reportsDir, { recursive: true });
+  const baseName = `${agent}--${slug}`;
+  const jsonPath = path.join(reportsDir, `${baseName}.json`);
+  const mdPath = path.join(reportsDir, `${baseName}.md`);
+  fs.writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
+  fs.writeFileSync(mdPath, buildMarkdownReport(report));
+
+  console.log(`Evaluated ${agent}/${slug}: ${report.totalScore}/100 (${String(report.verdict).toUpperCase()})`);
+  console.log(`JSON report: ${path.relative(root, jsonPath)}`);
+  console.log(`Markdown report: ${path.relative(root, mdPath)}`);
+};
+
+main().catch((error) => {
+  console.error(error instanceof Error ? error.message : String(error));
+  process.exit(1);
 });
-
-const report = {
-  slug,
-  agent,
-  threshold: scoreThreshold,
-  passed: totalScore >= scoreThreshold,
-  totalScore,
-  sourceFacts: {
-    providerKey,
-    providerName,
-    serviceName,
-    endpointUrl,
-    serviceSupportStatus,
-    resultLabel,
-  },
-  pageSignals: {
-    title,
-    metaDescription,
-    canonical,
-    robots,
-    h1,
-  },
-  metrics: {
-    providerMentions,
-    serviceMentions,
-    endpointEvidence,
-    pricingEvidence,
-    resultLabelEvidence,
-    forbiddenHits,
-    warningHits,
-    unsupportedSupportHits,
-    legacyHeadingHits,
-  },
-  criteria,
-  failingChecks,
-  relatedExamples: examples.map((entry) => ({
-    label: entry.label,
-    file: path.relative(root, entry.path),
-    title: entry.value.title,
-    criterionTags: entry.value.criterionTags,
-    notes: entry.value.notes,
-  })),
-};
-
-const reportsDir = path.join(root, 'evals', 'reports');
-fs.mkdirSync(reportsDir, { recursive: true });
-const baseName = `${agent}--${slug}`;
-const jsonPath = path.join(reportsDir, `${baseName}.json`);
-const mdPath = path.join(reportsDir, `${baseName}.md`);
-fs.writeFileSync(jsonPath, `${JSON.stringify(report, null, 2)}\n`);
-
-const markdown = [
-  `# Landing page eval: ${agent} / ${slug}`,
-  '',
-  `- Score: **${totalScore}/${100}**`,
-  `- Threshold: **${scoreThreshold}**`,
-  `- Status: **${totalScore >= scoreThreshold ? 'PASS' : 'REVIEW'}**`,
-  '',
-  '## Source facts',
-  '',
-  `- Provider: ${providerName}`,
-  `- Service: ${serviceName}`,
-  `- Endpoint: ${endpointUrl ?? 'unknown'}`,
-  `- Support status: ${serviceSupportStatus}`,
-  `- Result label: ${resultLabel ?? 'unknown'}`,
-  '',
-  '## Criteria',
-  '',
-  ...criteria.flatMap((criterion) => [
-    `### ${criterion.label} — ${criterion.score}/${criterion.maxScore}`,
-    '',
-    ...criterion.checks.map((check) => `- [${check.passed ? 'x' : ' '}] ${check.label} — ${check.details}`),
-    '',
-  ]),
-  '## Failing checks',
-  '',
-  ...(failingChecks.length
-    ? failingChecks.map((item) => `- **${item.criterion}**: ${item.label} — ${item.details}`)
-    : ['- None']),
-  '',
-  '## Related reviewed examples',
-  '',
-  ...(report.relatedExamples.length
-    ? report.relatedExamples.map((example) => `- ${example.label.toUpperCase()}: ${example.title} (${example.file})`)
-    : ['- None yet. Add reviewed excerpts under `evals/examples/good/` or `evals/examples/bad/`.']),
-  '',
-];
-
-fs.writeFileSync(mdPath, `${markdown.join('\n')}\n`);
-
-console.log(`Evaluated ${agent}/${slug}: ${totalScore}/100 (${totalScore >= scoreThreshold ? 'PASS' : 'REVIEW'})`);
-console.log(`JSON report: ${path.relative(root, jsonPath)}`);
-console.log(`Markdown report: ${path.relative(root, mdPath)}`);

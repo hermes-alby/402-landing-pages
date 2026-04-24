@@ -1,6 +1,6 @@
 # Landing page eval framework
 
-This repo now has a **human-triggered** landing-page eval framework.
+This repo now has a **human-triggered, LLM-based** landing-page eval framework.
 
 The goal is not to auto-grade every page yet. The goal is to make it easy to:
 
@@ -30,7 +30,26 @@ npm run build
 npm run eval:check
 ```
 
-### 3. Evaluate one page
+### 3. Configure the LLM judge
+
+Set one of these:
+
+```bash
+export LANDING_PAGE_EVAL_API_KEY=...
+# or
+export OPENAI_API_KEY=...
+# or
+export OPENROUTER_API_KEY=...
+```
+
+Optional:
+
+```bash
+export LANDING_PAGE_EVAL_BASE_URL=https://openrouter.ai/api/v1
+export LANDING_PAGE_EVAL_MODEL=openai/gpt-4.1-mini
+```
+
+### 4. Evaluate one page
 
 ```bash
 npm run eval:page -- --slug sats4ai-generate-text --agent hermes
@@ -64,6 +83,7 @@ Examples should be short and specific. Prefer a focused excerpt plus notes about
 
 This first version is intentionally narrow:
 
+- human-triggered, not automatic
 - no CI gating yet
 - no auto-rewrite loop
 - no mass scoring across all pages

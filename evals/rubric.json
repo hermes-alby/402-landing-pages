@@ -1,52 +1,58 @@
 {
-  "version": 1,
-  "description": "Human-reviewed landing page rubric for 402 service pages. Start small, tighten over time.",
-  "defaultThreshold": 70,
+  "version": 2,
+  "description": "Human-reviewed, LLM-judged landing page rubric for 402 service pages. Prioritize specificity, factual discipline, and user-facing copy over generic completeness.",
+  "defaultThreshold": 75,
   "criteria": [
     {
-      "id": "metadata",
-      "label": "Metadata and page structure",
-      "weight": 20,
-      "checks": ["title", "metaDescription", "canonical", "robots", "h1"]
+      "id": "specificity",
+      "label": "Specificity and usefulness",
+      "weight": 30,
+      "guidance": "Reward concrete, provider-specific, service-specific copy that helps a user understand why this page matters. Penalize vague praise, abstract value-proposition language, and generic statements that could fit many providers."
     },
     {
-      "id": "grounding",
-      "label": "Grounding in observed provider/service facts",
-      "weight": 35,
-      "checks": ["providerMention", "serviceMention", "endpointOrRouteEvidence", "pricingEvidence", "resultLabelEvidence"]
+      "id": "factual-discipline",
+      "label": "Factual discipline and confidence calibration",
+      "weight": 30,
+      "guidance": "Reward direct factual phrasing when facts are known. Penalize hedging like 'the site is explicit that', 'observed item', 'reviewed on', or phrasing that leaks internal research process instead of stating the fact plainly. Penalize claims that go beyond observed evidence."
     },
     {
-      "id": "honesty",
-      "label": "Honesty and support-state alignment",
+      "id": "user-facing-positioning",
+      "label": "User-facing positioning",
       "weight": 25,
-      "checks": ["noForbiddenClaims", "noUnsupportedSupportClaims", "noFluffClaims"]
+      "guidance": "Reward copy that stays focused on the user outcome and the service itself. Penalize internal support-state framing inside the value proposition, including phrases that mention 'coming-soon' or explain internal activation workflow where the user does not need that context."
     },
     {
-      "id": "style",
-      "label": "Landing-page style consistency",
-      "weight": 20,
-      "checks": ["examplePromptHeading", "noLegacyPromptHeadings", "useCasesSection", "faqSection"]
+      "id": "structure-and-consistency",
+      "label": "Structure and consistency",
+      "weight": 15,
+      "guidance": "Reward pages that follow established structure and naming conventions such as Example prompt, Use cases, and FAQ. Penalize inconsistent headings, missing basic structure, or metadata problems only when they materially harm the page."
     }
   ],
-  "forbiddenPhrases": [
+  "hardFailPatterns": [
     "real demand",
     "significant volume",
     "genuinely great",
     "i'd love to"
   ],
-  "warningPhrases": [
+  "softNegativePatterns": [
     "best-in-class",
     "industry-leading",
     "revolutionary",
     "world-class",
     "seamless",
-    "delightful"
+    "delightful",
+    "value proposition",
+    "strong fit for",
+    "observed item",
+    "the live site is explicit that",
+    "reviewed on"
   ],
-  "unsupportedSupportPhrases": [
-    "available now",
-    "works today",
-    "fully supported",
-    "ready right now"
+  "redFlagGuidance": [
+    "Do not reward a page just for repeating provider names, endpoint paths, or pricing if the prose is still weak.",
+    "Penalize any sentence that mentions 'coming-soon' in the user-facing value proposition or hero copy.",
+    "Prefer direct factual statements like 'No account is required' over meta-language like 'The live site is explicit that no account is required'.",
+    "Do not reward internal process leakage such as checked dates, review notes, or activation caveats unless that information is genuinely useful to the reader.",
+    "Penalize phrasing that sounds apologetic, overly observational, or written for internal reviewers rather than users."
   ],
   "requiredHeadings": [
     "Example prompt",
