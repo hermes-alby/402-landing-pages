@@ -1,5 +1,11 @@
 # build output
 dist/
+
+# local eval reports
+evals/reports/*.json
+evals/reports/*.md
+!evals/reports/.gitkeep
+
 # generated types
 .astro/
 

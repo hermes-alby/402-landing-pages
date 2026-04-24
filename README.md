@@ -107,6 +107,28 @@ Expected production URL:
 
 - `docs/provider-intake-and-activation.md` — general provider-intake, service-review, branding, and paid-activation workflow for repeating or automating the flow later
 - `docs/provider-tests/sats4ai-translate-text-2026-04-19.md` — first successful end-to-end paid endpoint test record for Sats4AI translation
+- `evals/README.md` — human-triggered landing-page eval workflow, rubric location, and example corpus structure
+
+## Landing page evals
+
+This repo now includes a **human-triggered** eval framework for reviewing one landing page at a time.
+
+Current commands:
+
+```bash
+npm run build
+npm run eval:check
+npm run eval:page -- --slug sats4ai-generate-text --agent hermes
+```
+
+The eval framework is designed to evolve in git as we review pages together:
+
+- add or tighten criteria in `evals/rubric.json`
+- capture strong excerpts in `evals/examples/good/`
+- capture weak excerpts in `evals/examples/bad/`
+- inspect local reports under `evals/reports/`
+
+This is intentionally not a full CI gate yet. It is a starter framework for building a shared review corpus and a more consistent landing-page quality bar.
 
 ## What still needs to be done
 

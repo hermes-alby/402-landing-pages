@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "description": "Human-reviewed landing page rubric for 402 service pages. Start small, tighten over time.",
+  "defaultThreshold": 70,
+  "criteria": [
+    {
+      "id": "metadata",
+      "label": "Metadata and page structure",
+      "weight": 20,
+      "checks": ["title", "metaDescription", "canonical", "robots", "h1"]
+    },
+    {
+      "id": "grounding",
+      "label": "Grounding in observed provider/service facts",
+      "weight": 35,
+      "checks": ["providerMention", "serviceMention", "endpointOrRouteEvidence", "pricingEvidence", "resultLabelEvidence"]
+    },
+    {
+      "id": "honesty",
+      "label": "Honesty and support-state alignment",
+      "weight": 25,
+      "checks": ["noForbiddenClaims", "noUnsupportedSupportClaims", "noFluffClaims"]
+    },
+    {
+      "id": "style",
+      "label": "Landing-page style consistency",
+      "weight": 20,
+      "checks": ["examplePromptHeading", "noLegacyPromptHeadings", "useCasesSection", "faqSection"]
+    }
+  ],
+  "forbiddenPhrases": [
+    "real demand",
+    "significant volume",
+    "genuinely great",
+    "i'd love to"
+  ],
+  "warningPhrases": [
+    "best-in-class",
+    "industry-leading",
+    "revolutionary",
+    "world-class",
+    "seamless",
+    "delightful"
+  ],
+  "unsupportedSupportPhrases": [
+    "available now",
+    "works today",
+    "fully supported",
+    "ready right now"
+  ],
+  "requiredHeadings": [
+    "Example prompt",
+    "Use cases",
+    "FAQ"
+  ],
+  "legacyPromptHeadings": [
+    "Example request",
+    "Example query"
+  ]
+}

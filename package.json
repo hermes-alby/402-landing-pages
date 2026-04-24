@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "node scripts/update-btc-price.mjs && astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "eval:check": "node scripts/check-landing-page-eval-framework.mjs",
+    "eval:page": "npm run eval:check && node scripts/eval-landing-page.mjs"
   },
   "dependencies": {
     "astro": "^6.1.7"
