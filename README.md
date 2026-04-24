@@ -39,6 +39,7 @@ Each variant currently includes:
 
 - a title and description focused on the user outcome
 - explicit no-sign-up / no-subscription messaging where accurate
+- copy that is written for end users, with some emotional pull and creative possibility, not internal implementation commentary
 - example output blocks
 - use case cards
 - explanation of why 402 payments fit the workflow
